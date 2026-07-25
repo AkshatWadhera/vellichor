@@ -1,0 +1,25 @@
+# Virtual Environment
+.venv/
+
+# Environment Variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+
+# VS Code
+.vscode/
+
+# Chroma Vector Database
+chroma_db/
+
+# Uploaded PDFs
+uploads/
+
+# Flask Instance
+instance/
+
+# OS Files
+.DS_Store
+Thumbs.db
