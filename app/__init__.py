@@ -7,6 +7,11 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
 
+@login_manager.user_loader
+def load_user(user_id):
+    from app.models.user import User
+    return User.query.get(int(user_id))
+
 def create_app():
     app = Flask(__name__)
 
@@ -17,5 +22,8 @@ def create_app():
     migrate.init_app(app, db)
 
     from app.models import User
+    from app.routes import auth
+
+    app.register_blueprint(auth)
 
     return app
