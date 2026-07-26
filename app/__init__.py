@@ -7,6 +7,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
 
+#User Loader
 @login_manager.user_loader
 def load_user(user_id):
     from app.models.user import User
@@ -17,13 +18,17 @@ def create_app():
 
     app.config.from_object("config.Config")
 
+    #Initializing db, login_manager and migrations
     db.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db)
 
+    #Importing Blueprints
     from app.models import User
-    from app.routes import auth
+    from app.routes import auth, main
 
+    #Registering Blueprints
     app.register_blueprint(auth)
+    app.register_blueprint(main)
 
     return app

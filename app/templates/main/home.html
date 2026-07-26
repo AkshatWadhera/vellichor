@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+
+<h1>Welcome {{ current_user.email }}</h1>
+
+<a href="{{ url_for('auth.logout') }}">
+    <button>Logout</button>
+</a>
+
+</body>
+</html>
