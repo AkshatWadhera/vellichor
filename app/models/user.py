@@ -9,6 +9,11 @@ class User(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
+    name = db.Column(
+        db.String(100),
+        nullable=False
+    )
+
     email = db.Column(
         db.String(120),
         unique=True,
@@ -24,6 +29,13 @@ class User(UserMixin, db.Model):
         db.DateTime,
         nullable=False,
         default=datetime.utcnow
+    )
+
+    conversations = db.relationship(
+        "Conversation",
+        backref="user",
+        lazy="select",
+        cascade="all, delete-orphan"
     )
 
     #Password Hashing

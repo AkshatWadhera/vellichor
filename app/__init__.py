@@ -24,7 +24,7 @@ def create_app():
     migrate.init_app(app, db)
 
     #Importing Blueprints
-    from app.models import User
+    from app.models import User, Conversation, PDF, Message
     from app.routes import auth, main
 
     #Registering Blueprints
