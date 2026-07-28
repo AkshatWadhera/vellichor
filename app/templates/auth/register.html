@@ -8,9 +8,16 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-                <div class="flash {{ category }}">
-                    {{ message }}
-                </div>
+                <p id="flash-message">{{ message }}</p>
+
+                {% if category == "success" %}
+                    <script>
+                        setTimeout(function () {
+                            window.location.href = "{{ url_for('auth.login') }}";
+                        }, 2000);
+                    </script>
+                {% endif %}
+                
             {% endfor %}
         {% endif %}
     {% endwith %}
@@ -18,6 +25,9 @@
     <h1>Create Account</h1>
 
     <form method="POST">
+
+        <label>Name</label><br>
+        <input type="text" name="name" required><br><br>
 
         <label>Email</label><br>
         <input type="email" name="email" required><br><br>

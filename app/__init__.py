@@ -23,12 +23,15 @@ def create_app():
     login_manager.init_app(app)
     migrate.init_app(app, db)
 
-    #Importing Blueprints
+    #Importing Models    
     from app.models import User, Conversation, PDF, Message
-    from app.routes import auth, main
+
+    #Importing Blueprints
+    from app.routes import auth, main, upload_bp
 
     #Registering Blueprints
     app.register_blueprint(auth)
     app.register_blueprint(main)
+    app.register_blueprint(upload_bp)
 
     return app

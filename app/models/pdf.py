@@ -9,7 +9,6 @@ class PDF(db.Model):
     original_filename = db.Column(
         db.String(255),
         nullable=False,
-        unique=True
     )
 
     stored_filename = db.Column(
@@ -21,7 +20,6 @@ class PDF(db.Model):
     file_size = db.Column(
         db.String(255),
         nullable=False,
-        unique=True
     )
 
     mime_type = db.Column(

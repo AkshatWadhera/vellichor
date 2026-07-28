@@ -1,15 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vellichor</title>
 </head>
+
 <body>
 
-<h1>Welcome {{ current_user.email }}</h1>
+<div class="app-container">
 
-<a href="{{ url_for('auth.logout') }}">
-    <button>Logout</button>
-</a>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <button class="new-chat-btn"> + New Chat</button>
+
+        <div class="conversation-list">
+            <!-- Conversation history will come here -->
+        </div>
+
+        <br>
+
+        <a href="{{ url_for('auth.logout') }}">
+            <button>Logout</button>
+        </a>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <div class="empty-state">
+            <h1>Welcome, {{ current_user.name }}</h1>
+            <p>Chat with your PDFs.</p>
+
+            <form action="{{url_for('upload.upload_pdf')}}"  method="POST"  enctype="multipart/form-data">
+
+                <input type="file" name="pdf" accept=".pdf" required>
+
+                    <button type="submit"> Upload PDF </button>
+                    
+            </form>
+            
+        </div>
+
+    </main>
+
+</div>
 
 </body>
 </html>
