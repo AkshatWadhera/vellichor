@@ -27,11 +27,13 @@ def create_app():
     from app.models import User, Conversation, PDF, Message
 
     #Importing Blueprints
-    from app.routes import auth, main, upload_bp
+    from app.routes import auth, main, upload_bp, chat
+
 
     #Registering Blueprints
     app.register_blueprint(auth)
     app.register_blueprint(main)
     app.register_blueprint(upload_bp)
+    app.register_blueprint(chat)
 
     return app

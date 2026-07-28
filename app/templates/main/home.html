@@ -15,7 +15,27 @@
         <button class="new-chat-btn"> + New Chat</button>
 
         <div class="conversation-list">
-            <!-- Conversation history will come here -->
+
+            {% if conversations %}
+
+                {% for conversation in conversations %}
+
+                    <div class="conversation-item">
+
+                        <a href="{{ url_for('chat.open_chat', conversation_id=conversation.id) }}">
+                            {{ conversation.title }}
+                        </a>
+                        
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>No conversations yet.</p>
+
+            {% endif %}
+
         </div>
 
         <br>
@@ -29,18 +49,83 @@
     <!-- Main Content -->
     <main class="main-content">
 
-        <div class="empty-state">
-            <h1>Welcome, {{ current_user.name }}</h1>
-            <p>Chat with your PDFs.</p>
+        <div class="workspace">
 
-            <form action="{{url_for('upload.upload_pdf')}}"  method="POST"  enctype="multipart/form-data">
+            {% if workspace_state == "upload" %}
 
-                <input type="file" name="pdf" accept=".pdf" required>
+                <div class="empty-state">
 
-                    <button type="submit"> Upload PDF </button>
-                    
-            </form>
-            
+                    <h1>Welcome, {{ current_user.name }}</h1>
+                    <p>Chat with your PDFs.</p>
+
+                    <form action="{{ url_for('upload.upload_pdf') }}"
+                        method="POST"
+                        enctype="multipart/form-data">
+
+                        <input
+                            type="file"
+                            name="pdf"
+                            accept=".pdf"
+                            required>
+
+                        <button type="submit">
+                            Upload PDF
+                        </button>
+
+                    </form>
+
+                </div>
+
+            {% elif workspace_state == "chat" %}
+
+                <div class="chat-workspace">
+
+                    <p> Chat state on </p>
+
+                    <h2>{{ active_conversation.title }}</h2>
+
+                        {% if messages %}
+
+                            {% for message in messages %}
+                                <div>
+                                    <strong>{{ message.role }}</strong>
+                                    <p>{{ message.content }}</p>
+                                </div>
+                            {% endfor %}
+
+
+                        {% else %}
+
+                            <p>No messages yet.</p>
+
+                        {% endif %}
+
+                        <form
+                            action="{{ url_for('chat.send_message', conversation_id=active_conversation.id) }}"
+                            method="POST"
+                        >
+                            <input
+                                type="text"
+                                name="message"
+                                placeholder="Type your message..."
+                                required
+                            >
+
+                            <button type="submit">
+                                Send
+                            </button>
+                        </form>
+
+                    <!-- Future PDF Header -->
+
+                    <!-- Future Messages -->
+
+                    <!-- Future Chat Input -->
+
+                </div>
+
+            {% endif %}
+
         </div>
 
     </main>
