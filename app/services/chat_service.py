@@ -27,7 +27,7 @@ def get_conversation_messages(conversation_id):
         .all()
     )
 
-def save_user_message(conversation_id, role, content):
+def save_message(conversation_id, role, content):
 
     message = Message(
         conversation_id=conversation_id,

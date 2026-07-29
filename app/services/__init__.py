@@ -1,2 +1,5 @@
-from . import chat_service
-from . import document_service
+from app.services import (
+    document_service,
+    embedding_service,
+    retrieval_service,
+)

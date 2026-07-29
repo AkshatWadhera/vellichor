@@ -8,6 +8,9 @@ class Config:
     SECRET_KEY = os.getenv("SECRET_KEY")
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+    EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
+    CHROMA_DB_PATH = "chroma_db"
 
     #File Upload Configuration
     UPLOAD_FOLDER = "uploads"
