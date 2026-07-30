@@ -74,7 +74,18 @@
 
                     </form>
 
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <p id="flash-message">{{ message }}</p>
+                                
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
                 </div>
+
+
 
             {% elif workspace_state == "chat" %}
 

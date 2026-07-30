@@ -1,14 +1,13 @@
 import os
+
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required
-from app.models import Conversation, PDF
-from app import db
 from flask_login import current_user
-from app.services.document_service import (
-    save_pdf,
-    allowed_file,
-    allowed_mimetype,
-)
+
+from app import db
+from app.models import Conversation, PDF
+from app.services import document_service, embedding_service, retrieval_service
+
 
 upload_bp = Blueprint("upload",__name__)
 
@@ -16,9 +15,10 @@ upload_bp = Blueprint("upload",__name__)
 @login_required
 def upload_pdf():
 
+    #Receiving the PDF file
     pdf = request.files.get("pdf")
 
-    print(pdf.mimetype)
+    #VALIDATION 
 
     #checking for pdf in request
     if not pdf or pdf.filename == "":
@@ -26,17 +26,21 @@ def upload_pdf():
         return redirect(url_for("main.home"))
     
     #Layer 1 - checking whether filename ends with .pdf
-    if not allowed_file(pdf.filename):
+    if not document_service.allowed_file(pdf.filename):
         flash("Only PDF files are allowed.", "error")
         return redirect(url_for("main.home"))
 
     #Layer 2 - Checking for Mimetype
-    if not allowed_mimetype(pdf):
+    if not document_service.allowed_mimetype(pdf):
         flash("Invalid file type.", "error")
         return redirect(url_for("main.home"))
+
+    #  SAVING PDF 
                 
-    original_filename, unique_filename, filepath = save_pdf(pdf)
+    original_filename, unique_filename, filepath = document_service.save_pdf(pdf)
     file_size = os.path.getsize(filepath)
+
+    # DATABASE UPDATIONS
 
     #Automatically creating a Conversation once the pdf is received/uploaded.
     conversation = Conversation(
@@ -45,6 +49,7 @@ def upload_pdf():
     )
 
     db.session.add(conversation)
+    print("New convo added")
 
     #Creating a row in pdf table as well storing the pdf record
     pdf_record = PDF(
@@ -56,10 +61,47 @@ def upload_pdf():
     )
 
     db.session.add(pdf_record)
+    print("New PDF record added")
 
     db.session.commit()
 
-    print(conversation.id)
+
+    #  RAG PIPELINE  
+
+    #Extracting text
+    text = embedding_service.extract_text(filepath)
+
+    if not text.strip():
+        os.remove(filepath)
+        print("PDF removed from uploads folder")
+        
+        db.session.delete(pdf_record)
+        print("PDF record removed")
+        db.session.delete(conversation)
+        print("conversation removed")
+        db.session.commit()
+
+        flash(
+            "This PDF contains no selectable text. Please upload a text-based PDF.",
+            "error"
+        )
+        return redirect(url_for("main.home"))
+
+        
+    
+
+    #Chunking text
+    chunks = embedding_service.chunk_text(text)
+
+    #Storing chunks in Chroma and creating Embeddings.
+    
+    stored_chunks = retrieval_service.store_chunks(
+            chunks,
+            pdf_record.id,
+            pdf_record.original_filename
+        )
+
+    print(retrieval_service.vector_store._collection.count())
 
     flash("File received successfully!","success")
     return redirect(url_for("main.home"))

@@ -40,8 +40,3 @@ def chunk_text(text):
 
     return chunks
 
-#Generation of embeddings
-def generate_embeddings(chunks):
-    embeddings = embedding_model.embed_documents(chunks)
-
-    return embeddings
