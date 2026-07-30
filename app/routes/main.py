@@ -27,3 +27,22 @@ def home():
         conversations = conversations,
         active_conversation = None 
     )
+
+
+@main.route("/test-query/<int:pdf_id>")
+def test_query(pdf_id):
+    question = "If I only had 5 minutes to study this PDF, what should I learn?"
+
+    results = retrieval_service.retrieve_chunks(question, pdf_id)
+
+    context = "\n\n".join(
+        document.page_content for document in results
+    )
+
+    print("========== CONTEXT ==========")
+    print(context)
+    print("=============================")
+    
+    answer = llm_service.generate_response(question, context)
+
+    return answer

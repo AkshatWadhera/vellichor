@@ -34,10 +34,9 @@ def send_message(conversation_id):
     content = request.form.get("message", "").strip()
 
     if content:
-        chat_service.save_message(
+        chat_service.generate_ai_response(
             conversation_id=conversation_id,
-            role="user",
-            content=content,
+            user_message=content,
         )
 
     return redirect(

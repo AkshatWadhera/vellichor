@@ -9,6 +9,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+    GROQ_MODEL = "llama-3.3-70b-versatile"
     EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
     CHROMA_DB_PATH = "chroma_db"
 

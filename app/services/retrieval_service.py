@@ -30,3 +30,12 @@ def store_chunks(chunks, pdf_id, filename):
     vector_store.add_documents(documents)
 
     return len(documents)
+
+def retrieve_chunks(query, pdf_id):
+    results = vector_store.similarity_search(
+        query=query,
+        k=4,
+        filter={"pdf_id":pdf_id}
+    )
+
+    return results

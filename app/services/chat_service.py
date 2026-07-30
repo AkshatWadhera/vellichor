@@ -1,5 +1,6 @@
 from app import db
 from app.models import Conversation, Message
+from app.services import retrieval_service, llm_service
 
 def get_sidebar_conversations(user_id):
 
@@ -39,3 +40,40 @@ def save_message(conversation_id, role, content):
     db.session.commit()
 
     return message
+
+def generate_ai_response(conversation_id, user_message):
+
+    #Save User's Message
+    save_message(
+        conversation_id,
+        "user",
+        user_message
+    )
+
+    conversation = Conversation.query.get_or_404(conversation_id)
+    pdf = conversation.pdf
+
+    retrieved_chunks = retrieval_service.retrieve_chunks(
+        user_message,
+        pdf.id
+    )
+
+    context = "\n\n".join(
+        document.page_content for document in retrieved_chunks
+    )
+
+    ai_response = llm_service.generate_response(
+        user_message,
+        context
+    )
+
+    assistant_message = save_message(
+        conversation_id,
+        "assistant",
+        ai_response,
+    )
+
+    return assistant_message
+
+
+
