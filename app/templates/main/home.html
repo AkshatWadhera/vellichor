@@ -28,6 +28,15 @@
                         
                     </div>
 
+                    <form
+                        action="{{ url_for('chat.delete_chat', conversation_id=conversation.id) }}"
+                        method="POST"
+                    >
+                        <button type="submit">
+                            Delete
+                        </button>
+                    </form>
+
                 {% endfor %}
 
             {% else %}

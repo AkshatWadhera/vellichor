@@ -46,3 +46,16 @@ def send_message(conversation_id):
         )
     )
 
+@chat.route("/<int:conversation_id>/delete",methods=["POST"])
+def delete_chat(conversation_id):
+
+    chat_service.delete_conversation(conversation_id,current_user.id)
+
+    return redirect(
+        url_for(
+            "main.home",
+        )
+    )
+    
+
+

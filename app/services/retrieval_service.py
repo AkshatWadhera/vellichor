@@ -4,7 +4,6 @@ from langchain_core.documents import Document
 from app.services.embedding_service import embedding_model
 
 
-
 vector_store = Chroma(
     persist_directory=Config.CHROMA_DB_PATH,
     embedding_function=embedding_model,
@@ -39,3 +38,10 @@ def retrieve_chunks(query, pdf_id):
     )
 
     return results
+
+def delete_pdf_embeddings(pdf_id):
+    vector_store.delete(
+        where={
+            "pdf_id":pdf_id
+        }
+    )
