@@ -12,7 +12,10 @@ def get_sidebar_conversations(user_id):
     return(
         Conversation.query
         .filter_by(user_id=user_id)
-        .order_by(Conversation.created_at.desc())
+        .order_by(
+            Conversation.is_pinned.desc(),
+            Conversation.created_at.desc()
+            )
         .all()
     )
 
@@ -66,24 +69,16 @@ def build_context(chunks):
     return context
 
 
+#Deleting Conversation
 def delete_conversation(conversation_id, user_id):
     conversation = Conversation.query.filter_by(
         id = conversation_id,
         user_id = user_id
     ).first_or_404()
     
-    print("=" * 50)
-    print(f"Conversation ID: {conversation.id}")
-    print(f"Conversation Title: {conversation.title}")
-    print(f"PDF Object: {conversation.pdf}")
-    print("=" * 50)
+   
     pdf = conversation.pdf
-    if pdf:
-        print(f"PDF ID: {pdf.id}")
-        print(f"Stored Filename: {pdf.stored_filename}")
-        print(f"Original Filename: {pdf.original_filename}")
-    else:
-        print("No PDF linked to this conversation!")
+    
 
     stored_filename = pdf.stored_filename
     pdf_id = pdf.id
@@ -99,6 +94,29 @@ def delete_conversation(conversation_id, user_id):
     retrieval_service.delete_pdf_embeddings(pdf_id)
 
     db.session.delete(conversation)
+    db.session.commit()
+
+
+#Renaming Conversation
+def rename_conversation(conversation_id, user_id, new_title):
+    conversation = Conversation.query.filter_by(
+        id = conversation_id,
+        user_id = user_id
+    ).first_or_404()
+
+    conversation.title = new_title.strip()
+
+    db.session.commit()
+
+# Pin Chats
+def toggle_pin(conversation_id, user_id):
+    conversation = Conversation.query.filter_by(
+        id = conversation_id,
+        user_id = user_id,
+    ).first_or_404()
+
+    conversation.is_pinned = not conversation.is_pinned
+
     db.session.commit()
 
 

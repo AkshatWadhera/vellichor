@@ -1,0 +1,14 @@
+.conversation-item{
+    display:flex;
+    gap:20px;
+    align-items:center;
+}
+
+.conversation-actions{
+    display:flex;
+    gap:8px;
+}
+
+.conversation-actions form{
+    margin:0;
+}

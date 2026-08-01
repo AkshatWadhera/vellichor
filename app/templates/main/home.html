@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vellichor</title>
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/base.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/home.css') }}"
+    >
 </head>
 
 <body>
@@ -21,21 +30,65 @@
                 {% for conversation in conversations %}
 
                     <div class="conversation-item">
-
+                        
+                        <!-- Chat Name -->
                         <a href="{{ url_for('chat.open_chat', conversation_id=conversation.id) }}">
                             {{ conversation.title }}
                         </a>
                         
-                    </div>
+                    
 
-                    <form
-                        action="{{ url_for('chat.delete_chat', conversation_id=conversation.id) }}"
-                        method="POST"
-                    >
-                        <button type="submit">
-                            Delete
-                        </button>
-                    </form>
+                        <div class="conversation-actions">
+                            <!--Delete -->
+                            <form
+                                action="{{ url_for('chat.delete_chat', conversation_id=conversation.id) }}"
+                                method="POST"
+                            >
+                                <button type="submit">
+                                    🗑️
+                                </button>
+                            </form>
+
+                            <!-- Pin -->
+                            <form 
+                                action="{{url_for('chat.toggle_pin', conversation_id = conversation.id)}}"
+                                method="POST"
+                            >
+
+                                <button type="submit">
+
+                                    {% if conversation.is_pinned %}
+                                        📍
+                                    {% else %}
+                                        📌
+                                    {% endif %}
+
+                                </button>
+
+                            </form>
+
+                            <!-- Rename -->
+                            <form
+                                action="{{ url_for('chat.rename_chat', conversation_id=conversation.id) }}"
+                                method="POST"
+                            >
+
+                                <input
+                                    type="text"
+                                    name="title"
+                                    placeholder="New title"
+                                    required
+                                >
+
+                                <button type="submit">
+                                    ✏️
+                                </button>
+
+                            </form>
+                        
+                        </div>
+
+                    </div>
 
                 {% endfor %}
 

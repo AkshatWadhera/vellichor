@@ -46,6 +46,8 @@ def send_message(conversation_id):
         )
     )
 
+
+#Route for Deleting Chat
 @chat.route("/<int:conversation_id>/delete",methods=["POST"])
 def delete_chat(conversation_id):
 
@@ -56,6 +58,38 @@ def delete_chat(conversation_id):
             "main.home",
         )
     )
+
+#Route for Renaming Chat
+@chat.route("/<int:conversation_id>/rename",methods=["POST"])
+def rename_chat(conversation_id):
+
+    new_title = request.form.get("title","").strip()
+
+    if new_title:
+        chat_service.rename_conversation(conversation_id, current_user.id, new_title)
+
+    return redirect(
+        request.referrer or url_for("main.home")
+    )
+
+
+#Route for Pinning Chats
+@chat.route("/<int:conversation_id>/pin", methods=["POST"])
+@login_required
+def toggle_pin(conversation_id):
+
+    chat_service.toggle_pin(
+        conversation_id,
+        current_user.id
+    )
+
+    return redirect(
+        request.referrer or url_for("main.home")
+    )
+
+
+
+
     
 
 

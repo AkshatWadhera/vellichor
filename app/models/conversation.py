@@ -20,6 +20,13 @@ class Conversation(db.Model):
         nullable=False
     )
 
+    is_pinned = db.Column(
+        db.Boolean,
+        default = False,
+        server_default = "false",
+        nullable = False,
+    )
+
     pdf = db.relationship(
         "PDF",
         backref="conversation",
