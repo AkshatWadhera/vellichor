@@ -22,7 +22,7 @@ def home():
     conversations = chat_service.get_sidebar_conversations(current_user.id)
 
     return render_template(
-        "main/home.html",
+        "main/home1.html",
         workspace_state = "upload",
         conversations = conversations,
         active_conversation = None 

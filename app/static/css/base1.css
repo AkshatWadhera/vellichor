@@ -1,0 +1,265 @@
+/* ========================================
+   CSS RESET
+======================================== */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* ========================================
+   ROOT VARIABLES
+======================================== */
+
+:root {
+
+    /* ========================================
+       COLORS
+    ======================================== */
+
+    /* Backgrounds */
+    --background-primary: #F8F2E8;
+    --background-secondary: #F1E7D8;
+
+    /* Surfaces */
+    --surface-primary: #FCF8F1;
+    --surface-secondary: #F7F0E4;
+    --surface-elevated: #FFFDF9;
+
+    /* Text */
+    --text-primary: #322B24;
+    --text-secondary: #6B635A;
+    --text-muted: #9B9489;
+
+    /* Accent */
+    --accent-primary: #C3964D;
+    --accent-hover: #D2A45D;
+    --accent-soft: #E9D5AE;
+
+    /* Borders */
+    --border-subtle: rgba(92,72,44,.08);
+    --border-medium: rgba(92,72,44,.14);
+
+    --success: #5F8D6A;
+    --warning: #C79A55;
+    --error: #B85C5C;
+
+
+    /* ========================================
+       TYPOGRAPHY
+    ======================================== */
+
+    --font-family: "Inter", sans-serif;
+
+    --font-xs: 0.75rem;
+    --font-sm: 0.875rem;
+    --font-md: 1rem;
+    --font-lg: 1.125rem;
+    --font-xl: 1.5rem;
+    --font-2xl: 2rem;
+    --font-3xl: 3rem;
+
+    --font-light: 300;
+    --font-regular: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+
+
+    /* ========================================
+       SPACING
+    ======================================== */
+
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+
+
+    /* ========================================
+       BORDER RADIUS
+    ======================================== */
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+    --radius-pill: 999px;
+
+
+    /* ========================================
+       SHADOWS
+    ======================================== */
+
+    --shadow-sm:0 8px 20px rgba(82,60,30,.05);
+
+    --shadow-md:0 20px 45px rgba(82,60,30,.08);
+
+    --shadow-lg:0 42px 95px rgba(82,60,30,.14);
+
+    --shadow-xl:0 70px 140px rgba(82,60,30,.18);
+
+
+    /* ========================================
+       GLASS
+    ======================================== */
+
+    --glass-blur: 20px;
+    --glass-saturation: 180%;
+
+
+    /* ========================================
+       MOTION
+    ======================================== */
+
+    --transition-fast: 150ms ease;
+    --transition-medium: 300ms ease;
+    --transition-slow: 450ms ease;
+
+
+    /* ========================================
+       LAYOUT
+    ======================================== */
+
+    --sidebar-width: 280px;
+    --content-width: 1200px;
+
+}
+
+/* ========================================
+   GLOBAL
+======================================== */
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+/* ========================================
+   APPLICATION BACKGROUND
+======================================== */
+
+body{
+
+    min-height:100vh;
+
+    font-family:var(--font-family);
+
+    color:var(--text-primary);
+
+    background:
+
+    /* Warm sunlight from bottom left */
+    radial-gradient(
+        circle at 0% 100%,
+        rgba(215,170,95,.30),
+        transparent 38%
+    ),
+
+    /* Soft top highlight */
+    radial-gradient(
+        circle at 50% -10%,
+        rgba(255,250,244,.70),
+        transparent 42%
+    ),
+
+    /* Right ambient light */
+    radial-gradient(
+        circle at 105% 10%,
+        rgba(255,247,236,.28),
+        transparent 34%
+    ),
+
+    linear-gradient(
+        180deg,
+        #EFE1CC 0%,
+        #E5D5BE 100%
+    );
+
+    background-attachment:fixed;
+
+    overflow:hidden;
+}
+
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+
+    radial-gradient(
+
+        ellipse at center,
+
+        transparent 52%,
+
+        rgba(65,45,22,.055) 100%
+
+    );
+
+    opacity:.65;
+}
+
+
+/* ========================================
+   MEDIA
+======================================== */
+
+img,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+}
+
+
+/* ========================================
+   FORM ELEMENTS
+======================================== */
+
+button,
+input,
+textarea {
+    font: inherit;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/* ========================================
+   LINKS
+======================================== */
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* ========================================
+   LISTS
+======================================== */
+
+ul,
+ol {
+    list-style: none;
+}

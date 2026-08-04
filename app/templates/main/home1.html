@@ -1,0 +1,95 @@
+{% extends "main/base1.html" %}
+
+{% block title %}Home | Vellichor{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home1.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="app-shell">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="logo">
+                Vellichor
+            </div>
+
+            <button class="new-workspace-btn">
+                + New Workspace
+            </button>
+
+        </div>
+
+        <div class="sidebar-content">
+
+            <!-- Pinned Workspaces -->
+
+            <!-- Recent Workspaces -->
+
+        </div>
+
+        <div class="sidebar-bottom">
+
+            <!-- Profile -->
+
+        </div>
+
+    </aside>
+
+    <main class="workspace">
+
+        <section class="workspace-content">
+
+            <section class="workspace-canvas">
+
+                <div class="canvas-center">
+
+                    <!-- <p class="workspace-label">
+                        YOUR WORKSPACE
+                    </p> -->
+
+                    <h1 class="workspace-title">
+                        Begin with a document.
+                    </h1>
+
+                    <p class="workspace-description">
+                        Bring your PDF. Vellichor quietly reads, understands and remembers so you can focus on thinking.
+                    </p>
+
+                    <div class="upload-surface">
+
+                        <div class="upload-icon">
+                            ⬆
+                        </div>
+
+                        <p class="upload-text">
+                            Drop your PDF here or click to browse
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </section>
+
+        <footer class="workspace-footer">
+
+            <!-- Input Bar -->
+
+        </footer>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}
