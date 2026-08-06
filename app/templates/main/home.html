@@ -27,7 +27,7 @@
 
             {% if conversations %}
 
-                {% for conversation in conversations %}
+                {% for conversation in recent_conversations %}
 
                     <div class="conversation-item">
                         
@@ -57,7 +57,7 @@
 
                                 <button type="submit">
 
-                                    {% if conversation.is_pinned %}
+                                    {% if pinned_conversations %}
                                         📍
                                     {% else %}
                                         📌

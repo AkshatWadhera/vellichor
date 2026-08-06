@@ -19,9 +19,11 @@ def open_chat(conversation_id):
     messages = chat_service.get_conversation_messages(conversation_id)
 
     return render_template(
-        "main/home.html",
+        "main/home1.html",
         workspace_state="chat",
         conversations=conversations,
+        pinned_conversations=conversations["pinned"],
+        recent_conversations=conversations["recent"],
         active_conversation=active_conversation,
         messages=messages,
     )

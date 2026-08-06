@@ -30,11 +30,20 @@
 
     {% block content %}{% endblock %}
 
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+
     <!-- Global JavaScript -->
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 
     <!-- Page Specific JavaScript -->
-    {% block scripts %}{% endblock %}
+    {% block scripts %}
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+    {% endblock %}
+
+    <script>
+        lucide.createIcons();
+    </script>
 
 </body>
 

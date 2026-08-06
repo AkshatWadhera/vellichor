@@ -25,6 +25,8 @@ def home():
         "main/home1.html",
         workspace_state = "upload",
         conversations = conversations,
+        pinned_conversations=conversations["pinned"],
+        recent_conversations=conversations["recent"],
         active_conversation = None 
     )
 

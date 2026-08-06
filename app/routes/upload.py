@@ -103,5 +103,10 @@ def upload_pdf():
 
     print(retrieval_service.vector_store._collection.count())
 
-    flash("File received successfully!","success")
-    return redirect(url_for("main.home"))
+    
+    return redirect(
+    url_for(
+        "chat.open_chat",
+        conversation_id=conversation.id
+    )
+)

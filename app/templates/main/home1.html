@@ -26,15 +26,169 @@
 
         <div class="sidebar-content">
 
-            <!-- Pinned Workspaces -->
 
-            <!-- Recent Workspaces -->
+            {% if pinned_conversations %}
+
+            <section class="workspace-group">
+
+                <p class="sidebar-heading">
+                    PINNED
+                </p>
+
+                {% for conversation in pinned_conversations %}
+                
+                <a
+                    href="{{ url_for('chat.open_chat', conversation_id=conversation.id) }}"
+                    class="workspace-card {% if active_conversation and active_conversation.id == conversation.id %}active{% endif %}"
+                    data-conversation-id="{{ conversation.id }}"
+                >
+
+                    <div class="workspace-card-content">
+
+                        <div class="workspace-icon">
+                            <i data-lucide="file-text"></i>
+                        </div>
+
+                        <p class="workspace-title-small">
+                            {{ conversation.title }}
+                        </p>
+
+                        <button
+                            class="workspace-menu-btn"
+                            aria-label="Conversation menu"
+                        >
+                            <i data-lucide="ellipsis"></i>
+                        </button>
+
+                
+                        <div class="workspace-dropdown">
+                            
+                            <button class="workspace-dropdown-item rename-btn" type="button">
+                                <i data-lucide="pencil"></i>
+                                <span>Rename</span>
+                            </button>
+
+                            <button class="workspace-dropdown-item pin-btn" type="button">
+                                <i data-lucide="pin"></i>
+                                <span>Unpin</span>
+                            </button>
+
+                            <div class="workspace-dropdown-divider"></div>
+
+                            <button class="workspace-dropdown-item delete-btn danger" type="button">
+                                <i data-lucide="trash-2"></i>
+                                <span>Delete</span>
+                            </button>
+                            
+                        </div>    
+
+                    </div>
+
+                </a>
+
+                {% endfor %}
+
+            </section>
+
+            {% endif %}
+
+
+            {% if recent_conversations %}
+
+            <section class="workspace-group">
+
+                <p class="sidebar-heading">
+                    RECENT
+                </p>
+
+                {% for conversation in recent_conversations %}
+        
+                <a
+                    href="{{ url_for('chat.open_chat', conversation_id=conversation.id) }}"
+                    class="workspace-card {% if active_conversation and active_conversation.id == conversation.id %}active{% endif %}"
+                    data-conversation-id="{{ conversation.id }}"
+                >
+
+                    <div class="workspace-card-content">
+
+                        <div class="workspace-icon">
+                            <i data-lucide="file-text"></i>
+                        </div>
+
+                        <p class="workspace-title-small">
+                            {{ conversation.title }}
+                        </p>
+
+                        <button
+                            class="workspace-menu-btn"
+                            aria-label="Conversation menu"
+                        >
+                            <i data-lucide="ellipsis"></i>
+                        </button>
+
+                
+                        <div class="workspace-dropdown">
+                            
+                            <button class="workspace-dropdown-item rename-btn" type="button">
+                                <i data-lucide="pencil"></i>
+                                <span>Rename</span>
+                            </button>
+
+                            <button class="workspace-dropdown-item pin-btn" type="button">
+                                <i data-lucide="pin"></i>
+                                <span>Pin</span>
+                            </button>
+
+                            <div class="workspace-dropdown-divider"></div>
+
+                            <button class="workspace-dropdown-item delete-btn danger" type="button">
+                                <i data-lucide="trash-2"></i>
+                                <span>Delete</span>
+                            </button>
+                            
+                        </div>    
+
+                    </div>
+
+                </a>
+
+                {% endfor %}
+
+            </section>
+
+            {% endif %}
 
         </div>
 
         <div class="sidebar-bottom">
 
-            <!-- Profile -->
+            <div class="profile-card">
+
+                <div class="profile-info">
+
+                    <div class="profile-avatar">
+                        {{ current_user.name[0]|upper }}
+                    </div>
+
+                    <div class="profile-details">
+
+                        <p class="profile-name">
+                            {{ current_user.name }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <a
+                    href="{{ url_for('auth.logout') }}"
+                    class="logout-btn"
+                    title="Logout"
+                >
+                    <i data-lucide="log-out"></i>
+                </a>
+
+            </div>
 
         </div>
 
@@ -60,17 +214,38 @@
                         Bring your PDF. Vellichor quietly reads, understands and remembers so you can focus on thinking.
                     </p>
 
-                    <div class="upload-surface">
+                    <form
+                        class="upload-surface"
+                        action="{{ url_for('upload.upload_pdf') }}"
+                        method="POST"
+                        enctype="multipart/form-data"
+                    >
+
+                        <input
+                            type="file"
+                            name="pdf"
+                            id="pdf-input"
+                            accept=".pdf"
+                            hidden
+                        >
 
                         <div class="upload-icon">
-                            ⬆
+                            <i data-lucide="file-up"></i>
                         </div>
 
-                        <p class="upload-text">
-                            Drop your PDF here or click to browse
-                        </p>
+                        <div class="upload-copy">
 
-                    </div>
+                            <p class="upload-text">
+                                Drop your PDF
+                            </p>
+
+                            <p class="upload-subtext">
+                                Click to browse or drag it here
+                            </p>
+
+                        </div>
+
+                    </form>
 
                 </div>
 

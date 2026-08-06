@@ -9,15 +9,28 @@ from app.services import retrieval_service, llm_service
 
 def get_sidebar_conversations(user_id):
 
-    return(
+    conversations = (
         Conversation.query
         .filter_by(user_id=user_id)
         .order_by(
             Conversation.is_pinned.desc(),
             Conversation.created_at.desc()
-            )
+        )
         .all()
     )
+
+    return {
+        "pinned": [
+            c for c in conversations
+            if c.is_pinned
+        ],
+        "recent": [
+            c for c in conversations
+            if not c.is_pinned
+        ]
+    }
+
+
 
 def get_active_conversation(user_id, conversation_id):
 
