@@ -194,70 +194,167 @@
 
     </aside>
 
-    <main class="workspace">
+    <main class="workspace {{workspace_state}}">
 
         <section class="workspace-content">
 
-            <section class="workspace-canvas">
+            <section class="workspace-canvas {{workspace_state}}">
 
-                <div class="canvas-center">
+                {% if workspace_state == "upload" %}
 
-                    <!-- <p class="workspace-label">
-                        YOUR WORKSPACE
-                    </p> -->
+                <div class="empty-state">
 
-                    <h1 class="workspace-title">
-                        Begin with a document.
-                    </h1>
+                    <div class="canvas-center">
 
-                    <p class="workspace-description">
-                        Bring your PDF. Vellichor quietly reads, understands and remembers so you can focus on thinking.
-                    </p>
+                        <!-- <p class="workspace-label">
+                            YOUR WORKSPACE
+                        </p> -->
 
-                    <form
-                        class="upload-surface"
-                        action="{{ url_for('upload.upload_pdf') }}"
-                        method="POST"
-                        enctype="multipart/form-data"
-                    >
+                        <h1 class="workspace-title">
+                            Begin with a document.
+                        </h1>
 
-                        <input
-                            type="file"
-                            name="pdf"
-                            id="pdf-input"
-                            accept=".pdf"
-                            hidden
+                        <p class="workspace-description">
+                            Bring your PDF. Vellichor quietly reads, understands and remembers so you can focus on thinking.
+                        </p>
+
+                        <form
+                            class="upload-surface"
+                            action="{{ url_for('upload.upload_pdf') }}"
+                            method="POST"
+                            enctype="multipart/form-data"
                         >
 
-                        <div class="upload-icon">
-                            <i data-lucide="file-up"></i>
-                        </div>
+                            <input
+                                type="file"
+                                name="pdf"
+                                id="pdf-input"
+                                accept=".pdf"
+                                hidden
+                            >
 
-                        <div class="upload-copy">
+                            <div class="upload-icon">
+                                <i data-lucide="file-up"></i>
+                            </div>
 
-                            <p class="upload-text">
-                                Drop your PDF
-                            </p>
+                            <div class="upload-copy">
 
-                            <p class="upload-subtext">
-                                Click to browse or drag it here
-                            </p>
+                                <p class="upload-text">
+                                    Drop your PDF
+                                </p>
 
-                        </div>
+                                <p class="upload-subtext">
+                                    Click to browse or drag it here
+                                </p>
 
-                    </form>
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
+
+                {% endif %}
+
+                {% if workspace_state == "chat" %}
+
+                <div class="chat-state">
+
+                    <header class="chat-header">
+
+                        <div class="document-info">
+
+                            <i data-lucide="file-text"></i>
+
+                            <div class="document-meta">
+
+                                <p class="document-title">
+                                    {{ active_conversation.pdf.original_filename }}
+                                </p>
+
+                                <p class="document-status">
+                                    Indexed • Ready for questions
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </header>
+
+                    <div class="messages">
+
+                        {% for message in messages %}
+
+                        <div class="message {{ message.role }}">
+
+                            {% if message.role == "user" %}
+
+                                <div class="message-bubble">
+
+                                    <div class="message-content">
+                                        {{ message.content }}
+                                    </div>
+
+                                </div>
+
+                            {% else %}
+
+                                <div class="message-content">
+                                    {{ message.content }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <footer class="workspace-footer">
+
+                        <form
+                            class="composer"
+                            id="composer-form"
+                            method="POST"
+                            action="{{ url_for('chat.send_message', conversation_id=active_conversation.id) }}"
+                        >
+
+                            <textarea
+                                class="composer-input"
+                                id = composer-input
+                                name="message"
+                                rows="1"
+                                placeholder="Ask Vellichor about your document..."
+                            ></textarea>
+
+                            <button
+                                type="submit"
+                                class="composer-send"
+                                aria-label="Send message"
+                            >
+                                <i data-lucide="arrow-up"></i>
+                            </button>
+
+                        </form>
+
+                    </footer>
+
+                </div>
+
+                {% endif %}
 
             </section>
 
         </section>
 
-        <footer class="workspace-footer">
+        <!-- <footer class="workspace-footer">
 
-            <!-- Input Bar -->
+            
 
-        </footer>
+        </footer> -->
 
     </main>
 

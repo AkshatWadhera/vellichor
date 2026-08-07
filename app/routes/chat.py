@@ -1,5 +1,5 @@
 
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 
 
@@ -35,18 +35,23 @@ def send_message(conversation_id):
 
     content = request.form.get("message", "").strip()
 
-    if content:
-        chat_service.generate_ai_response(
-            conversation_id=conversation_id,
-            user_message=content,
-        )
+    if not content:
+        return jsonify({
+            "error": "Message cannot be empty."
+        }), 400
 
-    return redirect(
-        url_for(
-            "chat.open_chat",
-            conversation_id=conversation_id
-        )
+    assistant_message = chat_service.generate_ai_response(
+        conversation_id=conversation_id,
+        user_message=content,
     )
+
+    return jsonify({
+
+        "user": content,
+
+        "assistant": assistant_message.content
+
+    })
 
 
 #Route for Deleting Chat

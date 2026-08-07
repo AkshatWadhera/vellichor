@@ -154,3 +154,118 @@ if (uploadSurface && pdfInput) {
     });
 
 }
+
+
+/* ========================================
+   COMPOSER
+======================================== */
+const messagesContainer = document.querySelector(".messages");
+const composerForm = document.querySelector("#composer-form");
+const composerInput = document.querySelector("#composer-input");
+
+function appendMessage(role, content) {
+
+    const message = document.createElement("div");
+
+    message.className = `message ${role}`;
+
+    let body;
+
+    if (role === "user") {
+
+        const bubble = document.createElement("div");
+
+        bubble.className = "message-bubble";
+
+        body = document.createElement("div");
+
+        body.className = "message-content";
+
+        body.textContent = content;
+
+        bubble.appendChild(body);
+
+        message.appendChild(bubble);
+
+    }
+
+    else {
+
+        body = document.createElement("div");
+
+        body.className = "message-content";
+
+        body.textContent = content;
+
+        message.appendChild(body);
+
+    }
+
+    messagesContainer.appendChild(message);
+
+    message.scrollIntoView({
+
+        behavior: "smooth",
+        block: "end"
+
+    });
+
+    return body;
+
+}
+
+
+if (composerForm && composerInput) {
+
+    composerInput.addEventListener("keydown", (event) => {
+
+    console.log(event.key);
+
+    if (event.key === "Enter" && !event.shiftKey) {
+
+        console.log("ENTER DETECTED");
+
+        event.preventDefault();
+
+        composerForm.requestSubmit();
+
+    }
+
+});
+
+}
+
+
+if (composerForm) {
+
+    composerForm.addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        const text = composerInput.value.trim();
+
+        if (!text) return;
+
+        appendMessage("user", text);
+
+        composerInput.value = "";
+
+        const formData = new FormData();
+
+        formData.append("message", text);
+
+        const response = await fetch(composerForm.action, {
+
+            method: "POST",
+
+            body: formData
+
+        });
+
+        const data = await response.json();
+
+        appendMessage("assistant", data.assistant);
+
+    });
+
+}
