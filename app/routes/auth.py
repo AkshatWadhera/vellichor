@@ -18,7 +18,11 @@ def register():
         existing_user = User.query.filter_by(email=email).first()
 
         if existing_user:
-            return "Email already exists"
+            flash("Email already exists.", "danger")
+
+            return redirect(
+                url_for("main.landing", state="register")
+            )
 
         user = User(name=name, email=email)
         user.set_password(password)
@@ -26,10 +30,13 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        flash("Registration successfull! Redirecting to log in.","success")
-        return redirect(url_for("auth.register"))
+        return redirect(
+            url_for("main.landing", state="login")
+        )
     
-    return render_template("auth/register.html")
+    return redirect(
+        url_for("main.landing", state="register")
+    )
 
 @auth.route("/login", methods=["GET","POST"])
 def login():
@@ -41,12 +48,18 @@ def login():
         existing_user = User.query.filter_by(email=email).first()
 
         if existing_user is None:
-            flash("Invalid email or password.","danger")
-            return redirect(url_for("auth.login"))
+            flash("Invalid email or password.", "danger")
+
+            return redirect(
+                url_for("main.landing", state="login")
+            )
 
         if not existing_user.check_password(password):
-            flash("Invalid email or password.","danger")
-            return redirect(url_for("auth.login"))
+            flash("Invalid email or password.", "danger")
+
+            return redirect(
+                url_for("main.landing", state="login")
+            )
 
         login_user(existing_user)
 
@@ -54,7 +67,9 @@ def login():
         return redirect(url_for("main.home"))
 
 
-    return render_template("auth/login.html")
+    return redirect(
+        url_for("main.landing", state="login")
+    )
 
 
 @auth.route("/logout")

@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, current_app, jsonify
+from flask import Blueprint, render_template, current_app, jsonify, request
 from flask_login import login_required, current_user
 
 from app.models import Conversation, PDF
@@ -10,7 +10,13 @@ main = Blueprint("main",__name__)
 
 @main.route("/")
 def landing():
-    return render_template("main/landing_page.html")
+
+    state = request.args.get("state", "intro")
+
+    return render_template(
+        "main/landing_page.html",
+        landing_state=state
+    )
 
 
 

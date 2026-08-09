@@ -1,0 +1,1002 @@
+
+
+/* =========================================================
+   VELLICHOR — LANDING PAGE
+   ========================================================= */
+
+.landing-page {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow-x: hidden;
+
+    background:
+        radial-gradient(
+            circle at 12% 20%,
+            rgba(255, 255, 255, 0.9),
+            transparent 34%
+        ),
+        radial-gradient(
+            circle at 85% 70%,
+            rgba(211, 180, 132, 0.16),
+            transparent 38%
+        ),
+        #f8f2e8;
+
+    color: #322b24;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.landing-nav {
+    height: 74px;
+    flex-shrink: 0;
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+
+    padding: 0 54px;
+
+    border-bottom: 1px solid rgba(92, 72, 44, 0.08);
+}
+
+
+/* Logo */
+
+.landing-logo {
+    justify-self: start;
+
+    color: #322b24;
+
+    font-size: 1.75rem;
+    font-weight: 600;
+
+    text-decoration: none;
+    letter-spacing: -0.04em;
+}
+
+
+/* Navigation links */
+
+.landing-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+}
+
+.landing-nav-links a {
+    color: #6b635a;
+
+    font-size: 0.875rem;
+    font-weight: 400;
+
+    text-decoration: none;
+
+    transition:
+        color 180ms ease;
+}
+
+.landing-nav-links a:hover {
+    color: #322b24;
+}
+
+
+/* Navigation actions */
+
+.landing-nav-actions {
+    justify-self: end;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-login,
+.nav-get-started {
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 22px;
+
+    border-radius: 999px;
+
+    font-size: 0.875rem;
+    text-decoration: none;
+
+    transition:
+        transform 180ms ease,
+        background 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.nav-login {
+    color: #322b24;
+
+    border: 1px solid rgba(92, 72, 44, 0.16);
+
+    background: rgba(255, 253, 249, 0.4);
+}
+
+.nav-get-started {
+    color: #fffaf1;
+
+    background: #c3964d;
+
+    box-shadow:
+        0 8px 22px rgba(82, 60, 30, 0.12);
+}
+
+.nav-login:hover,
+.nav-get-started:hover {
+    transform: translateY(-1px);
+}
+
+.nav-get-started:hover {
+    background: #d2a45d;
+}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.landing-main {
+    display: grid;
+    grid-template-columns: 44% 56%;
+
+    height: calc(100vh - 81px);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   LEFT INTRODUCTION
+   ========================================================= */
+.landing-intro {
+    position: relative;
+    min-width: 0;
+    min-height: 100%;
+}
+
+/* Eyebrow */
+
+.landing-eyebrow {
+    margin: 0 0 24px;
+
+    color: #a9782c;
+
+    font-size: 0.72rem;
+    font-weight: 600;
+
+    letter-spacing: 0.16em;
+}
+
+
+/* Main heading */
+
+.landing-title {
+    max-width: 600px;
+
+    margin: 0;
+
+    color: #322b24;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: clamp(3rem, 4vw, 4.5rem);
+    font-weight: 400;
+
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+}
+
+
+/* Description */
+
+.landing-description {
+    max-width: 460px;
+
+    margin: 24px 0 0;
+    color: #6b635a;
+
+    font-size: 0.95rem;
+
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   HERO BUTTONS
+   ========================================================= */
+
+.landing-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    margin-top: 34px;
+}
+
+.primary-button,
+.secondary-button {
+    height: 46px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    padding: 0 23px;
+
+    border-radius: 999px;
+
+    font-size: 0.9rem;
+    text-decoration: none;
+
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease;
+}
+
+.primary-button {
+    color: #fffaf1;
+
+    background: #c3964d;
+
+    box-shadow:
+        0 12px 28px rgba(82, 60, 30, 0.12);
+}
+
+.secondary-button {
+    color: #4d443a;
+
+    background: rgba(255, 253, 249, 0.55);
+
+    border: 1px solid rgba(92, 72, 44, 0.12);
+}
+
+.primary-button:hover,
+.secondary-button:hover {
+    transform: translateY(-2px);
+}
+
+.primary-button:hover {
+    background: #d2a45d;
+}
+
+
+/* =========================================================
+   PRINCIPLES
+   ========================================================= */
+
+.landing-principles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    margin-top: 42px;
+
+    border-top: 1px solid rgba(92, 72, 44, 0.10);
+    padding-top: 22px;
+}
+
+.principle {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+
+    padding-right: 18px;
+}
+
+.principle + .principle {
+    padding-left: 22px;
+
+    border-left: 1px solid rgba(92, 72, 44, 0.10);
+}
+
+.principle-icon {
+    color: #b88635;
+
+    font-size: 1.35rem;
+}
+
+.principle h3 {
+    margin: 0;
+
+    color: #40372e;
+
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.principle p {
+    margin: 5px 0 0;
+
+    color: #91887c;
+
+    font-size: 0.72rem;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   PRODUCT STAGE
+   ========================================================= */
+
+.product-stage {
+    position: relative;
+
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 42px 54px 48px 24px;
+
+    background:
+        radial-gradient(
+            circle at 50% 48%,
+            rgba(255, 253, 249, 0.85),
+            transparent 55%
+        ),
+        rgba(241, 231, 216, 0.32);
+
+    border-left: 1px solid rgba(92, 72, 44, 0.08);
+}
+
+
+
+
+/* =========================================================
+   PRODUCT DEMO — UPLOAD STATE
+   ========================================================= */
+
+.product-demo {
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 22% 78%;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(92, 72, 44, 0.10);
+    border-radius: 24px;
+
+    background: rgba(252, 248, 241, 0.82);
+
+    box-shadow:
+        0 28px 65px rgba(82, 60, 30, 0.09);
+
+    backdrop-filter: blur(18px);
+}
+
+
+/* =========================================================
+   DEMO SIDEBAR
+   ========================================================= */
+
+.demo-sidebar {
+    padding: 28px 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(241, 225, 202, 0.82),
+            rgba(231, 211, 181, 0.62)
+        );
+
+    border-right: 1px solid rgba(92, 72, 44, 0.08);
+}
+
+
+.demo-brand {
+    margin-bottom: 22px;
+
+    color: #322b24;
+
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+}
+
+
+.demo-new-workspace {
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 13px;
+
+    border-radius: 10px;
+
+    background: rgba(255, 253, 249, 0.72);
+
+    color: #40372e;
+
+    font-size: 0.68rem;
+    font-weight: 500;
+
+    box-shadow:
+        0 5px 15px rgba(82, 60, 30, 0.04);
+}
+
+
+.demo-section-label {
+    margin: 28px 4px 11px;
+
+    color: #9b8f80;
+
+    font-size: 0.54rem;
+    font-weight: 600;
+
+    letter-spacing: 0.16em;
+}
+
+
+.recent-label {
+    margin-top: 25px;
+}
+
+
+.demo-conversations {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
+.demo-conversation {
+    min-width: 0;
+
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 0 8px;
+
+    border-radius: 8px;
+
+    color: #665d53;
+
+    font-size: 0.65rem;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.demo-conversation:first-child {
+    color: #40372e;
+}
+
+
+.demo-file-icon {
+    flex-shrink: 0;
+
+    color: #9c8d78;
+
+    font-size: 0.85rem;
+}
+
+
+/* =========================================================
+   DEMO MAIN
+   ========================================================= */
+
+.demo-main {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 42%,
+            rgba(255, 255, 255, 0.72),
+            transparent 58%
+        );
+}
+
+
+.demo-empty-state {
+    width: 88%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+
+.demo-empty-state h2 {
+    margin: 0;
+
+    color: #3b332c;
+
+    font-size: clamp(1.4rem, 2vw, 2rem);
+    font-weight: 600;
+
+    letter-spacing: -0.04em;
+}
+
+
+.demo-empty-state p {
+    max-width: 540px;
+
+    margin: 14px 0 28px;
+
+    color: #918a82;
+
+    font-size: 0.75rem;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   UPLOAD CARD
+   ========================================================= */
+
+.demo-upload-card {
+    width: min(78%, 430px);
+    min-height: 175px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(195, 150, 77, 0.16);
+
+    border-radius: 18px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(195, 150, 77, 0.025) 0px,
+            rgba(195, 150, 77, 0.025) 1px,
+            transparent 1px,
+            transparent 5px
+        ),
+        rgba(255, 253, 249, 0.72);
+
+    box-shadow:
+        0 18px 40px rgba(82, 60, 30, 0.07);
+
+    transition:
+        transform 300ms ease,
+        box-shadow 300ms ease;
+}
+
+
+.demo-upload-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 12px;
+
+    color: #b58b4c;
+
+    border: 1px solid rgba(181, 139, 76, 0.22);
+
+    border-radius: 9px;
+
+    font-size: 1.1rem;
+}
+
+
+.demo-upload-title {
+    color: #665e55;
+
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+
+.demo-upload-subtitle {
+    margin-top: 7px;
+
+    color: #a29a91;
+
+    font-size: 0.68rem;
+}
+
+
+/* =========================================================
+   LANDING STATE SYSTEM
+   ========================================================= */
+
+/* =========================================================
+   LANDING STATE SYSTEM
+   ========================================================= */
+
+.landing-state {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
+
+    padding: 52px 6vw 42px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform:
+        translateY(14px)
+        scale(0.985);
+
+    filter: blur(3px);
+
+    pointer-events: none;
+}
+
+.landing-state.active {
+    opacity: 1;
+    visibility: visible;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+    filter: blur(0);
+
+    pointer-events: auto;
+
+    transition:
+        opacity 260ms ease,
+        transform 520ms cubic-bezier(0.16, 1, 0.3, 1),
+        filter 420ms ease;
+}
+
+
+
+
+
+/* =========================================================
+   MECHANICAL PRESS
+   ========================================================= */
+
+/*
+    The layout itself must NEVER move.
+    Only the visible content compresses slightly.
+*/
+
+.mechanical-press .landing-state.active {
+    transform: scale(0.992);
+
+    transition:
+        transform 75ms cubic-bezier(0.3, 0, 0.7, 1);
+}
+
+
+/* =========================================================
+   SHUTTER
+   ========================================================= */
+
+.state-shutter {
+    position: absolute;
+    inset: 0;
+
+    z-index: 20;
+
+    display: flex;
+
+    pointer-events: none;
+}
+
+
+/*
+    Two warm surfaces meet in the middle.
+    They aren't meant to look like literal camera blades.
+    They simply create the mechanical interruption.
+*/
+
+.shutter-panel {
+    width: 50%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f1e7d8,
+            #e9dcc9
+        );
+
+    box-shadow:
+        0 20px 50px rgba(82, 60, 30, 0.08);
+
+    transform: scaleX(0);
+
+    transition:
+        transform 230ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+
+/* Left panel */
+
+.shutter-panel-left {
+    transform-origin: left center;
+}
+
+
+/* Right panel */
+
+.shutter-panel-right {
+    transform-origin: right center;
+}
+
+
+/*
+    CLOSED = panels cover the entire intro.
+*/
+
+.state-shutter.closed .shutter-panel-left {
+    transform: scaleX(1);
+}
+
+.state-shutter.closed .shutter-panel-right {
+    transform: scaleX(1);
+}
+
+
+/* =========================================================
+   AUTH TYPOGRAPHY
+   ========================================================= */
+
+.auth-title {
+    max-width: 600px;
+
+    margin: 0;
+
+    color: #322b24;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: clamp(2.7rem, 3.25vw, 3.8rem);
+    font-weight: 400;
+
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+}
+
+
+.auth-description {
+    max-width: 430px;
+
+    margin: 24px 0 32px;
+
+    color: #6b635a;
+
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   AUTH STATE POSITIONING
+   ========================================================= */
+
+/* =========================================================
+   AUTH STATE POSITIONING
+   ========================================================= */
+
+.login-state,
+.register-state {
+    padding: 0 6vw;
+    justify-content: center;
+}
+
+/* Login: noticeably higher and further right */
+.login-state {
+    padding-left: 6vw;
+    transform: translate(5vw, -8vh);
+}
+
+/* Register: slightly lower than Login */
+.register-state {
+    padding-left: 7vw;
+    transform: translate(1vw, -1vh);
+}
+
+/* Intro: slightly lower */
+.intro-state {
+    transform: translateY(1vh);
+}
+
+
+
+/* =========================================================
+   AUTH FORM
+   ========================================================= */
+
+.landing-auth-form {
+    width: min(100%, 390px);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 17px;
+}
+
+
+.auth-field {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.auth-field label {
+    color: #5e554c;
+
+    font-size: 0.76rem;
+    font-weight: 500;
+}
+
+
+.auth-field input {
+    width: 100%;
+    height: 48px;
+
+    box-sizing: border-box;
+
+    padding: 0 15px;
+
+    border: 1px solid rgba(92, 72, 44, 0.12);
+
+    border-radius: 12px;
+
+    outline: none;
+
+    background:
+        rgba(255, 253, 249, 0.65);
+
+    color: #322b24;
+
+    font-family: inherit;
+    font-size: 0.88rem;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.55);
+
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease;
+}
+
+
+.auth-field input::placeholder {
+    color: #aaa197;
+}
+
+
+.auth-field input:focus {
+    border-color: rgba(195, 150, 77, 0.48);
+
+    background: rgba(255, 253, 249, 0.9);
+
+    box-shadow:
+        0 0 0 4px rgba(195, 150, 77, 0.08);
+}
+
+
+/* =========================================================
+   AUTH SUBMIT
+   ========================================================= */
+
+.auth-submit {
+    width: 100%;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    margin-top: 5px;
+
+    border: 0;
+    border-radius: 999px;
+
+    background: #c3964d;
+
+    color: #fffaf1;
+
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 28px rgba(82, 60, 30, 0.12);
+
+    transition:
+        transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+        background 180ms ease,
+        box-shadow 180ms ease;
+}
+
+
+.auth-submit:hover {
+    background: #d2a45d;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 16px 32px rgba(82, 60, 30, 0.15);
+}
+
+
+.auth-submit:active {
+    transform: scale(0.985);
+}
+
+
+/* =========================================================
+   AUTH SWITCH
+   ========================================================= */
+
+.auth-switch {
+    margin: 22px 0 0;
+
+    color: #91887c;
+
+    font-size: 0.78rem;
+}
+
+
+.auth-switch a {
+    color: #a9782c;
+
+    font-weight: 500;
+
+    text-decoration: none;
+}
+
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   LANDING PAGE — NO PAGE SCROLL
+   ========================================================= */
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}

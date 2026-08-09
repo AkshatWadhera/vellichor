@@ -1,14 +1,477 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Vellichor</title>
-</head>
-<body>
+{% extends "main/base1.html" %}
 
-<h1>Welcome to Vellichor</h1>
+{% block title %}
+    Vellichor
+{% endblock %}
 
-<a href="{{ url_for('auth.login') }}">Login</a>
-<a href="{{ url_for('auth.register') }}">Register</a>
+{% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/landing.css') }}"
+>
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+
+<div
+    class="landing-page"
+    data-initial-state="{{ landing_state }}"
+>
+
+    <!-- Navigation -->
+    <header class="landing-nav">
+
+        <a
+            href="{{ url_for('main.landing') }}"
+            class="landing-logo"
+            data-landing-state="intro"
+        >
+            Vellichor
+        </a>
+
+        <nav class="landing-nav-links">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How it works</a>
+            <a href="#security">Security</a>
+            <a href="#about">About</a>
+        </nav>
+
+        <div class="landing-nav-actions">
+            <a
+                href="{{ url_for('auth.login') }}"
+                class="nav-login"
+                data-landing-state="login"
+            >
+                Log in
+            </a>
+
+            <a
+                href="{{ url_for('auth.register') }}"
+                class="nav-get-started"
+                data-landing-state="register"
+            >
+                Get Started
+            </a>
+        </div>
+
+    </header>
+
+
+    <!-- Main Hero -->
+    <main class="landing-main">
+
+        <!-- Left Side -->
+        <section class="landing-intro">
+
+            <!-- =================================================
+                INTRO STATE
+                ================================================= -->
+
+            <div class="landing-state intro-state active">
+
+                <p class="landing-eyebrow">
+                    YOUR DOCUMENTS, NOW CONVERSATIONAL
+                </p>
+
+                <h1 class="landing-title">
+                    Read less.<br>
+                    Understand more.
+                </h1>
+
+                <p class="landing-description">
+                    Vellichor helps you have meaningful conversations
+                    with your documents.
+                    So you can focus on thinking, not searching.
+                </p>
+
+                <div class="landing-actions">
+
+                    <a
+                        href="{{ url_for('auth.register') }}"
+                        class="primary-button"
+                        data-landing-state="register"
+                    >
+                        Get Started
+                        <span>→</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('auth.login') }}"
+                        class="secondary-button"
+                        data-landing-state="login"
+                    >
+                        Log in
+                        <span>→</span>
+                    </a>
+
+                </div>
+
+
+                <div class="landing-principles">
+
+                    <div class="principle">
+
+                        <div class="principle-icon">
+                            ◇
+                        </div>
+
+                        <div>
+                            <h3>Private & secure</h3>
+                            <p>Your data stays yours.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="principle">
+
+                        <div class="principle-icon">
+                            ✦
+                        </div>
+
+                        <div>
+                            <h3>AI that understands</h3>
+                            <p>Context, not keywords.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="principle">
+
+                        <div class="principle-icon">
+                            ◌
+                        </div>
+
+                        <div>
+                            <h3>Conversations that stay</h3>
+                            <p>Organized & persistent.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                LOGIN STATE
+                ================================================= -->
+
+            <div class="landing-state login-state">
+
+                <p class="landing-eyebrow">
+                    WELCOME BACK
+                </p>
+
+                <h1 class="auth-title">
+                    Continue<br>
+                    where you left off.
+                </h1>
+
+                <p class="auth-description">
+                    Return to your documents and continue
+                    the conversations that matter.
+                </p>
+
+
+                <form
+                    class="landing-auth-form"
+                    method="POST"
+                    action="{{ url_for('auth.login') }}"
+                >
+
+                    <div class="auth-field">
+
+                        <label for="landing-email">
+                            Email
+                        </label>
+
+                        <input
+                            id="landing-email"
+                            type="email"
+                            name="email"
+                            autocomplete="email"
+                            placeholder="you@example.com"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="auth-field">
+
+                        <label for="landing-password">
+                            Password
+                        </label>
+
+                        <input
+                            id="landing-password"
+                            type="password"
+                            name="password"
+                            autocomplete="current-password"
+                            placeholder="Your password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="auth-submit"
+                    >
+                        Continue
+                        <span>→</span>
+                    </button>
+
+                </form>
+
+
+                <p class="auth-switch">
+
+                    Don't have an account?
+
+                    <a
+                        href="{{ url_for('auth.register') }}"
+                        data-landing-state="register"
+                    >
+                        Create one
+                    </a>
+
+                </p>
+
+            </div>
+
+            <!-- =================================================
+                REGISTER STATE
+                ================================================= -->
+
+            <div class="landing-state register-state">
+
+                <p class="landing-eyebrow">
+                    CREATE YOUR ACCOUNT
+                </p>
+
+                <h1 class="auth-title">
+                    Make your documents<br>
+                    conversational.
+                </h1>
+
+                <p class="auth-description">
+                    Create your Vellichor workspace and start
+                    understanding your documents differently.
+                </p>
+
+
+                <form
+                    class="landing-auth-form"
+                    method="POST"
+                    action="{{ url_for('auth.register') }}"
+                >
+
+                    <div class="auth-field">
+
+                        <label for="landing-name">
+                            Name
+                        </label>
+
+                        <input
+                            id="landing-name"
+                            type="text"
+                            name="name"
+                            autocomplete="name"
+                            placeholder="Your name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="auth-field">
+
+                        <label for="landing-register-email">
+                            Email
+                        </label>
+
+                        <input
+                            id="landing-register-email"
+                            type="email"
+                            name="email"
+                            autocomplete="email"
+                            placeholder="you@example.com"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="auth-field">
+
+                        <label for="landing-register-password">
+                            Password
+                        </label>
+
+                        <input
+                            id="landing-register-password"
+                            type="password"
+                            name="password"
+                            autocomplete="new-password"
+                            placeholder="Create a password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="auth-submit"
+                    >
+                        Create account
+                        <span>→</span>
+                    </button>
+
+                </form>
+
+
+                <p class="auth-switch">
+
+                    Already have an account?
+
+                    <a
+                        href="{{ url_for('auth.login') }}"
+                        data-landing-state="login"
+                    >
+                        Log in
+                    </a>
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                SHUTTER
+                ================================================= -->
+
+            <div class="state-shutter" aria-hidden="true">
+
+                <div class="shutter-panel shutter-panel-left"></div>
+
+                <div class="shutter-panel shutter-panel-right"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Right Side -->
+        <section class="product-stage">
+
+            <div class="product-demo upload-demo">
+
+                <div class="demo-sidebar">
+
+                    <div class="demo-brand">
+                        Vellichor
+                    </div>
+
+                    <div class="demo-new-workspace">
+                        + New Workspace
+                    </div>
+
+                    <div class="demo-section-label">
+                        PINNED
+                    </div>
+
+                    <div class="demo-conversations">
+
+                        <div class="demo-conversation">
+                            <span class="demo-file-icon">▱</span>
+                            Existentialism
+                        </div>
+
+                        <div class="demo-conversation">
+                            <span class="demo-file-icon">▱</span>
+                            Marxism.pdf
+                        </div>
+
+                        <div class="demo-conversation">
+                            <span class="demo-file-icon">▱</span>
+                            How_to_Select...
+                        </div>
+
+                    </div>
+
+                    <div class="demo-section-label recent-label">
+                        RECENT
+                    </div>
+
+                    <div class="demo-conversations">
+
+                        <div class="demo-conversation">
+                            <span class="demo-file-icon">▱</span>
+                            Feminism Cam...
+                        </div>
+
+                        <div class="demo-conversation">
+                            <span class="demo-file-icon">▱</span>
+                            Dopamine-Det...
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="demo-main">
+
+                    <div class="demo-empty-state">
+
+                        <h2>
+                            Begin with a document.
+                        </h2>
+
+                        <p>
+                            Bring your PDF. Vellichor quietly reads,
+                            understands and remembers so you can focus on thinking.
+                        </p>
+
+                        <div class="demo-upload-card">
+
+                            <div class="demo-upload-icon">
+                                ↑
+                            </div>
+
+                            <div class="demo-upload-title">
+                                Drop your PDF
+                            </div>
+
+                            <div class="demo-upload-subtitle">
+                                Click to browse or drag it here
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/landing.js') }}"></script>
+
+{% endblock %}
