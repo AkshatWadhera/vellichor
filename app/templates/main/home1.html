@@ -4,6 +4,7 @@
 
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home1.css') }}">
+<link rel="stylesheet" href=" {{ url_for('static', filename='css/markdown.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -301,9 +302,11 @@
 
                             {% else %}
 
-                                <div class="message-content">
-                                    {{ message.content }}
-                                </div>
+                                <div class="message-content"></div>
+
+                                <script type="application/json" class="message-markdown">
+                                    {{ message.content | tojson }}
+                                </script>
 
                             {% endif %}
 
@@ -363,5 +366,8 @@
 {% endblock %}
 
 {% block scripts %}
+
+<script src="https://cdn.jsdelivr.net/npm/markdown-it@14/dist/markdown-it.min.js"></script>
+
 <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 {% endblock %}

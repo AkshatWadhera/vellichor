@@ -1,3 +1,8 @@
+// ========================================
+// WORKSPACE MENU DROPDOWNS
+// Find all workspace menu buttons so we can
+// attach click behavior to each one.
+// ========================================
 const menuButtons = document.querySelectorAll(".workspace-menu-btn");
 
 menuButtons.forEach((button) => {
@@ -9,6 +14,7 @@ menuButtons.forEach((button) => {
 
         const dropdown = button.nextElementSibling;
 
+        //Clsoe all the dropdowns except the one that i just clicked
         document.querySelectorAll(".workspace-dropdown").forEach(menu => {
 
             if(menu !== dropdown){
@@ -19,12 +25,15 @@ menuButtons.forEach((button) => {
 
         });
 
+        //Open or Close the dropdown i clicked on
         dropdown.classList.toggle("active");
 
     });
 
 });
 
+
+//Close the dropdown whenever user clicks anywhere on the page
 document.addEventListener("click", () => {
 
     document.querySelectorAll(".workspace-dropdown").forEach(menu => {
@@ -36,6 +45,14 @@ document.addEventListener("click", () => {
 });
 
 
+
+
+// ========================================
+// POST ACTION HELPER
+// Dynamically creates a hidden HTML form
+// and submits conversation actions such as
+// rename, pin, and delete to the Flask backend.
+// ========================================
 function postAction(conversationId, action, data = {}) {
 
     const form = document.createElement("form");
@@ -43,6 +60,8 @@ function postAction(conversationId, action, data = {}) {
     form.method = "POST";
     form.action = `/${conversationId}/${action}`;
 
+    // Add any extra action data as hidden
+    // form inputs so Flask can receive it.
     Object.entries(data).forEach(([key, value]) => {
 
         const input = document.createElement("input");
@@ -78,6 +97,8 @@ document.querySelectorAll(".rename-btn").forEach(button => {
 
         const newTitle = prompt("Rename conversation", currentTitle);
 
+        // Ask for a new title and stop if the user
+        // cancels, enters nothing, or keeps the same title.
         if (!newTitle || newTitle.trim() === currentTitle) return;
 
         postAction(conversationId, "rename", {
@@ -155,33 +176,180 @@ if (uploadSurface && pdfInput) {
 
 }
 
-
 /* ========================================
    COMPOSER
 ======================================== */
-const messagesContainer = document.querySelector(".messages");
-const composerForm = document.querySelector("#composer-form");
-const composerInput = document.querySelector("#composer-input");
+
+const messagesContainer =
+    document.querySelector(".messages");
+
+const composerForm =
+    document.querySelector("#composer-form");
+
+const composerInput =
+    document.querySelector("#composer-input");
+
+
+/* ========================================
+   MARKDOWN RENDERING
+======================================== */
+
+const md = markdownit({
+
+    html: false,
+
+    breaks: false,
+
+    linkify: true
+
+});
+
+
+function renderMarkdown(content) {
+
+    return md.render(content);
+
+}
+
+
+/* ========================================
+   RENDER EXISTING MESSAGES
+======================================== */
+
+document
+    .querySelectorAll(".message-markdown")
+    .forEach((scriptElement) => {
+
+        const markdown = JSON.parse(
+            scriptElement.textContent
+        );
+
+        const messageContent =
+            scriptElement
+                .closest(".message")
+                .querySelector(".message-content");
+
+        messageContent.innerHTML =
+            renderMarkdown(markdown);
+
+        scriptElement.remove();
+
+    });
+
+
+    /* ========================================
+   SCROLL CHAT TO BOTTOM
+======================================== */
+
+/* ========================================
+   INITIAL CHAT POSITION
+======================================== */
+
+function scrollChatToBottom() {
+
+    if (!messagesContainer) return;
+
+    const startPosition =
+        messagesContainer.scrollTop;
+
+    const targetPosition =
+        messagesContainer.scrollHeight -
+        messagesContainer.clientHeight;
+
+    const distance =
+        targetPosition - startPosition;
+
+    const duration = 750;
+
+    const startTime = performance.now();
+
+
+    function animateScroll(currentTime) {
+
+        const elapsed =
+            currentTime - startTime;
+
+        const progress =
+            Math.min(elapsed / duration, 1);
+
+
+        /*
+         * Ease-out curve.
+         *
+         * Starts gently,
+         * moves faster through the middle,
+         * then slows naturally at the bottom.
+         */
+        const eased =
+            1 - Math.pow(1 - progress, 3);
+
+
+        messagesContainer.scrollTop =
+            startPosition +
+            distance * eased;
+
+
+        if (progress < 1) {
+
+            requestAnimationFrame(
+                animateScroll
+            );
+
+        }
+
+    }
+
+
+    requestAnimationFrame(
+        animateScroll
+    );
+
+}
+
+
+/*
+ * Wait one browser frame so the
+ * Markdown-rendered content has
+ * its final layout height.
+ */
+requestAnimationFrame(() => {
+
+    scrollChatToBottom();
+
+});
+
+
+/* ========================================
+   APPEND MESSAGE
+======================================== */
 
 function appendMessage(role, content) {
 
-    const message = document.createElement("div");
+    const message =
+        document.createElement("div");
 
-    message.className = `message ${role}`;
+    message.className =
+        `message ${role}`;
 
     let body;
 
+
     if (role === "user") {
 
-        const bubble = document.createElement("div");
+        const bubble =
+            document.createElement("div");
 
-        bubble.className = "message-bubble";
+        bubble.className =
+            "message-bubble";
 
-        body = document.createElement("div");
+        body =
+            document.createElement("div");
 
-        body.className = "message-content";
+        body.className =
+            "message-content";
 
-        body.textContent = content;
+        body.innerHTML =
+            renderMarkdown(content);
 
         bubble.appendChild(body);
 
@@ -191,81 +359,122 @@ function appendMessage(role, content) {
 
     else {
 
-        body = document.createElement("div");
+        body =
+            document.createElement("div");
 
-        body.className = "message-content";
+        body.className =
+            "message-content";
 
-        body.textContent = content;
+        body.innerHTML =
+            renderMarkdown(content);
 
         message.appendChild(body);
 
     }
 
+
     messagesContainer.appendChild(message);
+
 
     message.scrollIntoView({
 
         behavior: "smooth",
+
         block: "end"
 
     });
+
 
     return body;
 
 }
 
 
+/* ========================================
+   ENTER KEY
+======================================== */
+
 if (composerForm && composerInput) {
 
-    composerInput.addEventListener("keydown", (event) => {
+    composerInput.addEventListener(
+        "keydown",
+        (event) => {
 
-    console.log(event.key);
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey
+            ) {
 
-    if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
 
-        console.log("ENTER DETECTED");
+                composerForm.requestSubmit();
 
-        event.preventDefault();
+            }
 
-        composerForm.requestSubmit();
-
-    }
-
-});
+        }
+    );
 
 }
 
 
+/* ========================================
+   SEND MESSAGE
+======================================== */
+
 if (composerForm) {
 
-    composerForm.addEventListener("submit", async (event) => {
+    composerForm.addEventListener(
+        "submit",
+        async (event) => {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        const text = composerInput.value.trim();
 
-        if (!text) return;
+            const text =
+                composerInput.value.trim();
 
-        appendMessage("user", text);
 
-        composerInput.value = "";
+            if (!text) return;
 
-        const formData = new FormData();
 
-        formData.append("message", text);
+            appendMessage(
+                "user",
+                text
+            );
 
-        const response = await fetch(composerForm.action, {
 
-            method: "POST",
+            composerInput.value = "";
 
-            body: formData
 
-        });
+            const formData =
+                new FormData();
 
-        const data = await response.json();
+            formData.append(
+                "message",
+                text
+            );
 
-        appendMessage("assistant", data.assistant);
 
-    });
+            const response =
+                await fetch(
+                    composerForm.action,
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            appendMessage(
+                "assistant",
+                data.assistant
+            );
+
+        }
+    );
 
 }

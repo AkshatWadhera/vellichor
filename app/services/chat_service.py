@@ -65,7 +65,7 @@ def save_message(conversation_id, role, content):
     return message
 
 def build_conversation_history(conversation):
-    messages = conversation.messages
+    messages = conversation.messages[-10:]
 
     history = "\n".join(
         f"{message.role.capitalize()}: {message.content}"

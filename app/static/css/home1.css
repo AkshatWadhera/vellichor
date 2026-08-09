@@ -913,13 +913,16 @@
 }
 
 .message.assistant{
-    padding-left:32px;
+    
     justify-content:flex-start;
+    padding-left: 5rem;
+    padding-right: 4vw;
 }
 
 .message.user{
 
     justify-content:flex-end;
+    padding-right: 4rem;
 }
 
 .message-bubble{
@@ -959,7 +962,9 @@
 
 .message.assistant .message-content{
 
-    max-width:900px;
+    width:100%;
+
+    max-width:none;
 
     font-size:.95rem;
 
@@ -1265,7 +1270,7 @@
 
 .composer{
 
-    max-width:840px;
+    max-width:960px;
 
     margin:0 auto;
 
