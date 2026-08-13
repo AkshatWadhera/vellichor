@@ -234,19 +234,78 @@
                                 hidden
                             >
 
-                            <div class="upload-icon">
-                                <i data-lucide="file-up"></i>
+
+                            <!-- ========================================
+                                IDLE STATE
+                            ======================================== -->
+
+                            <div class="upload-state upload-idle">
+
+                                <div class="upload-icon">
+                                    <i data-lucide="file-up"></i>
+                                </div>
+
+                                <div class="upload-copy">
+
+                                    <p class="upload-text">
+                                        Drop your PDF
+                                    </p>
+
+                                    <p class="upload-subtext">
+                                        Click to browse or drag it here
+                                    </p>
+
+                                </div>
+
                             </div>
 
-                            <div class="upload-copy">
 
-                                <p class="upload-text">
-                                    Drop your PDF
-                                </p>
+                            <!-- ========================================
+                                PROCESSING STATE
+                            ======================================== -->
 
-                                <p class="upload-subtext">
-                                    Click to browse or drag it here
-                                </p>
+                            <div class="upload-state upload-processing">
+
+                                <div class="upload-icon">
+                                    <i data-lucide="loader-circle"></i>
+                                </div>
+
+                                <div class="upload-copy">
+
+                                    <p class="upload-text">
+                                        Preparing your document
+                                    </p>
+
+                                    <p class="upload-subtext">
+                                        Vellichor is reading your PDF...
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ========================================
+                                SUCCESS STATE
+                            ======================================== -->
+
+                            <div class="upload-state upload-success">
+
+                                <div class="upload-icon">
+                                    <i data-lucide="check"></i>
+                                </div>
+
+                                <div class="upload-copy">
+
+                                    <p class="upload-text">
+                                        Document ready
+                                    </p>
+
+                                    <p class="upload-subtext">
+                                        Opening your workspace...
+                                    </p>
+
+                                </div>
 
                             </div>
 

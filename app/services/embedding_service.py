@@ -12,14 +12,13 @@ embedding_model = HuggingFaceEmbeddings(
 
 #Extracting Text
 def extract_text(pdf_path):
-    document = fitz.open(pdf_path)
 
-    text = ""
+    with fitz.open(pdf_path) as document:
 
-    for page in document:
-        text += page.get_text()
+        text = ""
 
-    document.close()
+        for page in document:
+            text += page.get_text()
 
     return text
 

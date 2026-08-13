@@ -1037,9 +1037,9 @@
     border:1px solid rgba(184,160,124,.14);
 
     transition:
-        border-color .22s ease,
-        box-shadow .22s ease,
-        background .22s ease;
+        border-color .35s ease,
+        box-shadow .35s ease,
+        background .35s ease;
 
     box-shadow:
 
@@ -1194,6 +1194,143 @@
     line-height:1.55;
 
     color:#8B8174;
+}
+
+/* ========================================
+   UPLOAD STATES
+======================================== */
+
+.upload-state {
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 1.25rem;
+
+    position: absolute;
+    inset: 0;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(12px);
+
+    transition:
+        opacity 1100ms cubic-bezier(.22, 1, .36, 1),
+        transform 1100ms cubic-bezier(.22, 1, .36, 1),
+        visibility 1100ms ease;
+}
+
+
+/* Idle state */
+
+.upload-idle{
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:translateY(0);
+}
+
+
+/* ========================================
+   PROCESSING STATE
+======================================== */
+
+.upload-surface.uploading .upload-idle {
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-12px);
+}
+
+.upload-surface.uploading .upload-processing {
+
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+}
+
+/* ========================================
+   PROCESSING ICON
+======================================== */
+
+.upload-processing .upload-icon {
+
+    animation:
+        upload-spin 2.2s linear infinite;
+}
+
+
+@keyframes upload-spin {
+
+    from {
+
+        transform: rotate(0deg);
+
+    }
+
+    to {
+
+        transform: rotate(360deg);
+
+    }
+
+}
+
+
+/* ========================================
+   SUCCESS STATE
+======================================== */
+
+.upload-surface.upload-complete .upload-idle,
+.upload-surface.upload-complete .upload-processing{
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transform:translateY(-10px);
+}
+
+.upload-surface.upload-complete .upload-success{
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:translateY(0);
+}
+
+.upload-success .upload-icon {
+
+    animation:
+        success-arrival 900ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+
+@keyframes success-arrival {
+
+    from {
+
+        opacity: 0;
+        transform: scale(.88);
+
+    }
+
+    to {
+
+        opacity: 1;
+        transform: scale(1);
+
+    }
+
 }
 
 /* ========================================

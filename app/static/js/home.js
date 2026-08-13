@@ -152,7 +152,10 @@ document.querySelectorAll(".delete-btn").forEach(button => {
 });
 
 
-//Uplaod PDF
+// ========================================
+// PDF UPLOAD
+// ========================================
+
 const uploadSurface = document.querySelector(".upload-surface");
 const pdfInput = document.querySelector("#pdf-input");
 
@@ -164,11 +167,67 @@ if (uploadSurface && pdfInput) {
 
     });
 
-    pdfInput.addEventListener("change", () => {
 
-        if (pdfInput.files.length > 0) {
+    pdfInput.addEventListener("change", async () => {
 
-            uploadSurface.submit();
+        if (pdfInput.files.length === 0) return;
+
+        uploadSurface.classList.add("uploading");
+
+        // Create FormData from the upload form
+        const formData = new FormData(uploadSurface);
+
+
+        try {
+
+            const response = await fetch(
+                uploadSurface.action,
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+
+            const data = await response.json();
+
+
+            if (data.success) {
+
+                setTimeout(() => {
+
+                    uploadSurface.classList.remove("uploading");
+
+                    uploadSurface.classList.add("upload-complete");
+
+                    setTimeout(() => {
+
+                        window.location.href =
+                            `/chat/${data.conversation_id}`;
+
+                    }, 1200);
+
+                }, 1500);
+
+            }
+
+            else {
+
+                console.log(
+                    "Upload failed:",
+                    data.error_code
+                );
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Upload request failed:",
+                error
+            );
 
         }
 
