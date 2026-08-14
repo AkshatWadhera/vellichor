@@ -1657,3 +1657,43 @@
 }
 
 
+/* ========================================
+   SCROLLBAR SIDEBAR
+======================================== */
+
+/* Chrome / Edge / Brave */
+
+.sidebar-content::-webkit-scrollbar{
+
+    width:6px;
+}
+
+.sidebar-content::-webkit-scrollbar-track{
+
+    background:transparent;
+
+    margin-top:14px;
+    margin-bottom:14px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb{
+
+    background:rgba(166,126,68,.40);
+
+    border-radius:999px;
+
+    transition:
+        background .25s ease,
+        width .25s ease;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover{
+
+    background:rgba(166,126,68,.62);
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:active{
+
+    background:rgba(166,126,68,.78);
+}
+
