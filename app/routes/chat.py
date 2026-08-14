@@ -61,10 +61,10 @@ def delete_chat(conversation_id):
     chat_service.delete_conversation(conversation_id,current_user.id)
 
     return redirect(
-        url_for(
-            "main.home",
+        
+            request.referrer or url_for("main.home")
         )
-    )
+    
 
 #Route for Renaming Chat
 @chat.route("/<int:conversation_id>/rename",methods=["POST"])

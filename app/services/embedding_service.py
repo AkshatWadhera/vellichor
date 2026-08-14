@@ -15,10 +15,14 @@ def extract_text(pdf_path):
 
     with fitz.open(pdf_path) as document:
 
+        if document.is_encrypted:
+            raise ValueError("PASSWORD_PROTECTED")
+
         text = ""
 
         for page in document:
             text += page.get_text()
+
 
     return text
 

@@ -12,7 +12,17 @@ def allowed_file(filename):
 
 #Checking for Mimetype
 def allowed_mimetype(pdf):
-    return pdf.mimetype == ALLOWED_MIME_TYPE
+
+    if pdf.mimetype != ALLOWED_MIME_TYPE:
+        return False
+
+    pdf.stream.seek(0)
+
+    file_signature = pdf.stream.read(5)
+
+    pdf.stream.seek(0)
+
+    return file_signature == b"%PDF-"
 
 #Saving PDF in uploads folder
 def save_pdf(pdf):

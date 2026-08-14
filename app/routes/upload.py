@@ -1,6 +1,6 @@
 import os
 
-from flask import Blueprint, request, redirect, url_for, jsonify
+from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 
 from app import db
@@ -15,7 +15,10 @@ upload_bp = Blueprint("upload", __name__)
 @login_required
 def upload_pdf():
 
-    # Receiving the PDF file
+    # ========================================
+    # RECEIVING PDF
+    # ========================================
+
     pdf = request.files.get("pdf")
 
 
@@ -23,7 +26,6 @@ def upload_pdf():
     # VALIDATION
     # ========================================
 
-    # Checking for PDF in request
     if not pdf or pdf.filename == "":
 
         return jsonify({
@@ -32,7 +34,6 @@ def upload_pdf():
         }), 400
 
 
-    # Layer 1 - checking whether filename ends with .pdf
     if not document_service.allowed_file(pdf.filename):
 
         return jsonify({
@@ -41,7 +42,6 @@ def upload_pdf():
         }), 400
 
 
-    # Layer 2 - checking MIME type
     if not document_service.allowed_mimetype(pdf):
 
         return jsonify({
@@ -60,87 +60,171 @@ def upload_pdf():
     file_size = os.path.getsize(filepath)
 
 
-    # ========================================
-    # DATABASE UPDATES
-    # ========================================
+    conversation = None
+    pdf_record = None
+    embeddings_stored = False
 
-    # Automatically creating a Conversation
-    # once the PDF is received/uploaded.
-    conversation = Conversation(
-        title=original_filename,
-        user_id=current_user.id
-    )
-
-    db.session.add(conversation)
-
-    print("New convo added")
+    print("Saved temporary PDF:", filepath)
 
 
-    # Creating a row in PDF table
-    pdf_record = PDF(
-        original_filename=original_filename,
-        stored_filename=unique_filename,
-        file_size=file_size,
-        mime_type=pdf.mimetype,
-        conversation=conversation
-    )
+    try:
 
-    db.session.add(pdf_record)
+        # ========================================
+        # DATABASE RECORDS
+        # ========================================
 
-    print("New PDF record added")
+        conversation = Conversation(
+            title=original_filename,
+            user_id=current_user.id
+        )
 
-    db.session.commit()
+        db.session.add(conversation)
 
 
-    # ========================================
-    # RAG PIPELINE
-    # ========================================
+        pdf_record = PDF(
+            original_filename=original_filename,
+            stored_filename=unique_filename,
+            file_size=file_size,
+            mime_type=pdf.mimetype,
+            conversation=conversation
+        )
 
-    # Extracting text
-    text = embedding_service.extract_text(filepath)
+        db.session.add(pdf_record)
 
-    if not text.strip():
 
-        os.remove(filepath)
+        # Flush gives us database-generated IDs
+        # without permanently committing the transaction.
 
-        print("PDF removed from uploads folder")
+        db.session.flush()
 
-        db.session.delete(pdf_record)
 
-        print("PDF record removed")
+        # ========================================
+        # RAG PIPELINE
+        # ========================================
 
-        db.session.delete(conversation)
+        # Extract text
 
-        print("conversation removed")
+        text = embedding_service.extract_text(filepath)
+
+
+        # Check for PDFs with no selectable text
+
+        if not text.strip():
+
+            raise ValueError("NO_TEXT")
+
+
+        # Chunk text
+
+        chunks = embedding_service.chunk_text(text)
+
+
+        # Store chunks + embeddings in Chroma
+
+        retrieval_service.store_chunks(
+            chunks,
+            pdf_record.id,
+            pdf_record.original_filename
+        )
+
+        embeddings_stored = True
+
+
+        # ========================================
+        # EVERYTHING SUCCESSFUL
+        # ========================================
 
         db.session.commit()
 
+
+        return jsonify({
+            "success": True,
+            "conversation_id": conversation.id
+        })
+
+
+    except ValueError as error:
+
+        # ========================================
+        # EXPECTED PDF ERRORS
+        # ========================================
+
+        error_code = str(error)
+
+
+        # Remove Chroma embeddings if they were created
+
+        if embeddings_stored and pdf_record:
+
+            try:
+
+                retrieval_service.delete_pdf_embeddings(
+                    pdf_record.id
+                )
+
+            except Exception:
+
+                pass
+
+
+        # Roll back database transaction
+
+        db.session.rollback()
+
+
+        # Remove physical PDF
+
+        if os.path.exists(filepath):
+
+            try:
+
+                os.remove(filepath)
+
+            except PermissionError:
+
+                pass
+
+
         return jsonify({
             "success": False,
-            "error_code": "NO_TEXT"
+            "error_code": error_code
         }), 400
 
 
-    # Chunking text
-    chunks = embedding_service.chunk_text(text)
+    except Exception:
+
+        # ========================================
+        # UNEXPECTED PROCESSING ERROR
+        # ========================================
+
+        if embeddings_stored and pdf_record:
+
+            try:
+
+                retrieval_service.delete_pdf_embeddings(
+                    pdf_record.id
+                )
+
+            except Exception:
+
+                pass
 
 
-    # Storing chunks in Chroma
-    # and creating embeddings.
-    stored_chunks = retrieval_service.store_chunks(
-        chunks,
-        pdf_record.id,
-        pdf_record.original_filename
-    )
-
-    print(retrieval_service.vector_store._collection.count())
+        db.session.rollback()
 
 
-    # ========================================
-    # SUCCESS
-    # ========================================
+        if os.path.exists(filepath):
 
-    return jsonify({
-        "success": True,
-        "conversation_id": conversation.id
-    })
+            try:
+
+                os.remove(filepath)
+
+            except PermissionError:
+
+                pass
+
+
+        return jsonify({
+            "success": False,
+            "error_code": "PROCESSING_FAILED"
+        }), 500

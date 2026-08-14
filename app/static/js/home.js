@@ -159,6 +159,16 @@ document.querySelectorAll(".delete-btn").forEach(button => {
 const uploadSurface = document.querySelector(".upload-surface");
 const pdfInput = document.querySelector("#pdf-input");
 
+function resetUploadState() {
+
+    uploadSurface.classList.remove(
+        "uploading",
+        "upload-complete",
+        "upload-error-state"
+    );
+
+}
+
 if (uploadSurface && pdfInput) {
 
     uploadSurface.addEventListener("click", () => {
@@ -172,7 +182,16 @@ if (uploadSurface && pdfInput) {
 
         if (pdfInput.files.length === 0) return;
 
+        resetUploadState();
+
         uploadSurface.classList.add("uploading");
+
+        // Give the processing state some breathing room
+        // before starting the document upload.
+        await new Promise(resolve => {
+            setTimeout(resolve, 1200);
+        });
+        
 
         // Create FormData from the upload form
         const formData = new FormData(uploadSurface);
@@ -196,7 +215,7 @@ if (uploadSurface && pdfInput) {
 
                 setTimeout(() => {
 
-                    uploadSurface.classList.remove("uploading");
+                    resetUploadState();
 
                     uploadSurface.classList.add("upload-complete");
 
@@ -207,16 +226,55 @@ if (uploadSurface && pdfInput) {
 
                     }, 1200);
 
-                }, 1500);
+                }, 50);
 
             }
 
             else {
 
-                console.log(
-                    "Upload failed:",
-                    data.error_code
-                );
+                const errorMessages = {
+
+                    NO_FILE:
+                        "Please select a PDF before uploading.",
+
+                    INVALID_EXTENSION:
+                        "Vellichor only accepts PDF documents.",
+
+                    INVALID_MIME:
+                        "This file doesn't appear to be a valid PDF.",
+
+                    PASSWORD_PROTECTED:
+                        "This PDF is password-protected. Please upload an unlocked PDF.",
+
+                    NO_TEXT:
+                        "We couldn't find selectable text in this PDF. Please upload a text-based document.",
+
+                    PROCESSING_FAILED:
+                        "Something went wrong while preparing your document. Please try again."
+
+                };
+
+
+                const errorMessage =
+                    errorMessages[data.error_code]
+                    || errorMessages.PROCESSING_FAILED;
+
+
+                const errorMessageElement =
+                    document.querySelector("#upload-error-message");
+
+
+                if (errorMessageElement) {
+
+                    errorMessageElement.textContent =
+                        errorMessage;
+
+                }
+
+
+                resetUploadState();
+
+                uploadSurface.classList.add("upload-error-state");
 
             }
 

@@ -1334,6 +1334,43 @@
 }
 
 /* ========================================
+   ERROR STATE
+======================================== */
+
+.upload-error {
+
+    opacity:0;
+    visibility:hidden;
+
+    transform:translateY(12px);
+}
+
+
+/* ========================================
+   UPLOAD ERROR
+======================================== */
+
+.upload-surface.upload-error-state .upload-idle,
+.upload-surface.upload-error-state .upload-processing,
+.upload-surface.upload-error-state .upload-success {
+
+    opacity:0;
+    visibility:hidden;
+
+    transform:translateY(-12px);
+}
+
+
+.upload-surface.upload-error-state .upload-error {
+
+
+    opacity:1;
+    visibility:visible;
+
+    transform:translateY(0);
+}
+
+/* ========================================
    WORKSPACE TYPOGRAPHY
 ======================================== */
 
