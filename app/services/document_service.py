@@ -1,16 +1,39 @@
-ALLOWED_MIME_TYPE = "application/pdf"
-import os 
+import os
 import uuid
+
 from werkzeug.utils import secure_filename
 from flask import current_app
 
-#checking if the filename ends with .pdf only
-def allowed_file(filename):
-    return(
-        "." in filename and filename.rsplit(".",1)[1].lower() == "pdf"
+from supabase import create_client
+
+
+ALLOWED_MIME_TYPE = "application/pdf"
+
+
+# =========================================================
+# SUPABASE CLIENT
+# =========================================================
+
+def get_supabase_client():
+
+    return create_client(
+        current_app.config["SUPABASE_URL"],
+        current_app.config["SUPABASE_SECRET_KEY"]
     )
 
-#Checking for Mimetype
+
+# =========================================================
+# FILE VALIDATION
+# =========================================================
+
+def allowed_file(filename):
+
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower() == "pdf"
+    )
+
+
 def allowed_mimetype(pdf):
 
     if pdf.mimetype != ALLOWED_MIME_TYPE:
@@ -24,11 +47,43 @@ def allowed_mimetype(pdf):
 
     return file_signature == b"%PDF-"
 
-#Saving PDF in uploads folder
+
+# =========================================================
+# SAVE PDF
+# =========================================================
+
 def save_pdf(pdf):
-    original_filename = secure_filename(pdf.filename)
+
+    original_filename = secure_filename(
+        pdf.filename
+    )
 
     unique_filename = f"{uuid.uuid4()}.pdf"
+
+
+    # -----------------------------------------------------
+    # LOCAL DEVELOPMENT
+    # -----------------------------------------------------
+
+    if current_app.config["ENVIRONMENT"] == "development":
+
+        filepath = os.path.join(
+            current_app.config["UPLOAD_FOLDER"],
+            unique_filename
+        )
+
+        pdf.save(filepath)
+
+        return (
+            original_filename,
+            unique_filename,
+            filepath
+        )
+
+
+    # -----------------------------------------------------
+    # PRODUCTION
+    # -----------------------------------------------------
 
     filepath = os.path.join(
         current_app.config["UPLOAD_FOLDER"],
@@ -37,4 +92,60 @@ def save_pdf(pdf):
 
     pdf.save(filepath)
 
-    return original_filename, unique_filename, filepath
+
+    supabase = get_supabase_client()
+
+    with open(filepath, "rb") as file:
+
+        supabase.storage \
+            .from_(
+                current_app.config["SUPABASE_BUCKET"]
+            ) \
+            .upload(
+                path=unique_filename,
+                file=file,
+                file_options={
+                    "content-type": ALLOWED_MIME_TYPE
+                }
+            )
+
+
+    return (
+        original_filename,
+        unique_filename,
+        filepath
+    )
+
+
+def delete_stored_pdf(stored_filename):
+
+    # -------------------------------------------------
+    # LOCAL
+    # -------------------------------------------------
+
+    if current_app.config["ENVIRONMENT"] == "development":
+
+        filepath = os.path.join(
+            current_app.config["UPLOAD_FOLDER"],
+            stored_filename
+        )
+
+        if os.path.exists(filepath):
+            os.remove(filepath)
+
+        return
+
+
+    # -------------------------------------------------
+    # PRODUCTION
+    # -------------------------------------------------
+
+    supabase = get_supabase_client()
+
+    supabase.storage \
+        .from_(
+            current_app.config["SUPABASE_BUCKET"]
+        ) \
+        .remove([
+            stored_filename
+        ])

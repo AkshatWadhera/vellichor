@@ -213,6 +213,17 @@ def upload_pdf():
         db.session.rollback()
 
 
+        try:
+
+            document_service.delete_stored_pdf(
+                unique_filename
+            )
+
+        except Exception:
+
+            pass
+
+
         if os.path.exists(filepath):
 
             try:

@@ -3,7 +3,7 @@ from flask import current_app
 
 from app import db
 from app.models import Conversation, Message
-from app.services import retrieval_service, llm_service
+from app.services import retrieval_service, llm_service, document_service
 
 # Reading Functions
 
@@ -96,13 +96,7 @@ def delete_conversation(conversation_id, user_id):
     stored_filename = pdf.stored_filename
     pdf_id = pdf.id
 
-    pdf_path = os.path.join(
-        current_app.config["UPLOAD_FOLDER"],
-        stored_filename
-    )
-
-    if os.path.exists(pdf_path):
-        os.remove(pdf_path)
+    document_service.delete_stored_pdf(stored_filename)
 
     retrieval_service.delete_pdf_embeddings(pdf_id)
 
