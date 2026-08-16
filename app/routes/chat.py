@@ -54,16 +54,36 @@ def send_message(conversation_id):
     })
 
 
-#Route for Deleting Chat
-@chat.route("/<int:conversation_id>/delete",methods=["POST"])
+# Route for Deleting Chat
+@chat.route("/<int:conversation_id>/delete", methods=["POST"])
 def delete_chat(conversation_id):
 
-    chat_service.delete_conversation(conversation_id,current_user.id)
+    referrer = request.referrer or ""
+
+    # If the deleted conversation is the currently open chat,
+    # redirect to the upload workspace.
+    if referrer.endswith(f"/chat/{conversation_id}"):
+
+        chat_service.delete_conversation(
+            conversation_id,
+            current_user.id
+        )
+
+        return redirect(
+            url_for("main.home")
+        )
+
+
+    # Otherwise, the deleted conversation is not the
+    # currently active chat, so stay where the user is.
+    chat_service.delete_conversation(
+        conversation_id,
+        current_user.id
+    )
 
     return redirect(
-        
-            request.referrer or url_for("main.home")
-        )
+        referrer or url_for("main.home")
+    )
     
 
 #Route for Renaming Chat

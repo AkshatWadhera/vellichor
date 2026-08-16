@@ -66,6 +66,7 @@ function transitionTo(targetState) {
         return;
     }
 
+    // Starting a transition now
     isTransitioning = true;
 
 
@@ -85,7 +86,7 @@ function transitionTo(targetState) {
         landingIntro.classList.remove("mechanical-press");
         landingIntro.classList.add("transitioning");
 
-    }, 75);
+    }, 70);
 
 
     // -----------------------------------------------------
@@ -96,7 +97,7 @@ function transitionTo(targetState) {
 
         shutter.classList.add("closed");
 
-    }, 125);
+    }, 45);
 
 
     // -----------------------------------------------------

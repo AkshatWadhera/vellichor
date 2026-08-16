@@ -238,10 +238,10 @@ if (uploadSurface && pdfInput) {
                         "Please select a PDF before uploading.",
 
                     INVALID_EXTENSION:
-                        "Vellichor only accepts PDF documents.",
+                        "Vellichor only accepts PDF documents. Please upload a PDF document.",
 
                     INVALID_MIME:
-                        "This file doesn't appear to be a valid PDF.",
+                        "This file doesn't appear to be a valid PDF. Try again.",
 
                     PASSWORD_PROTECTED:
                         "This PDF is password-protected. Please upload an unlocked PDF.",
@@ -493,11 +493,11 @@ function appendMessage(role, content) {
     messagesContainer.appendChild(message);
 
 
-    message.scrollIntoView({
+    messagesContainer.scrollTo({
 
-        behavior: "smooth",
+        top: messagesContainer.scrollHeight,
 
-        block: "end"
+        behavior: "smooth"
 
     });
 
@@ -535,6 +535,58 @@ if (composerForm && composerInput) {
 
 
 /* ========================================
+   THINKING MESSAGE
+======================================== */
+
+function appendThinkingMessage() {
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message assistant thinking-message";
+
+
+    const body =
+        document.createElement("div");
+
+    body.className =
+        "message-content";
+
+
+    body.innerHTML = `
+        <div class="thinking-indicator">
+
+            <span class="thinking-orbit orbit-one"></span>
+            <span class="thinking-orbit orbit-two"></span>
+            <span class="thinking-orbit orbit-three"></span>
+
+            <span class="thinking-core">✦</span>
+
+        </div>
+    `;
+
+
+    message.appendChild(body);
+
+    messagesContainer.appendChild(message);
+
+
+    messagesContainer.scrollTo({
+
+        top: messagesContainer.scrollHeight,
+
+        behavior: "smooth"
+
+    });
+
+
+    return message;
+
+}
+
+
+/* ========================================
    SEND MESSAGE
 ======================================== */
 
@@ -563,6 +615,13 @@ if (composerForm) {
             composerInput.value = "";
 
 
+            const thinkingMessage =
+                appendThinkingMessage();
+
+            const thinkingStartedAt =
+                Date.now();
+
+
             const formData =
                 new FormData();
 
@@ -584,6 +643,42 @@ if (composerForm) {
 
             const data =
                 await response.json();
+
+
+            /* ========================================
+               MINIMUM THINKING TIME
+            ======================================== */
+
+            const thinkingElapsed =
+                Date.now() - thinkingStartedAt;
+
+
+            const minimumThinkingTime =
+                2800;
+
+
+            const remainingThinkingTime =
+                Math.max(
+                    0,
+                    minimumThinkingTime - thinkingElapsed
+                );
+
+
+            if (remainingThinkingTime > 0) {
+
+                await new Promise(resolve => {
+
+                    setTimeout(
+                        resolve,
+                        remainingThinkingTime
+                    );
+
+                });
+
+            }
+
+
+            thinkingMessage.remove();
 
 
             appendMessage(

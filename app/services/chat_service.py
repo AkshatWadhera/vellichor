@@ -160,9 +160,7 @@ def generate_ai_response(conversation_id, user_message):
     context = build_context(chunks)
 
     #AI Response Generated (Sending User Message + PDF Context Chunks)
-    print("=" * 50)
-    print(context)
-    print("=" * 50)
+    
     ai_response = llm_service.generate_response(
         user_message,
         context,
