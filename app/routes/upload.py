@@ -54,17 +54,38 @@ def upload_pdf():
     # SAVING PDF
     # ========================================
 
-    original_filename, unique_filename, filepath = \
-        document_service.save_pdf(pdf)
+    try:
 
-    file_size = os.path.getsize(filepath)
+        original_filename, unique_filename, filepath = \
+            document_service.save_pdf(pdf)
+
+        file_size = os.path.getsize(filepath)
+
+        current_app.logger.info(
+            "PDF saved successfully: %s",
+            original_filename
+        )
+
+    except Exception:
+
+        current_app.logger.exception(
+            "PDF storage failed"
+        )
+
+        return jsonify({
+            "success": False,
+            "error_code": "PROCESSING_FAILED"
+        }), 500
 
 
     conversation = None
     pdf_record = None
     embeddings_stored = False
 
-    print("Saved temporary PDF:", filepath)
+    current_app.logger.info(
+        "Beginning PDF processing: %s",
+        original_filename
+    )
 
 
     try:
@@ -97,6 +118,11 @@ def upload_pdf():
 
         db.session.flush()
 
+        current_app.logger.info(
+            "Database records created for PDF: %s",
+            original_filename
+        )
+
 
         # ========================================
         # RAG PIPELINE
@@ -104,7 +130,17 @@ def upload_pdf():
 
         # Extract text
 
+        current_app.logger.info(
+            "Extracting text from PDF: %s",
+            original_filename
+        )
+
         text = embedding_service.extract_text(filepath)
+
+        current_app.logger.info(
+            "PDF text extraction completed: %s",
+            original_filename
+        )
 
 
         # Check for PDFs with no selectable text
@@ -116,10 +152,25 @@ def upload_pdf():
 
         # Chunk text
 
+        current_app.logger.info(
+            "Chunking PDF text: %s",
+            original_filename
+        )
+
         chunks = embedding_service.chunk_text(text)
 
+        current_app.logger.info(
+            "PDF chunking completed: %s chunks",
+            len(chunks)
+        )
 
-        # Store chunks + embeddings in Chroma
+
+        # Store chunks + embeddings
+
+        current_app.logger.info(
+            "Storing embeddings for PDF: %s",
+            original_filename
+        )
 
         retrieval_service.store_chunks(
             chunks,
@@ -129,6 +180,11 @@ def upload_pdf():
 
         embeddings_stored = True
 
+        current_app.logger.info(
+            "Embeddings stored successfully for PDF: %s",
+            original_filename
+        )
+
 
         # ========================================
         # EVERYTHING SUCCESSFUL
@@ -136,12 +192,26 @@ def upload_pdf():
 
         db.session.commit()
 
+        current_app.logger.info(
+            "PDF database transaction committed: %s",
+            original_filename
+        )
+
+
+        # Remove temporary production file
+
         if (
             current_app.config["ENVIRONMENT"] == "production"
             and os.path.exists(filepath)
         ):
 
             os.remove(filepath)
+
+            current_app.logger.info(
+                "Temporary production PDF removed: %s",
+                original_filename
+            )
+
 
         return jsonify({
             "success": True,
@@ -157,8 +227,13 @@ def upload_pdf():
 
         error_code = str(error)
 
+        current_app.logger.info(
+            "Expected PDF processing error: %s",
+            error_code
+        )
 
-        # Remove Chroma embeddings if they were created
+
+        # Remove embeddings if they were created
 
         if embeddings_stored and pdf_record:
 
@@ -170,7 +245,9 @@ def upload_pdf():
 
             except Exception:
 
-                pass
+                current_app.logger.exception(
+                    "Failed to remove embeddings during PDF cleanup"
+                )
 
 
         # Roll back database transaction
@@ -188,7 +265,9 @@ def upload_pdf():
 
             except PermissionError:
 
-                pass
+                current_app.logger.exception(
+                    "Unable to remove PDF during cleanup"
+                )
 
 
         return jsonify({
@@ -203,6 +282,13 @@ def upload_pdf():
         # UNEXPECTED PROCESSING ERROR
         # ========================================
 
+        current_app.logger.exception(
+            "PDF processing failed"
+        )
+
+
+        # Remove embeddings if they were created
+
         if embeddings_stored and pdf_record:
 
             try:
@@ -213,22 +299,17 @@ def upload_pdf():
 
             except Exception:
 
-                pass
+                current_app.logger.exception(
+                    "Failed to remove embeddings during PDF cleanup"
+                )
 
+
+        # Roll back database transaction
 
         db.session.rollback()
 
 
-        try:
-
-            document_service.delete_stored_pdf(
-                unique_filename
-            )
-
-        except Exception:
-
-            pass
-
+        # Remove physical PDF
 
         if os.path.exists(filepath):
 
@@ -238,7 +319,9 @@ def upload_pdf():
 
             except PermissionError:
 
-                pass
+                current_app.logger.exception(
+                    "Unable to remove PDF during cleanup"
+                )
 
 
         return jsonify({
