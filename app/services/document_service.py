@@ -85,36 +85,54 @@ def save_pdf(pdf):
     # PRODUCTION
     # -----------------------------------------------------
 
-    filepath = os.path.join(
-        current_app.config["UPLOAD_FOLDER"],
-        unique_filename
+    import tempfile
+
+    temp_file = tempfile.NamedTemporaryFile(
+        delete=False,
+        suffix=".pdf"
     )
 
-    pdf.save(filepath)
+    filepath = temp_file.name
+
+    temp_file.close()
 
 
-    supabase = get_supabase_client()
+    try:
 
-    with open(filepath, "rb") as file:
-
-        supabase.storage \
-            .from_(
-                current_app.config["SUPABASE_BUCKET"]
-            ) \
-            .upload(
-                path=unique_filename,
-                file=file,
-                file_options={
-                    "content-type": ALLOWED_MIME_TYPE
-                }
-            )
+        pdf.save(filepath)
 
 
-    return (
-        original_filename,
-        unique_filename,
-        filepath
-    )
+        supabase = get_supabase_client()
+
+        with open(filepath, "rb") as file:
+
+            supabase.storage \
+                .from_(
+                    current_app.config["SUPABASE_BUCKET"]
+                ) \
+                .upload(
+                    path=unique_filename,
+                    file=file,
+                    file_options={
+                        "content-type": ALLOWED_MIME_TYPE
+                    }
+                )
+
+
+        return (
+            original_filename,
+            unique_filename,
+            filepath
+        )
+
+
+    except Exception:
+
+        if os.path.exists(filepath):
+
+            os.remove(filepath)
+
+        raise
 
 
 def delete_stored_pdf(stored_filename):

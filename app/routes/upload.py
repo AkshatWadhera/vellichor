@@ -1,6 +1,6 @@
 import os
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from flask_login import login_required, current_user
 
 from app import db
@@ -136,6 +136,12 @@ def upload_pdf():
 
         db.session.commit()
 
+        if (
+            current_app.config["ENVIRONMENT"] == "production"
+            and os.path.exists(filepath)
+        ):
+
+            os.remove(filepath)
 
         return jsonify({
             "success": True,
