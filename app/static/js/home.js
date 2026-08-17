@@ -185,12 +185,7 @@ if (uploadSurface && pdfInput) {
         resetUploadState();
 
         uploadSurface.classList.add("uploading");
-
-        // Give the processing state some breathing room
-        // before starting the document upload.
-        await new Promise(resolve => {
-            setTimeout(resolve, 1200);
-        });
+        
         
 
         // Create FormData from the upload form
@@ -213,20 +208,19 @@ if (uploadSurface && pdfInput) {
 
             if (data.success) {
 
+                resetUploadState();
+
+                uploadSurface.classList.add(
+                    "upload-complete"
+                );
+
+
                 setTimeout(() => {
 
-                    resetUploadState();
+                    window.location.href =
+                        `/chat/${data.conversation_id}`;
 
-                    uploadSurface.classList.add("upload-complete");
-
-                    setTimeout(() => {
-
-                        window.location.href =
-                            `/chat/${data.conversation_id}`;
-
-                    }, 1200);
-
-                }, 50);
+                }, 1200);
 
             }
 
