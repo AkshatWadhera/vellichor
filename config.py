@@ -45,7 +45,7 @@ class Config:
         "GROQ_API_KEY"
     )
 
-    GROQ_MODEL = "llama-3.3-70b-versatile"
+    GROQ_MODEL = "llama-3.1-8b-instant"
 
     EMBEDDING_MODEL = (
         "BAAI/bge-small-en-v1.5"
