@@ -1,6 +1,5 @@
 from config import Config
 
-from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_postgres import PGEngine, PGVectorStore
 
@@ -11,10 +10,16 @@ from app.services.embedding_service import embedding_model
 # LOCAL CHROMA
 # =========================================================
 
-vector_store = Chroma(
-    persist_directory=Config.CHROMA_DB_PATH,
-    embedding_function=embedding_model,
-)
+vector_store = None
+
+if Config.ENVIRONMENT == "development":
+
+    from langchain_chroma import Chroma
+
+    vector_store = Chroma(
+        persist_directory=Config.CHROMA_DB_PATH,
+        embedding_function=embedding_model,
+    )
 
 
 # =========================================================
