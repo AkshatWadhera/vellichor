@@ -1,3 +1,4 @@
+from flask import current_app
 import os
 
 import fitz
@@ -36,8 +37,6 @@ class HuggingFaceAPIEmbeddings(Embeddings):
 
         except Exception:
 
-            from flask import current_app
-
             current_app.logger.exception(
                 "Failed to initialize Hugging Face embedding client"
             )
@@ -69,8 +68,6 @@ class HuggingFaceAPIEmbeddings(Embeddings):
 
         except Exception:
 
-            from flask import current_app
-
             current_app.logger.exception(
                 "Hugging Face document embedding request failed"
             )
@@ -81,8 +78,6 @@ class HuggingFaceAPIEmbeddings(Embeddings):
     def embed_query(self, text):
 
         try:
-
-            from flask import current_app
 
             current_app.logger.info(
                 "Generating embedding for user query"
@@ -102,8 +97,6 @@ class HuggingFaceAPIEmbeddings(Embeddings):
             return embedding
 
         except Exception:
-
-            from flask import current_app
 
             current_app.logger.exception(
                 "Hugging Face query embedding request failed"
@@ -165,8 +158,6 @@ def extract_text(pdf_path):
                 text += page.get_text()
 
 
-        from flask import current_app
-
         current_app.logger.info(
             "PDF text extraction completed"
         )
@@ -180,8 +171,6 @@ def extract_text(pdf_path):
 
 
     except Exception:
-
-        from flask import current_app
 
         current_app.logger.exception(
             "PDF text extraction failed"
@@ -212,9 +201,6 @@ def chunk_text(text):
 
         chunks = text_splitter.split_text(text)
 
-
-        from flask import current_app
-
         current_app.logger.info(
             "PDF text chunking completed: %s chunks",
             len(chunks)
@@ -224,9 +210,7 @@ def chunk_text(text):
 
 
     except Exception:
-
-        from flask import current_app
-
+        
         current_app.logger.exception(
             "PDF text chunking failed"
         )
