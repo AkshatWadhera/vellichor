@@ -300,6 +300,8 @@ const composerForm =
 const composerInput =
     document.querySelector("#composer-input");
 
+const composerSubmitButton =
+    composerForm?.querySelector('button[type="submit"]');
 
 /* ========================================
    MARKDOWN RENDERING
@@ -599,6 +601,7 @@ if (composerForm) {
 
             if (!text) return;
 
+            composerSubmitButton.disabled = true;
 
             appendMessage(
                 "user",
@@ -625,60 +628,152 @@ if (composerForm) {
             );
 
 
-            const response =
-                await fetch(
-                    composerForm.action,
-                    {
-                        method: "POST",
-                        body: formData
-                    }
-                );
+            try {
 
-
-            const data =
-                await response.json();
-
-
-            /* ========================================
-               MINIMUM THINKING TIME
-            ======================================== */
-
-            const thinkingElapsed =
-                Date.now() - thinkingStartedAt;
-
-
-            const minimumThinkingTime =
-                2800;
-
-
-            const remainingThinkingTime =
-                Math.max(
-                    0,
-                    minimumThinkingTime - thinkingElapsed
-                );
-
-
-            if (remainingThinkingTime > 0) {
-
-                await new Promise(resolve => {
-
-                    setTimeout(
-                        resolve,
-                        remainingThinkingTime
+                const response =
+                    await fetch(
+                        composerForm.action,
+                        {
+                            method: "POST",
+                            body: formData
+                        }
                     );
 
-                });
+
+                const data =
+                    await response.json();
+
+
+                /* ========================================
+                   AI USAGE LIMIT
+                ======================================== */
+
+                if (
+                    response.status === 429 &&
+                    data.error_code === "AI_LIMIT_REACHED"
+                ) {
+
+                    const thinkingElapsed =
+                        Date.now() - thinkingStartedAt;
+
+                    const minimumThinkingTime =
+                        1500;
+
+                    const remainingThinkingTime =
+                        Math.max(
+                            0,
+                            minimumThinkingTime - thinkingElapsed
+                        );
+
+
+                    if (remainingThinkingTime > 0) {
+
+                        await new Promise(resolve => {
+
+                            setTimeout(
+                                resolve,
+                                remainingThinkingTime
+                            );
+
+                        });
+
+                    }
+
+
+                    thinkingMessage.remove();
+
+
+                    appendMessage(
+                        "assistant",
+                        "**A quiet moment for Vellichor.**\n\nToday's AI usage limit has been reached. Please come back a little later."
+                    );
+
+
+                    return;
+                }
+
+
+                /* ========================================
+                   OTHER BACKEND ERRORS
+                ======================================== */
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.error
+                        || "Failed to generate AI response."
+                    );
+
+                }
+
+
+                /* ========================================
+                   MINIMUM THINKING TIME
+                ======================================== */
+
+                const thinkingElapsed =
+                    Date.now() - thinkingStartedAt;
+
+
+                const minimumThinkingTime =
+                    2800;
+
+
+                const remainingThinkingTime =
+                    Math.max(
+                        0,
+                        minimumThinkingTime - thinkingElapsed
+                    );
+
+
+                if (remainingThinkingTime > 0) {
+
+                    await new Promise(resolve => {
+
+                        setTimeout(
+                            resolve,
+                            remainingThinkingTime
+                        );
+
+                    });
+
+                }
+
+
+                thinkingMessage.remove();
+
+
+                appendMessage(
+                    "assistant",
+                    data.assistant
+                );
+
 
             }
 
+            catch (error) {
 
-            thinkingMessage.remove();
+                console.error(
+                    "Message request failed:",
+                    error
+                );
 
 
-            appendMessage(
-                "assistant",
-                data.assistant
-            );
+                thinkingMessage.remove();
+
+
+                appendMessage(
+                    "assistant",
+                    "I couldn't complete that request right now. Please try again in a moment."
+                );
+
+            }
+
+            finally {
+
+                composerSubmitButton.disabled = false;
+
+            }
 
         }
     );

@@ -1615,6 +1615,17 @@
     stroke-width:2.4;
 }
 
+.composer-send:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+    box-shadow:none;
+}
+
 
 /* ========================================
    SCROLLBAR CHATSPACE

@@ -1,6 +1,6 @@
-from groq import Groq
+from groq import Groq, RateLimitError
 from flask import current_app
-
+from app.exceptions import AIUsageLimitError
 from config import Config
 
 
@@ -100,6 +100,17 @@ CURRENT USER REQUEST:
 
 
         return response.choices[0].message.content
+
+
+    except RateLimitError as error:
+
+        current_app.logger.warning(
+            "Groq rate limit reached | model=%s | error=%s",
+            Config.GROQ_MODEL,
+            error
+        )
+
+        raise AIUsageLimitError from error
 
 
     except Exception:

@@ -1,5 +1,5 @@
-
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
+from app.exceptions import AIUsageLimitError
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, current_app
 from flask_login import login_required, current_user
 
 
@@ -40,18 +40,35 @@ def send_message(conversation_id):
             "error": "Message cannot be empty."
         }), 400
 
-    assistant_message = chat_service.generate_ai_response(
-        conversation_id=conversation_id,
-        user_message=content,
-    )
 
-    return jsonify({
+    try:
 
-        "user": content,
+        assistant_message = chat_service.generate_ai_response(
+            conversation_id=conversation_id,
+            user_message=content,
+        )
 
-        "assistant": assistant_message.content
 
-    })
+        return jsonify({
+
+            "user": content,
+
+            "assistant": assistant_message.content
+
+        })
+
+
+    except AIUsageLimitError:
+
+        current_app.logger.warning(
+            "AI usage limit reached for conversation %s",
+            conversation_id
+        )
+
+        return jsonify({
+            "success": False,
+            "error_code": "AI_LIMIT_REACHED"
+        }), 429
 
 
 # Route for Deleting Chat
