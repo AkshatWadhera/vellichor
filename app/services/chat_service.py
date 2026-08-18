@@ -115,7 +115,7 @@ def build_conversation_history(conversation):
 
     try:
 
-        messages = conversation.messages[-10:]
+        messages = conversation.messages[-4:]
 
         history = "\n".join(
             f"{message.role.capitalize()}: {message.content}"
