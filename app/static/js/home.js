@@ -173,6 +173,13 @@ if (uploadSurface && pdfInput) {
 
     uploadSurface.addEventListener("click", () => {
 
+        if (
+            uploadSurface.classList.contains("uploading") ||
+            uploadSurface.classList.contains("upload-complete")
+        ) {
+            return;
+        }
+
         pdfInput.click();
 
     });
@@ -242,6 +249,9 @@ if (uploadSurface && pdfInput) {
 
                     NO_TEXT:
                         "We couldn't find selectable text in this PDF. Please upload a text-based document.",
+
+                    FILE_TOO_LARGE:
+                        "This PDF is too large. Please upload a PDF smaller than 16 MB.",
 
                     PROCESSING_FAILED:
                         "Something went wrong while preparing your document. Please try again."
