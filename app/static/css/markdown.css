@@ -493,8 +493,8 @@
 .message-content th{
 
     padding:
-        .85rem
-        1rem;
+        1rem
+        1.1rem;
 
     color:
         var(--text-primary);
@@ -506,6 +506,8 @@
     line-height:1.45;
 
     text-align:left;
+
+    vertical-align:middle;
 
     border-bottom:
         1px solid
@@ -520,23 +522,56 @@
 .message-content td{
 
     padding:
-        .8rem
-        1rem;
+        1rem
+        1.1rem;
 
     color:
         var(--text-primary);
 
     font-size:.9rem;
 
-    line-height:1.55;
+    line-height:1.6;
 
     text-align:left;
+
+    vertical-align:top;
 
     border-bottom:
         1px solid
         rgba(92,72,44,.08);
 }
 
+
+/* ========================================
+   TABLE CELL LISTS
+======================================== */
+
+.message-content td ul,
+.message-content td ol{
+
+    margin:
+        0;
+
+    padding-left:
+        1.15rem;
+}
+
+
+.message-content td li{
+
+    margin-bottom:
+        .35rem;
+
+    padding-left:
+        .1rem;
+}
+
+
+.message-content td li:last-child{
+
+    margin-bottom:
+        0;
+}
 
 /* ========================================
    TABLE ROWS

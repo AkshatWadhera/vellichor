@@ -1928,3 +1928,348 @@
     }
 
 }
+
+
+/* ========================================
+   CONVERSATION MODALS
+======================================== */
+
+.modal-overlay {
+
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 1.5rem;
+
+    background: rgba(38, 30, 21, .20);
+
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity .25s ease,
+        visibility .25s ease;
+
+    z-index: 1000;
+}
+
+
+.modal-overlay.active {
+
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-input::selection {
+    background: #D1CBC1;
+    color: #29251F;
+}
+
+
+/* ========================================
+   MODAL CARD
+======================================== */
+
+.conversation-modal {
+
+    width: min(100% - 2rem, 440px);
+
+    padding: 1.5rem;
+
+    border-radius: 18px;
+
+    background: #FFFEFC;
+
+    border: 1px solid rgba(184,160,124,.18);
+
+    box-shadow:
+        0 10px 25px rgba(55,38,18,.08),
+        0 30px 70px rgba(55,38,18,.12);
+
+    transform: translateY(10px) scale(.98);
+
+    transition:
+        transform .3s cubic-bezier(.22,1,.36,1);
+}
+
+
+.modal-overlay.active .conversation-modal {
+
+    transform: translateY(0) scale(1);
+}
+
+
+/* ========================================
+   MODAL HEADER
+======================================== */
+
+.modal-header {
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: .9rem;
+}
+
+
+.modal-icon {
+
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 11px;
+
+    color: #A07B47;
+
+    background: rgba(195,150,77,.08);
+}
+
+
+.modal-icon svg {
+
+    width: 18px;
+    height: 18px;
+
+    stroke-width: 1.7;
+}
+
+
+.modal-heading {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: .3rem;
+}
+
+
+.modal-heading h2 {
+
+    margin: 0;
+
+    font-size: 1rem;
+
+    font-weight: 600;
+
+    color: #433C35;
+
+    letter-spacing: -.015em;
+}
+
+
+.modal-heading p {
+
+    margin: 0;
+
+    font-size: .82rem;
+
+    line-height: 1.5;
+
+    color: #8B8174;
+}
+
+
+/* ========================================
+   MODAL FORM
+======================================== */
+
+.modal-form {
+
+    margin-top: 1.4rem;
+}
+
+
+.modal-input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: .75rem .85rem;
+
+    border-radius: 10px;
+
+    border: 1px solid rgba(184,160,124,.25);
+
+    background: #FAF8F4;
+
+    color: #433C35;
+
+    font-family: inherit;
+    font-size: .88rem;
+
+    outline: none;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+
+.modal-input:focus {
+
+    border-color: rgba(160,123,71,.45);
+
+    background: #FFFFFF;
+
+    box-shadow:
+        0 0 0 3px rgba(195,150,77,.08);
+}
+
+
+/* ========================================
+   MODAL ACTIONS
+======================================== */
+
+.modal-actions {
+
+    display: flex;
+    justify-content: flex-end;
+
+    gap: .6rem;
+
+    margin-top: 1.25rem;
+}
+
+
+.modal-btn {
+
+    padding: .55rem .9rem;
+
+    border-radius: 9px;
+
+    border: 1px solid transparent;
+
+    font-family: inherit;
+    font-size: .8rem;
+    font-weight: 550;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+}
+
+
+.modal-btn:active {
+
+    transform: translateY(1px);
+}
+
+
+.modal-cancel {
+
+    color: #71685E;
+
+    background: transparent;
+
+    border-color: rgba(184,160,124,.20);
+}
+
+
+.modal-cancel:hover {
+
+    background: rgba(184,160,124,.07);
+
+    border-color: rgba(184,160,124,.30);
+}
+
+
+.modal-confirm {
+
+    color: #FFFFFF;
+
+    background: #A07B47;
+}
+
+
+.modal-confirm:hover {
+
+    background: #8F6C3E;
+}
+
+
+/* ========================================
+   DELETE MODAL
+======================================== */
+
+.delete-modal {
+
+    width: min(420px, 100%);
+}
+
+
+/* ========================================
+   DELETE ICON
+======================================== */
+
+.delete-icon {
+
+    color: #A7655A;
+
+    background: rgba(167,101,90,.08);
+}
+
+
+/* ========================================
+   CONVERSATION NAME
+======================================== */
+
+.delete-conversation-name {
+
+    margin-top: 1.25rem;
+
+    padding: .7rem .85rem;
+
+    border-radius: 10px;
+
+    background: rgba(195,150,77,.055);
+
+    border: 1px solid rgba(184,160,124,.20);
+
+    color: #433C35;
+
+    font-size: .84rem;
+
+    font-weight: 550;
+
+    line-height: 1.4;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ========================================
+   DELETE BUTTON
+======================================== */
+
+.modal-delete {
+
+    color: #FFFFFF;
+
+    background: #A7655A;
+}
+
+
+.modal-delete:hover {
+
+    background: #91564D;
+}

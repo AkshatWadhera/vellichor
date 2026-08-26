@@ -449,6 +449,127 @@
 
 </div>
 
+<!-- ========================================
+     RENAME CONVERSATION MODAL
+======================================== -->
+
+<div class="modal-overlay" id="rename-modal">
+
+    <div class="conversation-modal">
+
+        <div class="modal-header">
+
+            <div class="modal-icon">
+                <i data-lucide="pencil"></i>
+            </div>
+
+            <div class="modal-heading">
+
+                <h2>
+                    Rename conversation
+                </h2>
+
+                <p>
+                    Give this workspace a new name.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form class="modal-form" id="rename-form">
+
+            <input
+                type="text"
+                id="rename-input"
+                class="modal-input"
+                autocomplete="off"
+                maxlength="100"
+            >
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="modal-btn modal-cancel"
+                    id="rename-cancel"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="modal-btn modal-confirm"
+                >
+                    Rename
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================
+     DELETE CONVERSATION MODAL
+======================================== -->
+
+<div class="modal-overlay" id="delete-modal">
+
+    <div class="conversation-modal delete-modal">
+
+        <div class="modal-header">
+
+            <div class="modal-icon delete-icon">
+                <i data-lucide="trash-2"></i>
+            </div>
+
+            <div class="modal-heading">
+
+                <h2>
+                    Delete conversation?
+                </h2>
+
+                <p>
+                    This conversation and its messages will be permanently removed.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="delete-conversation-name">
+            <span id="delete-conversation-name"></span>
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="modal-btn modal-cancel"
+                id="delete-cancel"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                class="modal-btn modal-delete"
+                id="delete-confirm"
+            >
+                Delete
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}
 
 {% block scripts %}

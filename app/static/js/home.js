@@ -82,6 +82,27 @@ function postAction(conversationId, action, data = {}) {
 
 
 // Rename Convo
+// ========================================
+// RENAME CONVERSATION
+// ========================================
+
+const renameModal =
+    document.querySelector("#rename-modal");
+
+const renameForm =
+    document.querySelector("#rename-form");
+
+const renameInput =
+    document.querySelector("#rename-input");
+
+const renameCancel =
+    document.querySelector("#rename-cancel");
+
+let renameConversationId = null;
+let renameCurrentTitle = "";
+
+
+// Open Rename Modal
 document.querySelectorAll(".rename-btn").forEach(button => {
 
     button.addEventListener("click", (event) => {
@@ -89,23 +110,87 @@ document.querySelectorAll(".rename-btn").forEach(button => {
         event.preventDefault();
         event.stopPropagation();
 
-        const card = button.closest(".workspace-card");
 
-        const conversationId = card.dataset.conversationId;
+        const card =
+            button.closest(".workspace-card");
 
-        const currentTitle = card.querySelector(".workspace-title-small").textContent.trim();
 
-        const newTitle = prompt("Rename conversation", currentTitle);
+        renameConversationId =
+            card.dataset.conversationId;
 
-        // Ask for a new title and stop if the user
-        // cancels, enters nothing, or keeps the same title.
-        if (!newTitle || newTitle.trim() === currentTitle) return;
 
-        postAction(conversationId, "rename", {
-            title: newTitle.trim()
-        });
+        renameCurrentTitle =
+            card
+                .querySelector(".workspace-title-small")
+                .textContent
+                .trim();
+
+
+        renameInput.value =
+            renameCurrentTitle;
+
+
+        renameModal.classList.add("active");
+
+
+        renameModal.classList.add("active");
+
+        setTimeout(() => {
+
+            renameInput.focus();
+            renameInput.select();
+
+        }, 50);
 
     });
+
+});
+
+
+// Cancel Rename
+renameCancel.addEventListener("click", () => {
+
+    renameModal.classList.remove("active");
+
+    renameConversationId = null;
+
+});
+
+
+// Submit Rename
+renameForm.addEventListener("submit", (event) => {
+
+    event.preventDefault();
+
+
+    const newTitle =
+        renameInput.value.trim();
+
+
+    // Nothing entered
+    if (!newTitle){
+        renameModal.classList.remove("active");
+        return;
+    }
+
+
+    // Same title
+    if (newTitle === renameCurrentTitle) {
+
+        renameModal.classList.remove("active");
+
+        return;
+
+    }
+
+
+    postAction(
+        renameConversationId,
+        "rename",
+        {
+            title: newTitle
+        }
+    );
 
 });
 
@@ -128,7 +213,26 @@ document.querySelectorAll(".pin-btn").forEach(button => {
 });
 
 
-// Delete Convo
+// ========================================
+// DELETE CONVERSATION
+// ========================================
+
+const deleteModal =
+    document.querySelector("#delete-modal");
+
+const deleteCancel =
+    document.querySelector("#delete-cancel");
+
+const deleteConfirm =
+    document.querySelector("#delete-confirm");
+
+const deleteConversationName =
+    document.querySelector("#delete-conversation-name");
+
+let deleteConversationId = null;
+
+
+// Open Delete Modal
 document.querySelectorAll(".delete-btn").forEach(button => {
 
     button.addEventListener("click", (event) => {
@@ -136,18 +240,70 @@ document.querySelectorAll(".delete-btn").forEach(button => {
         event.preventDefault();
         event.stopPropagation();
 
-        const conversationId =
-            button.closest(".workspace-card").dataset.conversationId;
 
-        const confirmed = confirm(
-            "Delete this conversation permanently?"
-        );
+        const card =
+            button.closest(".workspace-card");
 
-        if (!confirmed) return;
 
-        postAction(conversationId, "delete");
+        deleteConversationId =
+            card.dataset.conversationId;
+
+
+        const conversationTitle =
+            card
+                .querySelector(".workspace-title-small")
+                .textContent
+                .trim();
+
+
+        deleteConversationName.textContent =
+            conversationTitle;
+       
+
+        deleteModal.classList.add("active");
 
     });
+
+});
+
+
+// Cancel Delete
+deleteCancel.addEventListener("click", () => {
+
+    deleteModal.classList.remove("active");
+
+    deleteConversationId = null;
+
+});
+
+
+// Confirm Delete
+deleteConfirm.addEventListener("click", (event) => {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+
+    console.log(
+        "Delete confirmed:",
+        deleteConversationId
+    );
+
+
+    if (!deleteConversationId) {
+
+        console.error(
+            "No conversation ID available for deletion."
+        );
+
+        return;
+    }
+
+
+    postAction(
+        deleteConversationId,
+        "delete"
+    );
 
 });
 
@@ -330,7 +486,13 @@ const md = markdownit({
 
 function renderMarkdown(content) {
 
-    return md.render(content);
+    const rendered =
+        md.render(content);
+
+    return rendered.replace(
+        /&lt;br\s*\/?&gt;/gi,
+        "<br>"
+    );
 
 }
 
