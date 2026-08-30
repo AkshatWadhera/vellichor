@@ -73,6 +73,7 @@ def send_message(conversation_id):
 
 # Route for Deleting Chat
 @chat.route("/<int:conversation_id>/delete", methods=["POST"])
+@login_required
 def delete_chat(conversation_id):
 
     referrer = request.referrer or ""
@@ -105,6 +106,7 @@ def delete_chat(conversation_id):
 
 #Route for Renaming Chat
 @chat.route("/<int:conversation_id>/rename",methods=["POST"])
+@login_required
 def rename_chat(conversation_id):
 
     new_title = request.form.get("title","").strip()

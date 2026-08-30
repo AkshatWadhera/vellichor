@@ -4,7 +4,9 @@
 
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home1.css') }}">
-<link rel="stylesheet" href=" {{ url_for('static', filename='css/markdown.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/markdown.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/markdown_mobile.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -201,6 +203,16 @@
     <main class="workspace {{workspace_state}}">
 
         <section class="workspace-content">
+
+            <button
+                type="button"
+                class="mobile-sidebar-toggle"
+                aria-label="Open sidebar"
+            >
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div class="mobile-sidebar-backdrop"></div>
 
             <section class="workspace-canvas {{workspace_state}}">
 

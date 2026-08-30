@@ -951,3 +951,40 @@ if (composerForm) {
     );
 
 }
+
+
+// ========================================
+// MOBILE SIDEBAR
+// Mobile-only interaction
+// ========================================
+
+const mobileSidebarToggle =
+    document.querySelector(".mobile-sidebar-toggle");
+
+const mobileSidebarBackdrop =
+    document.querySelector(".mobile-sidebar-backdrop");
+
+const appShell =
+    document.querySelector(".app-shell");
+
+
+if (mobileSidebarToggle && appShell) {
+
+    mobileSidebarToggle.addEventListener("click", () => {
+
+        appShell.classList.toggle("sidebar-open");
+
+    });
+
+}
+
+
+if (mobileSidebarBackdrop && appShell) {
+
+    mobileSidebarBackdrop.addEventListener("click", () => {
+
+        appShell.classList.remove("sidebar-open");
+
+    });
+
+}

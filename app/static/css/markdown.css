@@ -718,24 +718,3 @@
         normal;
 }
 
-
-/* ========================================
-   SMALL SCREEN TABLE PROTECTION
-======================================== */
-
-@media (max-width:700px){
-
-    .message-content table{
-
-        font-size:.85rem;
-    }
-
-    .message-content th,
-    .message-content td{
-
-        padding:
-            .7rem
-            .75rem;
-    }
-
-}
