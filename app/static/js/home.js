@@ -469,6 +469,31 @@ const composerInput =
 const composerSubmitButton =
     composerForm?.querySelector('button[type="submit"]');
 
+
+/* ========================================
+   COMPOSER AUTO RESIZE
+======================================== */
+
+function resizeComposer() {
+
+    composerInput.style.height = "auto";
+
+    composerInput.style.height =
+        Math.min(composerInput.scrollHeight, 130) + "px";
+
+}
+
+if (composerInput) {
+
+    composerInput.addEventListener(
+        "input",
+        resizeComposer
+    );
+
+    resizeComposer();
+
+}
+
 /* ========================================
    MARKDOWN RENDERING
 ======================================== */
@@ -988,3 +1013,5 @@ if (mobileSidebarBackdrop && appShell) {
     });
 
 }
+
+

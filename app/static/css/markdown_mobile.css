@@ -10,7 +10,7 @@
         max-width: 100%;
         min-width: 0;
 
-        font-size: .84rem;
+        font-size: .79rem;
         line-height: 1.55;
 
         overflow-wrap: break-word;
@@ -28,7 +28,7 @@
         margin:
             0
             0
-            .55rem;
+            .45rem;
 
     }
 
@@ -62,8 +62,7 @@
     }
 
     .message-content h2 {
-
-        font-size: .96rem;
+        font-size: .92rem;
         line-height: 1.35;
 
         margin:
@@ -71,6 +70,7 @@
             0
             .35rem;
 
+        font-weight: 600;
     }
 
     .message-content h3 {
@@ -83,13 +83,37 @@
             0
             .3rem;
 
+        font-weight: 600;
+
+    }
+
+    .message-content h4 {
+
+        font-size: .84rem;
+        line-height: 1.4;
+
+        margin:
+            .55rem
+            0
+            .25rem;
+
+        font-weight: 600;
+
     }
 
     .message-content strong {
 
-        font-weight: 650;
+        font-weight: 550;
+
+        font-size: .94em;
 
     }
+
+    .message-content em {
+        font-size: .79rem;
+        font-style: italic;
+    }
+
 
 }
 
@@ -103,11 +127,11 @@
     .message-content ol {
 
         margin:
-            .4rem
+            .45rem
             0
-            .6rem;
+            .55rem;
 
-        padding-left: 1.05rem;
+        padding-left: 1.15rem;
 
     }
 
@@ -116,30 +140,87 @@
 
         margin-bottom: .22rem;
 
-        padding-left: .08rem;
+        padding-left: .12rem;
+
+        line-height: 1.55;
 
     }
 
 
-    /* First nested level */
+    /* ----------------------------------------
+       UNORDERED LIST MARKER
+    ---------------------------------------- */
+
+    .message-content ul > li::marker {
+
+        color: rgba(181, 143, 73, .78);
+
+        font-size: .72em;
+
+    }
+
+
+    /* ----------------------------------------
+    ORDERED LIST MARKER
+    ---------------------------------------- */
+
+    .message-content ol > li::marker {
+
+        color: rgba(181, 143, 73, .72);
+
+        font-weight: 700;
+
+        font-size: .74em;
+
+    }
+
+
+    /* ----------------------------------------
+    ORDERED LIST STRONG TEXT
+    ---------------------------------------- */
+
+    .message-content ol > li > strong {
+
+        font-weight: 550;
+
+        font-size: .94em;
+
+    }
+
+
+    /* ----------------------------------------
+       NESTED LISTS
+    ---------------------------------------- */
 
     .message-content li > ul,
     .message-content li > ol {
 
-        margin-top: .2rem;
-        margin-bottom: .25rem;
+        margin:
+            .18rem
+            0
+            .28rem;
 
-        padding-left: .95rem;
+        padding-left: 1rem;
 
     }
 
 
-    /* Second nested level */
+    .message-content li > ul > li,
+    .message-content li > ol > li {
+
+        margin-bottom: .16rem;
+
+    }
+
+
+    /* ----------------------------------------
+       SECOND NESTED LEVEL
+    ---------------------------------------- */
 
     .message-content li > ul > li > ul,
     .message-content li > ol > li > ol {
 
-        padding-left: .85rem;
+        padding-left: .9rem;
 
     }
 
@@ -155,28 +236,27 @@
     .message-content blockquote {
 
         margin:
-            .6rem
+            .55rem
             0;
 
         padding:
-            .35rem
+            .3rem
             0
-            .35rem
+            .3rem
             .65rem;
 
         border-left:
             2px solid
-            rgba(195, 150, 77, .5);
+            rgba(181, 143, 73, .42);
 
         color:
             var(--text-secondary);
 
-        font-size: .81rem;
+        font-size: .77rem;
 
         line-height: 1.5;
 
     }
-
 }
 
 /* ========================================
@@ -258,7 +338,7 @@
         min-width: 135px;
 
         padding:
-            .48rem
+            .45rem
             .55rem;
 
         vertical-align: top;
@@ -305,10 +385,17 @@
 
     .message-content code {
 
-        font-size: .78rem;
+        font-size: .77rem;
 
         overflow-wrap: break-word;
 
+    }
+
+    .message-content :not(pre) > code {
+        padding: .08rem .32rem;
+        border-radius: 5px;
+        background: rgba(181, 143, 73, .10);
+        border: 1px solid rgba(181, 143, 73, .12);
     }
 
 
@@ -317,6 +404,8 @@
         width: 100%;
         max-width: 100%;
         min-width: 0;
+
+        padding: .72rem .78rem;
 
         margin:
             .65rem
@@ -327,6 +416,17 @@
         -webkit-overflow-scrolling: touch;
 
         scrollbar-width: none;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(235, 220, 198, .82),
+                rgba(225, 208, 182, .72)
+            );
+        border: 1px solid rgba(181, 143, 73, .16);
+        box-shadow:
+            0 5px 16px rgba(67, 46, 25, .06),
+            inset 0 1px rgba(255, 252, 246, .55);
 
     }
 
@@ -345,9 +445,9 @@
         width: max-content;
         max-width: none;
 
-        font-size: .72rem;
-
-        line-height: 1.5;
+        font-size: .70rem;
+        line-height: 1.55;
+        letter-spacing: .005em;
 
         white-space: pre;
 
