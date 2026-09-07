@@ -1,12 +1,8 @@
 /* ========================================
-   MOBILE MARKDOWN
+   MOBILE MARKDOWN TYPOGRAPHY
 ======================================== */
 
 @media (max-width: 768px) {
-
-    /* ----------------------------------------
-       FOUNDATION
-    ---------------------------------------- */
 
     .message-content {
 
@@ -14,18 +10,11 @@
         max-width: 100%;
         min-width: 0;
 
+        font-size: .84rem;
+        line-height: 1.55;
+
         overflow-wrap: break-word;
         word-break: normal;
-
-    }
-
-
-    /* Prevent Markdown elements from
-       creating horizontal page overflow */
-
-    .message-content * {
-
-        max-width: 100%;
 
     }
 
@@ -39,7 +28,7 @@
         margin:
             0
             0
-            .5rem;
+            .55rem;
 
     }
 
@@ -62,44 +51,39 @@
 
     .message-content h1 {
 
-        font-size: 1.12rem;
+        font-size: 1.05rem;
         line-height: 1.3;
 
         margin:
-            .9rem
-            0
-            .45rem;
-
-    }
-
-    .message-content h2 {
-
-        font-size: 1rem;
-        line-height: 1.35;
-
-        margin:
-            .8rem
+            .85rem
             0
             .4rem;
 
     }
 
-    .message-content h3 {
+    .message-content h2 {
 
-        font-size: .92rem;
-        line-height: 1.4;
+        font-size: .96rem;
+        line-height: 1.35;
 
         margin:
-            .7rem
+            .75rem
             0
             .35rem;
 
     }
 
+    .message-content h3 {
 
-    /* ----------------------------------------
-       EMPHASIS
-    ---------------------------------------- */
+        font-size: .90rem;
+        line-height: 1.4;
+
+        margin:
+            .65rem
+            0
+            .3rem;
+
+    }
 
     .message-content strong {
 
@@ -107,114 +91,121 @@
 
     }
 
+}
 
-    /* ----------------------------------------
-       LISTS
-    ---------------------------------------- */
+/* ========================================
+   MOBILE MARKDOWN LISTS
+======================================== */
+
+@media (max-width: 768px) {
 
     .message-content ul,
     .message-content ol {
 
-        padding-left: 1.2rem;
-
         margin:
-            .45rem
+            .4rem
             0
-            .7rem;
+            .6rem;
+
+        padding-left: 1.05rem;
 
     }
 
 
     .message-content li {
 
-        margin-bottom: .28rem;
+        margin-bottom: .22rem;
+
+        padding-left: .08rem;
 
     }
 
 
-    /* ----------------------------------------
-       NESTED LISTS
-    ---------------------------------------- */
+    /* First nested level */
 
     .message-content li > ul,
     .message-content li > ol {
 
-        margin-top: .3rem;
-        margin-bottom: .3rem;
+        margin-top: .2rem;
+        margin-bottom: .25rem;
 
-        padding-left: 1.15rem;
-
-    }
-
-
-    /* ----------------------------------------
-       DEEPER NESTING
-    ---------------------------------------- */
-
-    .message-content ul ul,
-    .message-content ul ol,
-    .message-content ol ul,
-    .message-content ol ol {
-
-        margin-top: .25rem;
-        margin-bottom: .3rem;
-
-        padding-left: 1.1rem;
+        padding-left: .95rem;
 
     }
 
 
-    /* ----------------------------------------
-       NESTED LIST ITEM SPACING
-    ---------------------------------------- */
+    /* Second nested level */
 
-    .message-content li > ul > li,
-    .message-content li > ol > li {
+    .message-content li > ul > li > ul,
+    .message-content li > ol > li > ol {
 
-        margin-bottom: .22rem;
+        padding-left: .85rem;
 
     }
 
+}
 
-    /* ----------------------------------------
-       BLOCKQUOTES
-    ---------------------------------------- */
+
+/* ========================================
+   MOBILE MARKDOWN BLOCKQUOTES
+======================================== */
+
+@media (max-width: 768px) {
 
     .message-content blockquote {
 
         margin:
-            .65rem
+            .6rem
             0;
 
         padding:
-            .45rem
+            .35rem
             0
-            .45rem
-            .75rem;
+            .35rem
+            .65rem;
 
-        font-size: .84rem;
+        border-left:
+            2px solid
+            rgba(195, 150, 77, .5);
 
-        line-height: 1.55;
+        color:
+            var(--text-secondary);
+
+        font-size: .81rem;
+
+        line-height: 1.5;
 
     }
 
+}
 
-    /* ----------------------------------------
-       HORIZONTAL RULES
-    ---------------------------------------- */
+/* ========================================
+   MOBILE MARKDOWN DIVIDERS
+======================================== */
+
+@media (max-width: 768px) {
 
     .message-content hr {
 
         margin:
-            .9rem
+            .75rem
             0;
+
+        border: 0;
+
+        border-top:
+            1px solid
+            rgba(92, 72, 44, .12);
 
     }
 
+}
 
-    /* ----------------------------------------
-       TABLES
-    ---------------------------------------- */
+/* ========================================
+   MOBILE MARKDOWN TABLES
+======================================== */
+
+@media (max-width: 768px) {
 
     .message-content table {
 
@@ -229,32 +220,29 @@
         -webkit-overflow-scrolling: touch;
 
         margin:
-            .8rem
+            .7rem
             0
-            .95rem;
+            .8rem;
 
-        font-size: .76rem;
+        font-size: .72rem;
 
-        line-height: 1.5;
+        line-height: 1.45;
 
-        border-radius: 12px;
+        border-radius: 11px;
 
         scrollbar-width: none;
+
         -ms-overflow-style: none;
 
     }
+
 
     .message-content table::-webkit-scrollbar {
 
         display: none;
 
-        width: 0;
-        height: 0;
-
     }
 
-
-    /* Table structure */
 
     .message-content thead,
     .message-content tbody {
@@ -263,14 +251,15 @@
 
     }
 
+
     .message-content th,
     .message-content td {
 
-        min-width: 150px;
+        min-width: 135px;
 
         padding:
-            .55rem
-            .65rem;
+            .48rem
+            .55rem;
 
         vertical-align: top;
 
@@ -279,55 +268,49 @@
     }
 
 
-    /* First column */
-
     .message-content th:first-child,
     .message-content td:first-child {
 
-        min-width: 125px;
+        min-width: 115px;
 
     }
 
-
-    /* Descriptive columns */
 
     .message-content th:not(:first-child),
     .message-content td:not(:first-child) {
 
-        min-width: 175px;
+        min-width: 155px;
 
     }
 
-
-    /* Table headers */
 
     .message-content th {
 
-        font-size: .74rem;
+        font-size: .70rem;
 
         font-weight: 650;
 
-        line-height: 1.4;
+        line-height: 1.35;
 
     }
 
+}
 
-    /* ----------------------------------------
-       INLINE CODE
-    ---------------------------------------- */
+
+/* ========================================
+   MOBILE MARKDOWN CODE
+======================================== */
+
+@media (max-width: 768px) {
 
     .message-content code {
 
-        font-size: .8rem;
+        font-size: .78rem;
 
         overflow-wrap: break-word;
 
     }
 
-
-    /* ----------------------------------------
-       CODE BLOCKS
-    ---------------------------------------- */
 
     .message-content pre {
 
@@ -336,25 +319,14 @@
         min-width: 0;
 
         margin:
-            .8rem
-            0
-            .9rem;
-
-        padding:
-            .8rem
-            .85rem;
+            .65rem
+            0;
 
         overflow-x: auto;
-        overflow-y: hidden;
 
         -webkit-overflow-scrolling: touch;
 
         scrollbar-width: none;
-        -ms-overflow-style: none;
-
-        box-sizing: border-box;
-
-        line-height: 1.55;
 
     }
 
@@ -363,15 +335,8 @@
 
         display: none;
 
-        width: 0;
-        height: 0;
-
     }
 
-
-    /* ----------------------------------------
-       CODE CONTENT
-    ---------------------------------------- */
 
     .message-content pre code {
 
@@ -380,47 +345,11 @@
         width: max-content;
         max-width: none;
 
+        font-size: .72rem;
+
+        line-height: 1.5;
+
         white-space: pre;
-
-        font-size: .76rem;
-        line-height: 1.55;
-
-        overflow-wrap: normal;
-        word-break: normal;
-
-    }
-
-
-
-    /* ----------------------------------------
-       LINKS
-    ---------------------------------------- */
-
-    .message-content a {
-
-        overflow-wrap: break-word;
-        word-break: break-word;
-
-    }
-
-
-    /* ----------------------------------------
-       IMAGES
-    ---------------------------------------- */
-
-    .message-content img {
-
-        display: block;
-
-        width: auto;
-        max-width: 100%;
-        height: auto;
-
-        margin:
-            .7rem
-            0;
-
-        border-radius: 10px;
 
     }
 
