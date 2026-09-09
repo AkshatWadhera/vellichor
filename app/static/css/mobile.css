@@ -1,4 +1,433 @@
+/* =========================================================
+   VELLICHOR — MOBILE CSS
+   ========================================================= */
 
+/* =========================================================
+   PART 1 — UPLOAD PAGE / HOME PAGE
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   UPLOAD / HOME PAGE — CURRENT DESIGN
+   Code preserved exactly; organization/comment only.
+   --------------------------------------------------------- */
+
+/* ========================================
+   MOBILE UPLOAD STATE
+======================================== */
+
+@media (max-width: 768px) {
+
+    /* ----------------------------------------
+       WORKSPACE / VIEWPORT
+    ---------------------------------------- */
+
+    .workspace.upload {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        min-height: 0;
+        padding: 0;
+    }
+
+    .workspace-canvas.upload {
+        position: relative;
+
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        min-height: 0;
+        margin: 0;
+
+        border-radius: 0;
+        border: 0;
+
+        background:
+            linear-gradient(
+                180deg,
+                #F8F1E7 0%,
+                #F4EBDD 100%
+            );
+
+        box-shadow: none;
+        overflow: hidden;
+    }
+
+
+    /* ----------------------------------------
+       SOFT AMBIENT BACKGROUND
+    ---------------------------------------- */
+
+    .workspace-canvas.upload::before {
+        content: "";
+
+        position: absolute;
+        inset: 0;
+
+        pointer-events: none;
+
+        background:
+            radial-gradient(
+                circle at 50% 31%,
+                rgba(255,255,255,.58),
+                transparent 45%
+            ),
+            radial-gradient(
+                circle at 50% 76%,
+                rgba(181,143,73,.055),
+                transparent 44%
+            );
+
+        z-index: 0;
+    }
+    
+    /* LARGE V WATERMARK */
+    .workspace-canvas.upload .empty-state::after {
+        content: "V";
+
+        position: absolute;
+        left: 50%;
+        top: 52%;
+
+        width: max-content;
+        height: auto;
+        
+        font-family: "Playfair Display", serif;
+        font-size: 240vw;
+        line-height: .62;
+        font-weight: 500;
+        letter-spacing: -.14em;
+
+        color: rgba(106, 77, 50, .035);
+
+        transform:
+            translate(-50%, -50%)
+            rotate(-8deg)
+            scaleY(1.15);
+
+        white-space: nowrap;
+
+        pointer-events: none;
+        user-select: none;
+
+        z-index: 1;
+    }
+
+
+    
+
+    /* ----------------------------------------
+       MOBILE BRAND
+    ---------------------------------------- */
+
+    .workspace.upload .workspace-content::after {
+        content: "Vellichor";
+
+        position: fixed;
+
+        top: 1.28rem;
+        left: 50%;
+
+        width: max-content;
+        height: 36px;
+
+        transform: translateX(-50%);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        z-index: 400;
+
+        font-size: 1.45rem;
+        line-height: 1;
+
+        font-weight: 650;
+        letter-spacing: -.045em;
+
+        color: #342D27;
+
+        pointer-events: none;
+        white-space: nowrap;
+    }
+
+
+    /* ----------------------------------------
+       HERO COMPOSITION
+    ---------------------------------------- */
+
+    .workspace-canvas.upload .empty-state {
+        position: relative;
+        z-index: 2;
+
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding:
+            5rem
+            1.25rem
+            3rem;
+    }
+
+
+    .workspace-canvas.upload .canvas-center {
+        position: relative;
+        z-index: 3;
+
+        width: 100%;
+        max-width: 360px;
+
+        margin: 0;
+        padding: 0;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        gap: 0;
+
+        /*
+         * Keeps the hero composition slightly
+         * above the optical center of the phone.
+         */
+        transform: translateY(-4rem);
+    }
+
+
+    /* ----------------------------------------
+       EDITORIAL LABEL
+    ---------------------------------------- */
+
+    .workspace-canvas.upload .canvas-center::before {
+        content: "A NEW VOLUME";
+
+        display: block;
+
+        margin-bottom: 1.15rem;
+
+        font-size: .55rem;
+        line-height: 1;
+
+        font-weight: 600;
+        letter-spacing: .21em;
+
+        color: #8F8170;
+        opacity: .72;
+    }
+
+
+    /* ----------------------------------------
+       TITLE
+    ---------------------------------------- */
+
+    .workspace-canvas.upload .workspace-title {
+        max-width: 340px;
+
+        margin: 0;
+
+        font-size: 2.4rem;
+        line-height: 1;
+
+        font-weight: 600;
+        letter-spacing: -.055em;
+
+        text-align: center;
+
+        color: #342D27;
+    }
+
+
+    /* ----------------------------------------
+       DESCRIPTION
+    ---------------------------------------- */
+
+    .workspace-canvas.upload .workspace-description {
+        max-width: 325px;
+
+        margin:
+            1.05rem
+            0
+            1.55rem;
+
+        font-size: .83rem;
+        line-height: 1.62;
+
+        font-weight: 400;
+
+        text-align: center;
+
+        color: rgba(74,66,58,.62);
+    }
+
+
+    /* ----------------------------------------
+       UPLOAD SURFACE
+    ---------------------------------------- */
+
+    .workspace-canvas.upload .upload-surface {
+        position: relative;
+        z-index: 3;
+
+        width: 100%;
+        min-height: 205px;
+
+        padding:
+            1.8rem
+            1.35rem;
+
+        border-radius: 18px;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(255,255,255,.96),
+                rgba(250,247,241,.94)
+            );
+
+        border:
+            1px solid
+            rgba(181,143,73,.18);
+
+        box-shadow:
+            0 4px 10px rgba(67,46,25,.035),
+            0 18px 38px rgba(67,46,25,.075),
+            inset 0 1px rgba(255,252,246,.92);
+    }
+
+
+    /* ----------------------------------------
+       INNER DOCUMENT FRAME
+    ---------------------------------------- */
+
+    .workspace-canvas.upload .upload-surface::after {
+        inset: 11px;
+
+        border-radius: 14px;
+
+        border:
+            1px solid
+            rgba(181,143,73,.10);
+    }
+
+
+    /* ----------------------------------------
+       UPLOAD CONTENT
+    ---------------------------------------- */
+
+    .workspace-canvas.upload .upload-state {
+        gap: .9rem;
+    }
+
+    .workspace-canvas.upload .upload-icon {
+        color: #A47B43;
+    }
+
+    .workspace-canvas.upload .upload-icon svg {
+        width: 34px;
+        height: 34px;
+
+        stroke-width: 1.65;
+    }
+
+    .workspace-canvas.upload .upload-copy {
+        max-width: 260px;
+        gap: .4rem;
+    }
+
+    .workspace-canvas.upload .upload-text {
+        font-size: .93rem;
+
+        font-weight: 600;
+        letter-spacing: -.012em;
+    }
+
+    .workspace-canvas.upload .upload-subtext {
+        font-size: .76rem;
+        line-height: 1.5;
+
+        color: #8B8174;
+    }
+
+
+    /* ----------------------------------------
+   QUIET LINE + EDITORIAL MARK
+---------------------------------------- */
+
+.workspace-canvas.upload .canvas-center::after {
+    content: "A quiet place for thought.";
+
+    position: relative;
+
+    display: block;
+
+    width: 100%;
+
+    margin-top: 1.35rem;
+    padding-bottom: 1.7rem;
+
+    font-size: .72rem;
+    line-height: 1.4;
+
+    font-weight: 450;
+    letter-spacing: .025em;
+
+    color: rgba(106,77,50,.62);
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent calc(50% - 70px),
+            rgba(181,143,73,.58) calc(50% - 70px),
+            rgba(181,143,73,.58) calc(50% - 25px),
+            transparent calc(50% - 25px)
+        ),
+        radial-gradient(
+            circle at 50% calc(100% - 4px),
+            rgba(181,143,73,.90) 0 3px,
+            transparent 3.8px
+        ),
+        linear-gradient(
+            90deg,
+            transparent calc(50% + 25px),
+            rgba(181,143,73,.58) calc(50% + 25px),
+            rgba(181,143,73,.58) calc(50% + 70px),
+            transparent calc(50% + 70px)
+        );
+
+    background-size:
+        100% 1px,
+        100% 100%,
+        100% 1px;
+
+    background-position:
+        center calc(100% - 5px),
+        center,
+        center calc(100% - 5px);
+
+    background-repeat:
+        no-repeat,
+        no-repeat,
+        no-repeat;
+
+}
+
+
+/* ----------------------------------------------------------------------------------------------------------*/
+
+
+/* =========================================================
+   PART 2 — CHAT
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   CHAT — MOBILE SIDEBAR
+   Current component — not locked.
+   --------------------------------------------------------- */
 
 /* ========================================
    MOBILE SIDEBAR
@@ -27,6 +456,13 @@
 
 
 
+
+
+/* ---------------------------------------------------------
+   CHAT — MOBILE CONVERSATION MENU
+   Current component — not locked.
+   --------------------------------------------------------- */
+
 /* ========================================
    MOBILE CONVERSATION MENU
 ======================================== */
@@ -43,6 +479,13 @@
 
 
 
+
+
+
+/* ---------------------------------------------------------
+   CHAT — MESSAGES
+   Current component — not locked.
+   --------------------------------------------------------- */
 
 /* ========================================
    MOBILE CHAT MESSAGES
@@ -138,6 +581,13 @@
 }
 
 
+
+
+/* ---------------------------------------------------------
+   CHAT — COMPOSER
+   Current component — not locked.
+   --------------------------------------------------------- */
+
 /* ========================================
    MOBILE COMPOSER
 ======================================== */
@@ -207,6 +657,7 @@
 
     }
 
+}
 }
 
 
