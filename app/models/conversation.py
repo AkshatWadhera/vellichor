@@ -31,6 +31,7 @@ class Conversation(db.Model):
         "PDF",
         backref="conversation",
         uselist=False,
+        cascade="all, delete-orphan",
         passive_deletes=True
     )
 
@@ -38,5 +39,6 @@ class Conversation(db.Model):
         "Message",
         backref="conversation",
         lazy="select",
+        cascade="all, delete-orphan",
         passive_deletes=True
     )
