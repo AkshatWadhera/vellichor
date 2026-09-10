@@ -290,18 +290,42 @@ def rename_conversation(
     new_title
 ):
 
+    import time
+
+    start_time = time.perf_counter()
+
     try:
+
+        lookup_start = time.perf_counter()
 
         conversation = Conversation.query.filter_by(
             id=conversation_id,
             user_id=user_id
         ).first_or_404()
 
+        print(
+            f"RENAME TIMING: Conversation lookup completed in "
+            f"{time.perf_counter() - lookup_start:.3f}s",
+            flush=True
+        )
 
         conversation.title = new_title.strip()
 
+        commit_start = time.perf_counter()
+
         db.session.commit()
 
+        print(
+            f"RENAME TIMING: PostgreSQL update + commit completed in "
+            f"{time.perf_counter() - commit_start:.3f}s",
+            flush=True
+        )
+
+        print(
+            f"RENAME TIMING: TOTAL rename_conversation completed in "
+            f"{time.perf_counter() - start_time:.3f}s",
+            flush=True
+        )
 
         current_app.logger.info(
             "Conversation renamed successfully"
@@ -324,18 +348,42 @@ def rename_conversation(
 
 def toggle_pin(conversation_id, user_id):
 
+    import time
+
+    start_time = time.perf_counter()
+
     try:
+
+        lookup_start = time.perf_counter()
 
         conversation = Conversation.query.filter_by(
             id=conversation_id,
             user_id=user_id,
         ).first_or_404()
 
+        print(
+            f"PIN TIMING: Conversation lookup completed in "
+            f"{time.perf_counter() - lookup_start:.3f}s",
+            flush=True
+        )
 
         conversation.is_pinned = not conversation.is_pinned
 
+        commit_start = time.perf_counter()
+
         db.session.commit()
 
+        print(
+            f"PIN TIMING: PostgreSQL update + commit completed in "
+            f"{time.perf_counter() - commit_start:.3f}s",
+            flush=True
+        )
+
+        print(
+            f"PIN TIMING: TOTAL toggle_pin completed in "
+            f"{time.perf_counter() - start_time:.3f}s",
+            flush=True
+        )
 
         current_app.logger.info(
             "Conversation pin state updated"
