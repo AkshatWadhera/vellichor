@@ -1,0 +1,454 @@
+/* =========================================================
+   VELLICHOR — LANDING PAGE
+   MOBILE OVERRIDES
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* =====================================================
+       PAGE
+       ===================================================== */
+
+    .landing-page {
+        width: 100%;
+        height: 100dvh;
+        min-height: 100dvh;
+
+        overflow: hidden;
+    }
+
+    /* =====================================================
+   MOBILE ATMOSPHERE
+   ===================================================== */
+
+.landing-page {
+    position: relative;
+
+    background:
+        radial-gradient(
+            circle at 50% 78%,
+            rgba(195, 150, 77, 0.08),
+            transparent 34%
+        ),
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(211, 180, 132, 0.12),
+            transparent 42%
+        ),
+        #f8f2e8;
+}
+
+
+    /* =====================================================
+       NAVIGATION
+       ===================================================== */
+
+    .landing-nav {
+        height: 64px;
+
+        grid-template-columns: auto 1fr auto;
+
+        padding: 0 18px;
+    }
+
+    .landing-logo {
+        font-size: 1.45rem;
+    }
+
+    .landing-nav-links {
+        display: none;
+    }
+
+    .landing-nav-actions {
+        gap: 8px;
+    }
+
+    .nav-login,
+    .nav-get-started {
+        height: 36px;
+
+        padding: 0 14px;
+
+        font-size: 0.76rem;
+    }
+
+
+    /* =====================================================
+       MAIN
+       ===================================================== */
+
+    .landing-main {
+        grid-template-columns: 1fr;
+
+        height: calc(100dvh - 64px);
+
+        overflow: hidden;
+    }
+
+
+    /* =====================================================
+       INTRO AREA
+       ===================================================== */
+
+    .landing-intro {
+        width: 100%;
+        height: 100%;
+
+        overflow: hidden;
+    }
+
+
+    /* =====================================================
+       ALL LANDING STATES
+       ===================================================== */
+
+    .landing-state {
+        width: 100%;
+        height: 100%;
+
+        padding: 0 20px 24px;
+
+        overflow: hidden;
+
+        box-sizing: border-box;
+    }
+
+
+    /*
+       IMPORTANT:
+       Mobile should NOT vertically center the state.
+       We want the content to begin at a controlled distance
+       below the navbar.
+    */
+
+    /* =====================================================
+   MOBILE STATE POSITIONING
+   ===================================================== */
+
+/*
+   All states sit slightly lower than the previous version.
+   The content should feel connected to the navbar rather
+   than floating too high in the viewport.
+*/
+
+.intro-state,
+.intro-state.active {
+    justify-content: flex-start;
+
+    padding-top: 108px;
+
+    transform: translateY(0) scale(1);
+}
+
+.login-state,
+.login-state.active {
+    justify-content: flex-start;
+
+    padding-top: 92px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    transform: translateY(0) scale(1);
+}
+
+.register-state,
+.register-state.active {
+    justify-content: flex-start;
+
+    padding-top: 72px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    transform: translateY(0) scale(1);
+}
+
+
+    /* =====================================================
+       INTRO — EYEBROW
+       ===================================================== */
+
+    .intro-state .landing-eyebrow {
+        margin: 0 0 16px;
+
+        font-size: 0.58rem;
+
+        letter-spacing: 0.15em;
+    }
+
+
+    /* =====================================================
+       INTRO — TITLE
+       ===================================================== */
+
+    .intro-state .landing-title {
+        max-width: 360px;
+
+        font-size: 2.55rem;
+
+        line-height: 0.98;
+        letter-spacing: -0.055em;
+    }
+
+
+    /* =====================================================
+       INTRO — DESCRIPTION
+       ===================================================== */
+
+    .intro-state .landing-description {
+        max-width: 350px;
+
+        margin: 18px 0 0;
+
+        font-size: 0.83rem;
+
+        line-height: 1.62;
+    }
+
+
+    /* =====================================================
+       INTRO — ACTIONS
+       ===================================================== */
+
+    .intro-state .landing-actions {
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 8px;
+
+        margin-top: 22px;
+    }
+
+    .intro-state .primary-button,
+    .intro-state .secondary-button {
+        width: 100%;
+        height: 44px;
+
+        box-sizing: border-box;
+
+        font-size: 0.78rem;
+    }
+
+
+    /* =====================================================
+   PRINCIPLES
+   ===================================================== */
+
+.landing-principles {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 26px;
+
+    padding-top: 0;
+
+    border-top: 1px solid rgba(92, 72, 44, 0.10);
+}
+
+.principle {
+    min-height: 64px;
+
+    display: grid;
+    grid-template-columns: 24px 1fr;
+
+    column-gap: 10px;
+
+    align-items: center;
+
+    padding: 13px 0;
+
+    box-sizing: border-box;
+}
+
+.principle + .principle {
+    padding-left: 0;
+
+    border-left: 0;
+    border-top: 1px solid rgba(92, 72, 44, 0.08);
+}
+
+.principle-icon {
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #b88635;
+
+    font-size: 0.78rem;
+    line-height: 1;
+
+    border: 1px solid rgba(184, 134, 53, 0.18);
+    border-radius: 50%;
+}
+
+.principle h3 {
+    margin: 0;
+
+    color: #40372e;
+
+    font-size: 0.76rem;
+    font-weight: 500;
+
+    line-height: 1.25;
+}
+
+.principle p {
+    margin: 4px 0 0;
+
+    color: #91887c;
+
+    font-size: 0.66rem;
+
+    line-height: 1.4;
+}
+
+
+    /* =====================================================
+       PRODUCT DEMO
+       ===================================================== */
+
+    .product-stage {
+        display: none;
+    }
+
+
+    /* =====================================================
+       AUTH STATES
+       ===================================================== */
+
+    .login-state .landing-eyebrow,
+    .register-state .landing-eyebrow {
+        margin: 0 0 16px;
+
+        font-size: 0.58rem;
+
+        letter-spacing: 0.15em;
+    }
+
+    .auth-title {
+        max-width: 350px;
+
+        font-size: 2.35rem;
+
+        line-height: 0.98;
+        letter-spacing: -0.055em;
+    }
+
+    .auth-description {
+        max-width: 340px;
+
+        margin: 16px 0 18px;
+
+        font-size: 0.82rem;
+
+        line-height: 1.6;
+    }
+
+    .landing-auth-form {
+        width: 100%;
+
+        gap: 9px;
+    }
+
+    .auth-field {
+        gap: 5px;
+    }
+
+    .auth-field label {
+        font-size: 0.72rem;
+    }
+
+    .auth-field input {
+        height: 44px;
+
+        font-size: 0.84rem;
+    }
+
+    .auth-submit {
+        width: 100%;
+        height: 44px;
+
+        margin-top: 2px;
+
+        font-size: 0.78rem;
+    }
+
+    .auth-switch {
+        margin-top: 16px;
+
+        font-size: 0.72rem;
+    }
+
+
+    /* =====================================================
+       SHUTTER
+       ===================================================== */
+
+    .state-shutter {
+        position: absolute;
+        inset: 0;
+
+        z-index: 20;
+    }
+
+    .shutter-panel {
+        height: 100%;
+    }
+
+
+    /* =====================================================
+       SMALL PHONES
+       ===================================================== */
+
+    @media (max-height: 700px) {
+
+        .intro-state,
+        .intro-state.active {
+            padding-top: 48px;
+        }
+
+        .intro-state .landing-title {
+            font-size: 2.3rem;
+        }
+
+        .intro-state .landing-description {
+            margin-top: 14px;
+        }
+
+        .intro-state .landing-actions {
+            margin-top: 18px;
+        }
+
+        .landing-principles {
+            margin-top: 18px;
+        }
+
+        .principle {
+            padding: 8px 0;
+        }
+
+        .login-state,
+        .login-state.active,
+        .register-state,
+        .register-state.active {
+            padding-top: 40px;
+        }
+
+        .auth-title {
+            font-size: 2.15rem;
+        }
+
+        .auth-description {
+            margin-top: 14px;
+            margin-bottom: 14px;
+        }
+    }
+}
