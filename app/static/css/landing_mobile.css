@@ -452,3 +452,261 @@
         }
     }
 }
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   COMPACT PHONE — LANDING PAGE
+   Target: 361 × 654
+   Premium compact editorial scale
+   ========================================================= */
+
+@media (max-width: 380px) and (max-height: 720px) {
+
+    /* =====================================================
+       NAVIGATION
+       ===================================================== */
+
+    .landing-nav {
+        height: 58px;
+        padding: 0 14px;
+    }
+
+    .landing-logo {
+        font-size: 1.28rem;
+        letter-spacing: -.04em;
+    }
+
+    .landing-nav-actions {
+        gap: 6px;
+    }
+
+    .nav-login,
+    .nav-get-started {
+        height: 32px;
+        padding: 0 10px;
+        font-size: .66rem;
+        border-radius: 8px;
+    }
+
+
+    /* =====================================================
+       MAIN
+       ===================================================== */
+
+    .landing-main {
+        height: calc(100dvh - 58px);
+    }
+
+    .landing-state {
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-bottom: 18px;
+    }
+
+
+    /* =====================================================
+       INTRO POSITION
+       ===================================================== */
+
+    .intro-state,
+    .intro-state.active {
+        padding-top: 54px;
+    }
+
+
+    /* =====================================================
+       INTRO — EYEBROW
+       ===================================================== */
+
+    .intro-state .landing-eyebrow {
+        margin-bottom: 11px;
+        font-size: .50rem;
+        letter-spacing: .16em;
+    }
+
+
+    /* =====================================================
+       INTRO — TITLE
+       ===================================================== */
+
+    .intro-state .landing-title {
+        max-width: 310px;
+        font-size: 2.05rem;
+        line-height: .99;
+        letter-spacing: -.052em;
+    }
+
+
+    /* =====================================================
+       INTRO — DESCRIPTION
+       ===================================================== */
+
+    .intro-state .landing-description {
+        max-width: 295px;
+        margin-top: 13px;
+        font-size: .72rem;
+        line-height: 1.52;
+    }
+
+
+    /* =====================================================
+       INTRO — ACTIONS
+       ===================================================== */
+
+    .intro-state .landing-actions {
+        gap: 6px;
+        margin-top: 16px;
+    }
+
+    .intro-state .primary-button,
+    .intro-state .secondary-button {
+        height: 39px;
+        font-size: .70rem;
+        border-radius: 9px;
+    }
+
+
+    /* =====================================================
+       PRINCIPLES
+       ===================================================== */
+
+    .landing-principles {
+        margin-top: 16px;
+    }
+
+    .principle {
+        min-height: 54px;
+        grid-template-columns: 21px 1fr;
+        column-gap: 8px;
+        padding: 8px 0;
+    }
+
+    .principle-icon {
+        width: 21px;
+        height: 21px;
+        font-size: .68rem;
+    }
+
+    .principle h3 {
+        font-size: .69rem;
+        line-height: 1.22;
+    }
+
+    .principle p {
+        margin-top: 3px;
+        font-size: .59rem;
+        line-height: 1.35;
+    }
+
+
+    /* =====================================================
+       AUTH STATES — POSITION
+       ===================================================== */
+
+    .login-state,
+    .login-state.active {
+        padding-top: 50px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .register-state,
+    .register-state.active {
+        padding-top: 42px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+
+    /* =====================================================
+       AUTH — EYEBROW
+       ===================================================== */
+
+    .login-state .landing-eyebrow,
+    .register-state .landing-eyebrow {
+        margin-bottom: 11px;
+        font-size: .50rem;
+        letter-spacing: .16em;
+    }
+
+
+    /* =====================================================
+       AUTH — TITLE
+       ===================================================== */
+
+    .auth-title {
+        max-width: 300px;
+        font-size: 2rem;
+        line-height: .99;
+        letter-spacing: -.052em;
+    }
+
+
+    /* =====================================================
+       AUTH — DESCRIPTION
+       ===================================================== */
+
+    .auth-description {
+        max-width: 295px;
+        margin: 12px 0 14px;
+        font-size: .71rem;
+        line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       AUTH — FORM
+       ===================================================== */
+
+    .landing-auth-form {
+        gap: 7px;
+    }
+
+    .auth-field {
+        gap: 4px;
+    }
+
+    .auth-field label {
+        font-size: .63rem;
+    }
+
+    .auth-field input {
+        height: 39px;
+        padding: 0 .75rem;
+        font-size: .73rem;
+        border-radius: 8px;
+    }
+
+    .auth-submit {
+        height: 39px;
+        margin-top: 2px;
+        font-size: .70rem;
+        border-radius: 9px;
+    }
+
+    .auth-switch {
+        margin-top: 12px;
+        font-size: .63rem;
+    }
+
+
+    /* =====================================================
+       SHUTTER
+       ===================================================== */
+
+    .state-shutter {
+        inset: 0;
+    }
+
+    .shutter-panel {
+        height: 100%;
+    }
+
+}

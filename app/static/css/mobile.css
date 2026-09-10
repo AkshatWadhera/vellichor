@@ -124,7 +124,7 @@
 
         position: fixed;
 
-        top: 1.28rem;
+        top: 1rem;
         left: 50%;
 
         width: max-content;
@@ -1077,4 +1077,462 @@
     .document-status {
         display: none;
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   COMPACT PHONE — UPLOAD / HOME
+   Target: 361 × 654
+   ========================================================= */
+
+@media (max-width: 380px) and (max-height: 720px) {
+
+    .workspace-canvas.upload .canvas-center {
+        max-width: 310px;
+        transform: translateY(0);
+    }
+
+
+    /* ----------------------------------------
+       EDITORIAL LABEL
+    ---------------------------------------- */
+
+    .workspace-canvas.upload .canvas-center::before {
+        margin-bottom: .8rem;
+        font-size: .48rem;
+        letter-spacing: .18em;
+    }
+
+
+    /* ----------------------------------------
+       TITLE
+    ---------------------------------------- */
+
+    .workspace-canvas.upload .workspace-title {
+        max-width: 285px;
+        font-size: 2rem;
+        line-height: 1.02;
+        letter-spacing: -.05em;
+    }
+
+
+    /* ----------------------------------------
+       DESCRIPTION
+    ---------------------------------------- */
+
+    .workspace-canvas.upload .workspace-description {
+        max-width: 275px;
+        margin: .8rem 0 1.1rem;
+        font-size: .74rem;
+        line-height: 1.5;
+    }
+
+
+    /* ----------------------------------------
+       UPLOAD SURFACE
+    ---------------------------------------- */
+
+    .workspace-canvas.upload .upload-surface {
+        min-height: 165px;
+        padding: 1.2rem 1rem;
+        border-radius: 15px;
+    }
+
+}
+
+
+/* =========================================================
+   COMPACT PHONE — SIDEBAR
+   Target: 361 × 654
+   ========================================================= */
+
+@media (max-width: 380px) and (max-height: 720px) {
+
+    /* ----------------------------------------
+       SIDEBAR WIDTH
+    ---------------------------------------- */
+
+    .sidebar {
+        width: 250px;
+    }
+
+
+    /* ----------------------------------------
+       SIDEBAR TOP
+    ---------------------------------------- */
+
+    .sidebar-top {
+        gap: .65rem;
+        padding: .85rem .8rem;
+    }
+
+    .logo {
+        font-size: 1.22rem;
+        letter-spacing: -.045em;
+    }
+
+    .new-workspace-btn {
+        padding: .45rem .58rem;
+        border-radius: 8px;
+        font-size: .70rem;
+        font-weight: 500;
+    }
+
+
+    /* ----------------------------------------
+       SIDEBAR CONTENT
+    ---------------------------------------- */
+
+    .sidebar-content {
+        gap: .55rem;
+        padding: .35rem .8rem .75rem;
+    }
+
+    .workspace-group {
+        gap: .1rem;
+    }
+
+    .sidebar-heading {
+        margin-bottom: .25rem;
+        padding-left: .25rem;
+        font-size: .54rem;
+        letter-spacing: .19em;
+    }
+
+
+    /* ----------------------------------------
+       WORKSPACE CARD
+    ---------------------------------------- */
+
+    .workspace-card {
+        border-radius: 12px;
+    }
+
+    .workspace-card-content {
+        gap: .5rem;
+        min-height: 36px;
+        padding: 0 .55rem;
+        border-radius: 9px;
+    }
+
+
+    /* ----------------------------------------
+       FILE ICON
+    ---------------------------------------- */
+
+    .workspace-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .workspace-icon svg {
+        width: 14px;
+        height: 14px;
+        stroke-width: 1.8;
+    }
+
+
+    /* ----------------------------------------
+       FILE / CONVERSATION NAME
+    ---------------------------------------- */
+
+    .workspace-title-small {
+        font-size: .72rem;
+        line-height: 1.15;
+        font-weight: 450;
+    }
+
+    .workspace-card.active .workspace-title-small {
+        font-weight: 500;
+    }
+
+
+    /* ----------------------------------------
+       ACTIVE INDICATOR
+    ---------------------------------------- */
+
+    .workspace-card.active::before {
+        left: -5px;
+        width: 2px;
+        height: 14px;
+    }
+
+
+    /* ----------------------------------------
+       THREE-DOT MENU
+    ---------------------------------------- */
+
+    .workspace-menu-btn {
+        width: 23px;
+        height: 23px;
+        border-radius: 6px;
+    }
+
+    .workspace-menu-btn svg {
+        width: 13px;
+        height: 13px;
+    }
+
+
+    /* ----------------------------------------
+       CONVERSATION DROPDOWN
+    ---------------------------------------- */
+
+    .workspace-dropdown {
+        top: calc(100% + 7px);
+        right: 5px;
+        width: 145px;
+        padding: .3rem;
+        border-radius: 10px;
+    }
+
+    .workspace-dropdown-item {
+        gap: .45rem;
+        padding: .45rem .55rem;
+        border-radius: 8px;
+        font-size: .74rem;
+    }
+
+    .workspace-dropdown-item svg {
+        width: 13px;
+        height: 13px;
+    }
+
+    .workspace-dropdown-divider {
+        margin: .2rem .15rem;
+    }
+
+
+    /* ----------------------------------------
+       SIDEBAR BOTTOM / PROFILE
+    ---------------------------------------- */
+
+    .sidebar-bottom {
+        padding: .7rem .8rem;
+    }
+
+    .profile-card {
+        gap: .55rem;
+    }
+
+    .profile-info {
+        gap: .5rem;
+    }
+
+    .profile-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: .72rem;
+    }
+
+    .profile-name {
+        font-size: .72rem;
+    }
+
+    .logout-btn {
+        width: 27px;
+        height: 27px;
+        border-radius: 7px;
+    }
+
+    .logout-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+
+}
+
+
+/* =========================================================
+   COMPACT PHONE — CHAT PAGE
+   Target: 361 × 654
+   ========================================================= */
+
+@media (max-width: 380px) and (max-height: 720px) {
+
+    /* ----------------------------------------
+       CHAT HEADER / DOCUMENT PLAQUE
+    ---------------------------------------- */
+
+    .chat-header {
+        min-height: 42px;
+
+        margin:
+            .55rem
+            .55rem
+            .4rem
+            2.75rem;
+
+        padding:
+            .36rem
+            .55rem;
+
+        border-radius: 11px;
+    }
+
+    .document-info {
+        gap: .42rem;
+    }
+
+    .document-info > svg {
+        width: 19px;
+        height: 19px;
+        padding: 3px;
+        border-radius: 6px;
+    }
+
+    .document-title {
+        font-size: .68rem;
+        line-height: 1.15;
+    }
+
+
+    /* ----------------------------------------
+       MESSAGE AREA
+    ---------------------------------------- */
+
+    .messages {
+        padding:
+            .65rem
+            .55rem
+            .75rem;
+
+        gap: .65rem;
+    }
+
+
+    /* ----------------------------------------
+       ASSISTANT MESSAGE
+    ---------------------------------------- */
+
+    .message.assistant {
+        padding:
+            0
+            .15rem;
+    }
+
+    .message.assistant .message-content {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+
+    /* ----------------------------------------
+       USER MESSAGE
+    ---------------------------------------- */
+
+    .message.user {
+        padding: 0 .08rem;
+    }
+
+    .message.user .message-bubble {
+        max-width: 66%;
+        padding: .28rem .46rem;
+        border-radius: 8px;
+    }
+
+    .message.user .message-bubble .message-content {
+        font-size: .75rem;
+        line-height: 1.45;
+        letter-spacing: -.002em;
+    }
+
+
+    /* ----------------------------------------
+       COMPOSER
+    ---------------------------------------- */
+
+    .workspace-footer {
+        padding:
+            .35rem
+            .55rem
+            .45rem;
+    }
+
+    .composer {
+        min-height: 40px;
+
+        gap: .35rem;
+
+        padding:
+            .22rem
+            .35rem
+            .22rem
+            .65rem;
+
+        border-radius: 21px;
+    }
+
+    .composer-input {
+        min-height: 18px;
+        max-height: 90px;
+
+        font-size: .68rem;
+        line-height: 1.35;
+    }
+
+    .composer-send {
+        width: 29px;
+        height: 29px;
+    }
+
+    .composer-send svg {
+        width: 13px;
+        height: 13px;
+    }
+
+
+    /* ----------------------------------------
+       SIDEBAR TOGGLE
+       Keep the finalized design, only
+       reduce its physical footprint slightly.
+    ---------------------------------------- */
+
+    .mobile-sidebar-toggle {
+        top: .82rem;
+        left: .62rem;
+
+        width: 31px;
+        height: 31px;
+
+        border-radius: 8px;
+    }
+
+    .mobile-sidebar-toggle svg {
+        width: 16px;
+        height: 16px;
+    }
+
+}
+
+
+/* =========================================================
+   COMPACT PHONE — THINKING INDICATOR
+   ========================================================= */
+
+@media (max-width: 380px) and (max-height: 720px) {
+
+    .thinking-indicator {
+        gap: .18rem;
+        font-size: .48rem;
+        line-height: 1;
+    }
+
+    .thinking-indicator span {
+        width: 2px;
+        height: 2px;
+    }
+
 }
