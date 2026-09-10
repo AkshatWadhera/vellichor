@@ -320,23 +320,27 @@ def delete_pdf_embeddings(pdf_id):
 
     try:
 
-        current_app.logger.info(
-            "DELETE TIMING: Starting PGVector deletion"
+        print(
+            "DELETE TIMING: Starting PGVectorStore get/initialization",
+            flush=True
         )
 
-        # Measure PGVectorStore initialization separately.
         init_start = time.perf_counter()
 
         production_store = get_pg_vector_store()
 
         init_time = time.perf_counter() - init_start
 
-        current_app.logger.info(
-            "DELETE TIMING: PGVectorStore get/initialization completed in %.3f seconds",
-            init_time
+        print(
+            f"DELETE TIMING: PGVectorStore get/initialization completed in {init_time:.3f}s",
+            flush=True
         )
 
-        # Measure the actual vector deletion separately.
+        print(
+            "DELETE TIMING: Starting PGVector embedding delete operation",
+            flush=True
+        )
+
         delete_start = time.perf_counter()
 
         production_store.delete(
@@ -349,18 +353,17 @@ def delete_pdf_embeddings(pdf_id):
 
         delete_time = time.perf_counter() - delete_start
 
-        current_app.logger.info(
-            "DELETE TIMING: PGVector embedding delete completed in %.3f seconds",
-            delete_time
+        print(
+            f"DELETE TIMING: PGVector embedding delete operation completed in {delete_time:.3f}s",
+            flush=True
         )
 
-        current_app.logger.info(
-            "Production PGVector embeddings deleted successfully"
+        print(
+            "Production PGVector embeddings deleted successfully",
+            flush=True
         )
-
 
     except Exception:
-
 
         current_app.logger.exception(
             "Failed to delete PDF embeddings from production PGVector"

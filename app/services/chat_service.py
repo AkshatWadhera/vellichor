@@ -165,10 +165,23 @@ def delete_conversation(conversation_id, user_id):
 
         total_start = time.perf_counter()
 
+        # -------------------------------------------------
+        # FIND CONVERSATION
+        # -------------------------------------------------
+
+        lookup_start = time.perf_counter()
+
         conversation = Conversation.query.filter_by(
             id=conversation_id,
             user_id=user_id
         ).first_or_404()
+
+        lookup_time = time.perf_counter() - lookup_start
+
+        print(
+            f"DELETE TIMING: Conversation lookup completed in {lookup_time:.3f}s",
+            flush=True
+        )
 
         pdf = conversation.pdf
 
@@ -179,8 +192,9 @@ def delete_conversation(conversation_id, user_id):
         # DELETE STORED PDF
         # -------------------------------------------------
 
-        current_app.logger.info(
-            "DELETE TIMING: Starting Supabase PDF deletion"
+        print(
+            "DELETE TIMING: Starting Supabase PDF deletion",
+            flush=True
         )
 
         storage_start = time.perf_counter()
@@ -191,17 +205,18 @@ def delete_conversation(conversation_id, user_id):
 
         storage_time = time.perf_counter() - storage_start
 
-        current_app.logger.info(
-            "DELETE TIMING: Supabase PDF deletion completed in %.3f seconds",
-            storage_time
+        print(
+            f"DELETE TIMING: Supabase PDF deletion completed in {storage_time:.3f}s",
+            flush=True
         )
 
         # -------------------------------------------------
         # DELETE EMBEDDINGS
         # -------------------------------------------------
 
-        current_app.logger.info(
-            "DELETE TIMING: Starting PGVector embedding deletion"
+        print(
+            "DELETE TIMING: Starting PGVector embedding deletion",
+            flush=True
         )
 
         vector_start = time.perf_counter()
@@ -212,17 +227,18 @@ def delete_conversation(conversation_id, user_id):
 
         vector_time = time.perf_counter() - vector_start
 
-        current_app.logger.info(
-            "DELETE TIMING: PGVector embedding deletion completed in %.3f seconds",
-            vector_time
+        print(
+            f"DELETE TIMING: PGVector embedding deletion completed in {vector_time:.3f}s",
+            flush=True
         )
 
         # -------------------------------------------------
         # DELETE DATABASE RECORD
         # -------------------------------------------------
 
-        current_app.logger.info(
-            "DELETE TIMING: Starting PostgreSQL conversation deletion"
+        print(
+            "DELETE TIMING: Starting PostgreSQL deletion + commit",
+            flush=True
         )
 
         db_start = time.perf_counter()
@@ -232,20 +248,25 @@ def delete_conversation(conversation_id, user_id):
 
         db_time = time.perf_counter() - db_start
 
-        current_app.logger.info(
-            "DELETE TIMING: PostgreSQL deletion + commit completed in %.3f seconds",
-            db_time
+        print(
+            f"DELETE TIMING: PostgreSQL deletion + commit completed in {db_time:.3f}s",
+            flush=True
         )
+
+        # -------------------------------------------------
+        # TOTAL
+        # -------------------------------------------------
 
         total_time = time.perf_counter() - total_start
 
-        current_app.logger.info(
-            "DELETE TIMING: TOTAL delete_conversation completed in %.3f seconds",
-            total_time
+        print(
+            f"DELETE TIMING: TOTAL delete_conversation completed in {total_time:.3f}s",
+            flush=True
         )
 
-        current_app.logger.info(
-            "Conversation deleted successfully"
+        print(
+            "Conversation deleted successfully",
+            flush=True
         )
 
     except Exception:
