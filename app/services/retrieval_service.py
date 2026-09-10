@@ -1,3 +1,5 @@
+import time
+
 from flask import current_app
 from config import Config
 
@@ -319,12 +321,23 @@ def delete_pdf_embeddings(pdf_id):
     try:
 
         current_app.logger.info(
-            "Deleting PDF embeddings from production PGVector"
+            "DELETE TIMING: Starting PGVector deletion"
         )
 
+        # Measure PGVectorStore initialization separately.
+        init_start = time.perf_counter()
 
         production_store = get_pg_vector_store()
 
+        init_time = time.perf_counter() - init_start
+
+        current_app.logger.info(
+            "DELETE TIMING: PGVectorStore get/initialization completed in %.3f seconds",
+            init_time
+        )
+
+        # Measure the actual vector deletion separately.
+        delete_start = time.perf_counter()
 
         production_store.delete(
             filter={
@@ -334,6 +347,12 @@ def delete_pdf_embeddings(pdf_id):
             }
         )
 
+        delete_time = time.perf_counter() - delete_start
+
+        current_app.logger.info(
+            "DELETE TIMING: PGVector embedding delete completed in %.3f seconds",
+            delete_time
+        )
 
         current_app.logger.info(
             "Production PGVector embeddings deleted successfully"

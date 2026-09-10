@@ -1,3 +1,5 @@
+import time
+
 from flask import current_app
 
 from app import db
@@ -161,57 +163,90 @@ def delete_conversation(conversation_id, user_id):
 
     try:
 
+        total_start = time.perf_counter()
+
         conversation = Conversation.query.filter_by(
             id=conversation_id,
             user_id=user_id
         ).first_or_404()
 
-
         pdf = conversation.pdf
-
 
         stored_filename = pdf.stored_filename
         pdf_id = pdf.id
-
 
         # -------------------------------------------------
         # DELETE STORED PDF
         # -------------------------------------------------
 
         current_app.logger.info(
-            "Deleting stored PDF for conversation"
+            "DELETE TIMING: Starting Supabase PDF deletion"
         )
+
+        storage_start = time.perf_counter()
 
         document_service.delete_stored_pdf(
             stored_filename
         )
 
+        storage_time = time.perf_counter() - storage_start
+
+        current_app.logger.info(
+            "DELETE TIMING: Supabase PDF deletion completed in %.3f seconds",
+            storage_time
+        )
 
         # -------------------------------------------------
         # DELETE EMBEDDINGS
         # -------------------------------------------------
 
         current_app.logger.info(
-            "Deleting PDF embeddings for conversation"
+            "DELETE TIMING: Starting PGVector embedding deletion"
         )
+
+        vector_start = time.perf_counter()
 
         retrieval_service.delete_pdf_embeddings(
             pdf_id
         )
 
+        vector_time = time.perf_counter() - vector_start
+
+        current_app.logger.info(
+            "DELETE TIMING: PGVector embedding deletion completed in %.3f seconds",
+            vector_time
+        )
 
         # -------------------------------------------------
         # DELETE DATABASE RECORD
         # -------------------------------------------------
 
+        current_app.logger.info(
+            "DELETE TIMING: Starting PostgreSQL conversation deletion"
+        )
+
+        db_start = time.perf_counter()
+
         db.session.delete(conversation)
         db.session.commit()
 
+        db_time = time.perf_counter() - db_start
+
+        current_app.logger.info(
+            "DELETE TIMING: PostgreSQL deletion + commit completed in %.3f seconds",
+            db_time
+        )
+
+        total_time = time.perf_counter() - total_start
+
+        current_app.logger.info(
+            "DELETE TIMING: TOTAL delete_conversation completed in %.3f seconds",
+            total_time
+        )
 
         current_app.logger.info(
             "Conversation deleted successfully"
         )
-
 
     except Exception:
 
