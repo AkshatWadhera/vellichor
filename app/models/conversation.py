@@ -31,12 +31,12 @@ class Conversation(db.Model):
         "PDF",
         backref="conversation",
         uselist=False,
-        cascade="all, delete-orphan"
+        passive_deletes=True
     )
 
     messages = db.relationship(
         "Message",
         backref="conversation",
         lazy="select",
-        cascade="all, delete-orphan"
+        passive_deletes=True
     )

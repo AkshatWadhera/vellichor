@@ -35,7 +35,7 @@ class PDF(db.Model):
 
     conversation_id = db.Column(
         db.Integer,
-        db.ForeignKey("conversations.id"),
+        db.ForeignKey("conversations.id", ondelete="CASCADE"),
         nullable=False,
         unique=True
     )
