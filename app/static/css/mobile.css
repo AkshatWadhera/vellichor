@@ -1525,14 +1525,31 @@
 @media (max-width: 380px) and (max-height: 720px) {
 
     .thinking-indicator {
-        gap: .18rem;
-        font-size: .48rem;
-        line-height: 1;
+        width: 32px;
+        height: 32px;
+        transform: translateX(3px);
     }
 
-    .thinking-indicator span {
-        width: 2px;
-        height: 2px;
+    .thinking-core {
+        width: 18px;
+        height: 18px;
+        font-size: .94rem;
+    }
+
+    .thinking-orbit {
+        width: 3.2px;
+        height: 3.2px;
+        transform-origin: 12px 12px;
+    }
+
+    .thinking-orbit.orbit-two {
+        width: 2.7px;
+        height: 2.7px;
+    }
+
+    .thinking-orbit.orbit-three {
+        width: 2.2px;
+        height: 2.2px;
     }
 
 }

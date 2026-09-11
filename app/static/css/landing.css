@@ -1045,6 +1045,78 @@
     transform: scale(0.985);
 }
 
+/* =========================================================
+   AUTH SUBMIT — LOGIN LOADING STATE
+   ========================================================= */
+
+.auth-submit-label {
+    display: inline-block;
+}
+
+.auth-submit-arrow {
+    display: inline-block;
+    transition: opacity 180ms ease;
+}
+
+.auth-submit-loading {
+    display: none;
+    align-items: center;
+    gap: 4px;
+}
+
+.auth-submit-loading span {
+    width: 3px;
+    height: 3px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+
+    opacity: 0.25;
+
+    animation: auth-loading-dot 1.2s ease-in-out infinite;
+}
+
+.auth-submit-loading span:nth-child(2) {
+    animation-delay: 160ms;
+}
+
+.auth-submit-loading span:nth-child(3) {
+    animation-delay: 320ms;
+}
+
+
+/* Active loading state */
+
+.auth-submit.is-loading {
+    cursor: wait;
+}
+
+.auth-submit.is-loading .auth-submit-arrow {
+    display: none;
+}
+
+.auth-submit.is-loading .auth-submit-loading {
+    display: inline-flex;
+}
+
+
+@keyframes auth-loading-dot {
+
+    0%,
+    60%,
+    100% {
+        opacity: 0.25;
+        transform: translateY(0);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translateY(-1px);
+    }
+
+}
+
 
 /* =========================================================
    AUTH SWITCH

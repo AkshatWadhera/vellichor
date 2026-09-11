@@ -240,6 +240,16 @@ if (loginForm) {
 
         clearAuthErrors(loginForm);
 
+        const submitButton =
+            loginForm.querySelector(".auth-submit");
+
+        const submitLabel =
+            submitButton.querySelector(".auth-submit-label");
+
+        submitButton.classList.add("is-loading");
+        submitButton.disabled = true;
+        submitLabel.textContent = "Entering Vellichor";
+
 
         const formData =
             new FormData(loginForm);
@@ -296,6 +306,10 @@ if (loginForm) {
 
                 }
 
+                submitButton.classList.remove("is-loading");
+                submitButton.disabled = false;
+                submitLabel.textContent = "Continue";
+
                 return;
 
             }
@@ -312,6 +326,10 @@ if (loginForm) {
         }
 
         catch (error) {
+
+            submitButton.classList.remove("is-loading");
+            submitButton.disabled = false;
+            submitLabel.textContent = "Continue";
 
             console.error(
                 "Login request failed:",
