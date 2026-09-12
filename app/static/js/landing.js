@@ -372,6 +372,15 @@ if (registerForm) {
         const formData =
             new FormData(registerForm);
 
+        const submitButton =
+            registerForm.querySelector(".auth-submit");
+
+        const submitLabel =
+            submitButton.querySelector(".auth-submit-label");
+
+        submitButton.classList.add("is-loading");
+        submitButton.disabled = true;
+        submitLabel.textContent = "Welcoming you in";
 
         try {
 
