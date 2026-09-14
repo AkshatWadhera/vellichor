@@ -53,14 +53,25 @@ def get_pg_vector_store():
 
 
         current_app.logger.info(
-            "Initializing production PGVector store"
+            "[06B] Initializing production PGVector store"
         )
 
+        pg_init_start = time.perf_counter()
+
+        engine_start = time.perf_counter()
 
         pg_engine = PGEngine.from_connection_string(
             url=connection_string
         )
 
+        engine_time = time.perf_counter() - engine_start
+
+        current_app.logger.info(
+            "[06B] PGEngine created in %.3fs",
+            engine_time
+        )
+
+        vector_store_start = time.perf_counter()
 
         pg_vector_store = PGVectorStore.create_sync(
             engine=pg_engine,
@@ -68,9 +79,18 @@ def get_pg_vector_store():
             embedding_service=embedding_model,
         )
 
+        vector_store_time = time.perf_counter() - vector_store_start
 
         current_app.logger.info(
-            "Production PGVector store initialized successfully"
+            "[06B] PGVectorStore created in %.3fs",
+            vector_store_time
+        )
+
+        pg_total_time = time.perf_counter() - pg_init_start
+
+        current_app.logger.info(
+            "[06B] PGVector store initialization completed in %.3fs",
+            pg_total_time
         )
 
 
@@ -157,13 +177,38 @@ def store_chunks(chunks, pdf_id, filename):
         )
 
 
+        current_app.logger.info(
+            "[06C] Getting production PGVector store"
+        )
+
+        store_init_start = time.perf_counter()
+
         production_store = get_pg_vector_store()
 
+        store_init_time = time.perf_counter() - store_init_start
+
+        current_app.logger.info(
+            "[06C] PGVector store ready in %.3fs",
+            store_init_time
+        )
+
+        current_app.logger.info(
+            "[06C] Starting PGVector add_documents | Documents: %s",
+            len(documents)
+        )
+
+        add_documents_start = time.perf_counter()
 
         production_store.add_documents(
             documents
         )
 
+        add_documents_time = time.perf_counter() - add_documents_start
+
+        current_app.logger.info(
+            "[06C] PGVector add_documents completed in %.3fs",
+            add_documents_time
+        )
 
         current_app.logger.info(
             "Production PGVector storage completed successfully"

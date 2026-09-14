@@ -1,5 +1,6 @@
 from flask import current_app
 import os
+import time
 
 import fitz
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -49,19 +50,39 @@ class HuggingFaceAPIEmbeddings(Embeddings):
         try:
 
             current_app.logger.info(
-                "Generating embeddings for %s document chunks",
-                len(texts)
+                "[06A] Starting Hugging Face embedding request | Chunks: %s | Model: %s",
+                len(texts),
+                self.model
             )
+
+            embedding_start = time.perf_counter()
 
             result = self.client.feature_extraction(
                 texts,
                 model=self.model
             )
 
-            embeddings = result.tolist()
+            api_time = time.perf_counter() - embedding_start
 
             current_app.logger.info(
-                "Document embeddings generated successfully"
+                "[06A] Hugging Face embedding request completed in %.3fs",
+                api_time
+            )
+
+            conversion_start = time.perf_counter()
+
+            embeddings = result.tolist()
+
+            conversion_time = time.perf_counter() - conversion_start
+
+            current_app.logger.info(
+                "[06A] Embedding result conversion completed in %.3fs",
+                conversion_time
+            )
+
+            current_app.logger.info(
+                "[06A] Document embeddings generated successfully | Embeddings: %s",
+                len(embeddings)
             )
 
             return embeddings

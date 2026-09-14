@@ -1,4 +1,5 @@
 import os
+import time
 
 from flask import Blueprint, request, jsonify, current_app
 from flask_login import login_required, current_user
@@ -15,44 +16,59 @@ upload_bp = Blueprint("upload", __name__)
 @login_required
 def upload_pdf():
 
+    upload_start = time.perf_counter()
+
+    current_app.logger.info(
+        "========== VELLICHOR PDF INGESTION START =========="
+    )
+
     # ========================================
     # RECEIVING PDF
     # ========================================
 
     pdf = request.files.get("pdf")
 
-
     # ========================================
     # VALIDATION
     # ========================================
 
-    if not pdf or pdf.filename == "":
+    validation_start = time.perf_counter()
 
+    if not pdf or pdf.filename == "":
         return jsonify({
             "success": False,
             "error_code": "NO_FILE"
         }), 400
 
-
     if not document_service.allowed_file(pdf.filename):
-
         return jsonify({
             "success": False,
             "error_code": "INVALID_EXTENSION"
         }), 400
 
-
     if not document_service.allowed_mimetype(pdf):
-
         return jsonify({
             "success": False,
             "error_code": "INVALID_MIME"
         }), 400
 
+    validation_time = time.perf_counter() - validation_start
+
+    current_app.logger.info(
+        "[01] Validation completed in %.3fs",
+        validation_time
+    )
+
+    original_filename = None
+    unique_filename = None
+    filepath = None
+    file_size = 0
 
     # ========================================
     # SAVING PDF
     # ========================================
+
+    save_start = time.perf_counter()
 
     try:
 
@@ -61,9 +77,13 @@ def upload_pdf():
 
         file_size = os.path.getsize(filepath)
 
+        save_time = time.perf_counter() - save_start
+
         current_app.logger.info(
-            "PDF saved successfully: %s",
-            original_filename
+            "[02] PDF storage completed in %.3fs | File: %s | Size: %.2f KB",
+            save_time,
+            original_filename,
+            file_size / 1024
         )
 
     except Exception:
@@ -77,7 +97,6 @@ def upload_pdf():
             "error_code": "PROCESSING_FAILED"
         }), 500
 
-
     conversation = None
     pdf_record = None
     embeddings_stored = False
@@ -87,12 +106,13 @@ def upload_pdf():
         original_filename
     )
 
-
     try:
 
         # ========================================
         # DATABASE RECORDS
         # ========================================
+
+        db_start = time.perf_counter()
 
         conversation = Conversation(
             title=original_filename,
@@ -100,7 +120,6 @@ def upload_pdf():
         )
 
         db.session.add(conversation)
-
 
         pdf_record = PDF(
             original_filename=original_filename,
@@ -112,64 +131,73 @@ def upload_pdf():
 
         db.session.add(pdf_record)
 
-
         # Flush gives us database-generated IDs
         # without permanently committing the transaction.
 
         db.session.flush()
 
+        db_time = time.perf_counter() - db_start
+
         current_app.logger.info(
-            "Database records created for PDF: %s",
-            original_filename
+            "[03] Database records created in %.3fs | PDF ID: %s | Conversation ID: %s",
+            db_time,
+            pdf_record.id,
+            conversation.id
         )
 
-
         # ========================================
-        # RAG PIPELINE
+        # TEXT EXTRACTION
         # ========================================
 
-        # Extract text
+        extraction_start = time.perf_counter()
 
         current_app.logger.info(
-            "Extracting text from PDF: %s",
-            original_filename
+            "[04] Starting PDF text extraction"
         )
 
         text = embedding_service.extract_text(filepath)
 
-        current_app.logger.info(
-            "PDF text extraction completed: %s",
-            original_filename
-        )
+        extraction_time = time.perf_counter() - extraction_start
 
+        current_app.logger.info(
+            "[04] PDF text extraction completed in %.3fs | Characters: %s",
+            extraction_time,
+            len(text)
+        )
 
         # Check for PDFs with no selectable text
 
         if not text.strip():
-
             raise ValueError("NO_TEXT")
 
+        # ========================================
+        # CHUNKING
+        # ========================================
 
-        # Chunk text
+        chunking_start = time.perf_counter()
 
         current_app.logger.info(
-            "Chunking PDF text: %s",
-            original_filename
+            "[05] Starting PDF chunking"
         )
 
         chunks = embedding_service.chunk_text(text)
 
+        chunking_time = time.perf_counter() - chunking_start
+
         current_app.logger.info(
-            "PDF chunking completed: %s chunks",
+            "[05] PDF chunking completed in %.3fs | Chunks: %s",
+            chunking_time,
             len(chunks)
         )
 
+        # ========================================
+        # EMBEDDINGS + VECTOR STORAGE
+        # ========================================
 
-        # Store chunks + embeddings
+        vector_start = time.perf_counter()
 
         current_app.logger.info(
-            "Storing embeddings for PDF: %s",
-            original_filename
+            "[06] Starting embedding generation + vector storage"
         )
 
         retrieval_service.store_chunks(
@@ -178,27 +206,35 @@ def upload_pdf():
             pdf_record.original_filename
         )
 
+        vector_time = time.perf_counter() - vector_start
+
         embeddings_stored = True
 
         current_app.logger.info(
-            "Embeddings stored successfully for PDF: %s",
-            original_filename
+            "[06] Embedding + vector storage completed in %.3fs",
+            vector_time
         )
-
 
         # ========================================
         # EVERYTHING SUCCESSFUL
         # ========================================
 
+        commit_start = time.perf_counter()
+
         db.session.commit()
 
+        commit_time = time.perf_counter() - commit_start
+
         current_app.logger.info(
-            "PDF database transaction committed: %s",
-            original_filename
+            "[07] Database transaction committed in %.3fs",
+            commit_time
         )
 
+        # ========================================
+        # CLEANUP
+        # ========================================
 
-        # Remove temporary production file
+        cleanup_start = time.perf_counter()
 
         if (
             current_app.config["ENVIRONMENT"] == "production"
@@ -212,18 +248,37 @@ def upload_pdf():
                 original_filename
             )
 
+        cleanup_time = time.perf_counter() - cleanup_start
+
+        # ========================================
+        # FINAL TIMING
+        # ========================================
+
+        total_time = time.perf_counter() - upload_start
+
+        current_app.logger.info(
+            "[08] Cleanup completed in %.3fs",
+            cleanup_time
+        )
+
+        current_app.logger.info(
+            "========== VELLICHOR PDF INGESTION COMPLETE =========="
+        )
+
+        current_app.logger.info(
+            "TOTAL PDF INGESTION TIME: %.3fs | File: %s | Size: %.2f KB | Chunks: %s",
+            total_time,
+            original_filename,
+            file_size / 1024,
+            len(chunks)
+        )
 
         return jsonify({
             "success": True,
             "conversation_id": conversation.id
         })
 
-
     except ValueError as error:
-
-        # ========================================
-        # EXPECTED PDF ERRORS
-        # ========================================
 
         error_code = str(error)
 
@@ -232,9 +287,6 @@ def upload_pdf():
             error_code
         )
 
-
-        # Remove embeddings if they were created
-
         if embeddings_stored and pdf_record:
 
             try:
@@ -249,18 +301,11 @@ def upload_pdf():
                     "Failed to remove embeddings during PDF cleanup"
                 )
 
-
-        # Roll back database transaction
-
         db.session.rollback()
 
-
-        # Remove physical PDF
-
-        if os.path.exists(filepath):
+        if filepath and os.path.exists(filepath):
 
             try:
-
                 os.remove(filepath)
 
             except PermissionError:
@@ -268,26 +313,17 @@ def upload_pdf():
                 current_app.logger.exception(
                     "Unable to remove PDF during cleanup"
                 )
-
 
         return jsonify({
             "success": False,
             "error_code": error_code
         }), 400
 
-
     except Exception:
-
-        # ========================================
-        # UNEXPECTED PROCESSING ERROR
-        # ========================================
 
         current_app.logger.exception(
             "PDF processing failed"
         )
-
-
-        # Remove embeddings if they were created
 
         if embeddings_stored and pdf_record:
 
@@ -303,18 +339,11 @@ def upload_pdf():
                     "Failed to remove embeddings during PDF cleanup"
                 )
 
-
-        # Roll back database transaction
-
         db.session.rollback()
 
-
-        # Remove physical PDF
-
-        if os.path.exists(filepath):
+        if filepath and os.path.exists(filepath):
 
             try:
-
                 os.remove(filepath)
 
             except PermissionError:
@@ -322,7 +351,6 @@ def upload_pdf():
                 current_app.logger.exception(
                     "Unable to remove PDF during cleanup"
                 )
-
 
         return jsonify({
             "success": False,

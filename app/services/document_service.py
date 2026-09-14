@@ -1,6 +1,7 @@
 import os
 import uuid
 import tempfile
+import time
 
 from werkzeug.utils import secure_filename
 from flask import current_app
@@ -147,10 +148,15 @@ def save_pdf(pdf):
         temp_file.close()
 
 
+        save_start = time.perf_counter()
+
         pdf.save(filepath)
 
+        save_time = time.perf_counter() - save_start
+
         current_app.logger.info(
-            "Production PDF saved to temporary file"
+            "[02A] Production temporary PDF saved in %.3fs",
+            save_time
         )
 
 
@@ -159,15 +165,23 @@ def save_pdf(pdf):
         # -------------------------------------------------
 
         current_app.logger.info(
-            "Uploading PDF to Supabase Storage"
+            "[02B] Starting Supabase Storage upload"
         )
 
+        supabase_client_start = time.perf_counter()
 
         supabase = get_supabase_client()
 
+        supabase_client_time = time.perf_counter() - supabase_client_start
+
+        current_app.logger.info(
+            "[02B] Supabase client created in %.3fs",
+            supabase_client_time
+        )
+
+        supabase_upload_start = time.perf_counter()
 
         with open(filepath, "rb") as file:
-
             supabase.storage \
                 .from_(
                     current_app.config["SUPABASE_BUCKET"]
@@ -180,9 +194,11 @@ def save_pdf(pdf):
                     }
                 )
 
+        supabase_upload_time = time.perf_counter() - supabase_upload_start
 
         current_app.logger.info(
-            "PDF uploaded successfully to Supabase Storage"
+            "[02B] Supabase Storage upload completed in %.3fs",
+            supabase_upload_time
         )
 
 
