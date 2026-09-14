@@ -199,18 +199,72 @@ def store_chunks(chunks, pdf_id, filename):
             flush=True
         )
 
-        add_documents_start = time.perf_counter()
-
-        production_store.add_documents(
-            documents
-        )
-
-        add_documents_time = time.perf_counter() - add_documents_start
+        # -----------------------------------------------------
+        # DIAGNOSTIC: inspect documents before PGVector
+        # -----------------------------------------------------
 
         print(
-            f"[06C] PGVector add_documents completed in {add_documents_time:.3f}s",
+            f"[06C-1] Documents prepared: {len(documents)}",
             flush=True
         )
+
+        if documents:
+            print(
+                f"[06C-1] First document content length: "
+                f"{len(documents[0].page_content)} characters",
+                flush=True
+            )
+
+            print(
+                f"[06C-1] First document metadata: "
+                f"{documents[0].metadata}",
+                flush=True
+            )
+
+        # -----------------------------------------------------
+        # DIAGNOSTIC: PGVector add_documents
+        # -----------------------------------------------------
+
+        add_documents_start = time.perf_counter()
+
+        print(
+            "[06C-2] Entering PGVectorStore.add_documents()",
+            flush=True
+        )
+
+        try:
+            production_store.add_documents(
+                documents
+            )
+
+            add_documents_time = time.perf_counter() - add_documents_start
+
+            print(
+                f"[06C-3] PGVectorStore.add_documents() returned successfully "
+                f"in {add_documents_time:.3f}s",
+                flush=True
+            )
+
+        except Exception as error:
+            add_documents_time = time.perf_counter() - add_documents_start
+
+            print(
+                f"[06C-ERROR] PGVectorStore.add_documents() failed after "
+                f"{add_documents_time:.3f}s",
+                flush=True
+            )
+
+            print(
+                f"[06C-ERROR] Exception type: {type(error).__name__}",
+                flush=True
+            )
+
+            print(
+                f"[06C-ERROR] Exception: {error}",
+                flush=True
+            )
+
+            raise
 
         current_app.logger.info(
             "Production PGVector storage completed successfully"
