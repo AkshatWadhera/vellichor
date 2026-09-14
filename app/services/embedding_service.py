@@ -49,10 +49,10 @@ class HuggingFaceAPIEmbeddings(Embeddings):
 
         try:
 
-            current_app.logger.info(
-                "[06A] Starting Hugging Face embedding request | Chunks: %s | Model: %s",
-                len(texts),
-                self.model
+            print(
+                f"[06A] Starting Hugging Face embedding request | "
+                f"Chunks: {len(texts)} | Model: {self.model}",
+                flush=True
             )
 
             embedding_start = time.perf_counter()
@@ -64,9 +64,9 @@ class HuggingFaceAPIEmbeddings(Embeddings):
 
             api_time = time.perf_counter() - embedding_start
 
-            current_app.logger.info(
-                "[06A] Hugging Face embedding request completed in %.3fs",
-                api_time
+            print(
+                f"[06A] Hugging Face embedding request completed in {api_time:.3f}s",
+                flush=True
             )
 
             conversion_start = time.perf_counter()
@@ -75,14 +75,15 @@ class HuggingFaceAPIEmbeddings(Embeddings):
 
             conversion_time = time.perf_counter() - conversion_start
 
-            current_app.logger.info(
-                "[06A] Embedding result conversion completed in %.3fs",
-                conversion_time
+            print(
+                f"[06A] Embedding result conversion completed in {conversion_time:.3f}s",
+                flush=True
             )
 
-            current_app.logger.info(
-                "[06A] Document embeddings generated successfully | Embeddings: %s",
-                len(embeddings)
+            print(
+                f"[06A] Document embeddings generated successfully | "
+                f"Embeddings: {len(embeddings)}",
+                flush=True
             )
 
             return embeddings

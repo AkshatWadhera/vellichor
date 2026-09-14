@@ -154,9 +154,9 @@ def save_pdf(pdf):
 
         save_time = time.perf_counter() - save_start
 
-        current_app.logger.info(
-            "[02A] Production temporary PDF saved in %.3fs",
-            save_time
+        print(
+            f"[02A] Production temporary PDF saved in {save_time:.3f}s",
+            flush=True
         )
 
 
@@ -164,8 +164,9 @@ def save_pdf(pdf):
         # SUPABASE STORAGE
         # -------------------------------------------------
 
-        current_app.logger.info(
-            "[02B] Starting Supabase Storage upload"
+        print(
+            "[02B] Starting Supabase Storage upload",
+            flush=True
         )
 
         supabase_client_start = time.perf_counter()
@@ -174,9 +175,9 @@ def save_pdf(pdf):
 
         supabase_client_time = time.perf_counter() - supabase_client_start
 
-        current_app.logger.info(
-            "[02B] Supabase client created in %.3fs",
-            supabase_client_time
+        print(
+            f"[02B] Supabase client created in {supabase_client_time:.3f}s",
+            flush=True
         )
 
         supabase_upload_start = time.perf_counter()
@@ -196,9 +197,9 @@ def save_pdf(pdf):
 
         supabase_upload_time = time.perf_counter() - supabase_upload_start
 
-        current_app.logger.info(
-            "[02B] Supabase Storage upload completed in %.3fs",
-            supabase_upload_time
+        print(
+            f"[02B] Supabase Storage upload completed in {supabase_upload_time:.3f}s",
+            flush=True
         )
 
 

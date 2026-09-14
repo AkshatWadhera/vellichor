@@ -54,9 +54,9 @@ def upload_pdf():
 
     validation_time = time.perf_counter() - validation_start
 
-    current_app.logger.info(
-        "[01] Validation completed in %.3fs",
-        validation_time
+    print(
+        f"[01] Validation completed in {validation_time:.3f}s",
+        flush=True
     )
 
     original_filename = None
@@ -79,11 +79,11 @@ def upload_pdf():
 
         save_time = time.perf_counter() - save_start
 
-        current_app.logger.info(
-            "[02] PDF storage completed in %.3fs | File: %s | Size: %.2f KB",
-            save_time,
-            original_filename,
-            file_size / 1024
+        print(
+            f"[02] PDF storage completed in {save_time:.3f}s | "
+            f"File: {original_filename} | "
+            f"Size: {file_size / 1024:.2f} KB",
+            flush=True
         )
 
     except Exception:
@@ -138,11 +138,11 @@ def upload_pdf():
 
         db_time = time.perf_counter() - db_start
 
-        current_app.logger.info(
-            "[03] Database records created in %.3fs | PDF ID: %s | Conversation ID: %s",
-            db_time,
-            pdf_record.id,
-            conversation.id
+        print(
+            f"[03] Database records created in {db_time:.3f}s | "
+            f"PDF ID: {pdf_record.id} | "
+            f"Conversation ID: {conversation.id}",
+            flush=True
         )
 
         # ========================================
@@ -159,10 +159,10 @@ def upload_pdf():
 
         extraction_time = time.perf_counter() - extraction_start
 
-        current_app.logger.info(
-            "[04] PDF text extraction completed in %.3fs | Characters: %s",
-            extraction_time,
-            len(text)
+        print(
+            f"[04] PDF text extraction completed in {extraction_time:.3f}s | "
+            f"Characters: {len(text)}",
+            flush=True
         )
 
         # Check for PDFs with no selectable text
@@ -184,10 +184,10 @@ def upload_pdf():
 
         chunking_time = time.perf_counter() - chunking_start
 
-        current_app.logger.info(
-            "[05] PDF chunking completed in %.3fs | Chunks: %s",
-            chunking_time,
-            len(chunks)
+        print(
+            f"[05] PDF chunking completed in {chunking_time:.3f}s | "
+            f"Chunks: {len(chunks)}",
+            flush=True
         )
 
         # ========================================
@@ -196,8 +196,9 @@ def upload_pdf():
 
         vector_start = time.perf_counter()
 
-        current_app.logger.info(
-            "[06] Starting embedding generation + vector storage"
+        print(
+            "[06] Starting embedding generation + vector storage",
+            flush=True
         )
 
         retrieval_service.store_chunks(
@@ -210,9 +211,9 @@ def upload_pdf():
 
         embeddings_stored = True
 
-        current_app.logger.info(
-            "[06] Embedding + vector storage completed in %.3fs",
-            vector_time
+        print(
+            f"[06] Embedding + vector storage completed in {vector_time:.3f}s",
+            flush=True
         )
 
         # ========================================
@@ -225,9 +226,9 @@ def upload_pdf():
 
         commit_time = time.perf_counter() - commit_start
 
-        current_app.logger.info(
-            "[07] Database transaction committed in %.3fs",
-            commit_time
+        print(
+            f"[07] Database transaction committed in {commit_time:.3f}s",
+            flush=True
         )
 
         # ========================================
@@ -256,21 +257,22 @@ def upload_pdf():
 
         total_time = time.perf_counter() - upload_start
 
-        current_app.logger.info(
-            "[08] Cleanup completed in %.3fs",
-            cleanup_time
+        print(
+            f"[08] Cleanup completed in {cleanup_time:.3f}s",
+            flush=True
         )
 
-        current_app.logger.info(
-            "========== VELLICHOR PDF INGESTION COMPLETE =========="
+        print(
+            "========== VELLICHOR PDF INGESTION COMPLETE ==========",
+            flush=True
         )
 
-        current_app.logger.info(
-            "TOTAL PDF INGESTION TIME: %.3fs | File: %s | Size: %.2f KB | Chunks: %s",
-            total_time,
-            original_filename,
-            file_size / 1024,
-            len(chunks)
+        print(
+            f"TOTAL PDF INGESTION TIME: {total_time:.3f}s | "
+            f"File: {original_filename} | "
+            f"Size: {file_size / 1024:.2f} KB | "
+            f"Chunks: {len(chunks)}",
+            flush=True
         )
 
         return jsonify({

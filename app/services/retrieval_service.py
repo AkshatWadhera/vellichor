@@ -52,8 +52,9 @@ def get_pg_vector_store():
         )
 
 
-        current_app.logger.info(
-            "[06B] Initializing production PGVector store"
+        print(
+            "[06B] Initializing production PGVector store",
+            flush=True
         )
 
         pg_init_start = time.perf_counter()
@@ -66,9 +67,9 @@ def get_pg_vector_store():
 
         engine_time = time.perf_counter() - engine_start
 
-        current_app.logger.info(
-            "[06B] PGEngine created in %.3fs",
-            engine_time
+        print(
+            f"[06B] PGEngine created in {engine_time:.3f}s",
+            flush=True
         )
 
         vector_store_start = time.perf_counter()
@@ -81,16 +82,16 @@ def get_pg_vector_store():
 
         vector_store_time = time.perf_counter() - vector_store_start
 
-        current_app.logger.info(
-            "[06B] PGVectorStore created in %.3fs",
-            vector_store_time
+        print(
+            f"[06B] PGVectorStore created in {vector_store_time:.3f}s",
+            flush=True
         )
 
         pg_total_time = time.perf_counter() - pg_init_start
 
-        current_app.logger.info(
-            "[06B] PGVector store initialization completed in %.3fs",
-            pg_total_time
+        print(
+            f"[06B] PGVector store initialization completed in {pg_total_time:.3f}s",
+            flush=True
         )
 
 
@@ -177,8 +178,9 @@ def store_chunks(chunks, pdf_id, filename):
         )
 
 
-        current_app.logger.info(
-            "[06C] Getting production PGVector store"
+        print(
+            "[06C] Getting production PGVector store",
+            flush=True
         )
 
         store_init_start = time.perf_counter()
@@ -187,14 +189,14 @@ def store_chunks(chunks, pdf_id, filename):
 
         store_init_time = time.perf_counter() - store_init_start
 
-        current_app.logger.info(
-            "[06C] PGVector store ready in %.3fs",
-            store_init_time
+        print(
+            f"[06C] PGVector store ready in {store_init_time:.3f}s",
+            flush=True
         )
 
-        current_app.logger.info(
-            "[06C] Starting PGVector add_documents | Documents: %s",
-            len(documents)
+        print(
+            f"[06C] Starting PGVector add_documents | Documents: {len(documents)}",
+            flush=True
         )
 
         add_documents_start = time.perf_counter()
@@ -205,9 +207,9 @@ def store_chunks(chunks, pdf_id, filename):
 
         add_documents_time = time.perf_counter() - add_documents_start
 
-        current_app.logger.info(
-            "[06C] PGVector add_documents completed in %.3fs",
-            add_documents_time
+        print(
+            f"[06C] PGVector add_documents completed in {add_documents_time:.3f}s",
+            flush=True
         )
 
         current_app.logger.info(
