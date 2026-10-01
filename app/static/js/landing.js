@@ -407,6 +407,10 @@ if (registerForm) {
 
             if (!data.success) {
 
+                submitButton.classList.remove("is-loading");
+                submitButton.disabled=false;
+                submitLabel.textContent = "Create Account";
+
                 if (data.field === "general") {
 
                     const generalError =
@@ -449,6 +453,10 @@ if (registerForm) {
         }
 
         catch (error) {
+
+            submitButton.classList.remove("is-loading");
+            submitButton.disabled=false;
+            submitLabel.textContent = "Create Account";
 
             console.error(
                 "Registration request failed:",

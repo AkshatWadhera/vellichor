@@ -11,6 +11,7 @@
 }
 
 
+
 /* ========================================
    ROOT VARIABLES
 ======================================== */
@@ -262,4 +263,9 @@ a {
 ul,
 ol {
     list-style: none;
+}
+
+
+*{
+   -webkit-tap-highlight-color: transparent;
 }
